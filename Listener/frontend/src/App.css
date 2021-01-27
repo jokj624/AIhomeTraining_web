@@ -1,0 +1,46 @@
+html, body {
+  background : black;
+  text-align: center;
+  height: 100%;
+}
+
+#root {
+  height : 100%;
+}
+.App {
+  height :100%;
+  width :100%;
+  display : table;
+  text-align: center;
+}
+.main_div {
+  display : table-cell;
+  vertical-align: middle;
+}
+.main {
+  color : white;
+  font-size : 5em;
+  padding : 25px;
+}
+
+.bnt_div {
+  margin-top : 20px;
+  display : inline-block;
+  text-align: center;
+}
+
+.button {
+  display : block;
+  font-size : 2em;
+  width : 200px;
+  margin-top : 20px;
+  background-color: white;
+}
+
+.signin {
+  color : white;
+}
+
+.signup {
+  color : white;
+}
