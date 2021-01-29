@@ -74,9 +74,12 @@ const RegisterForm = ({ history }) => {
     // user 값이 잘 설정되었는지 확인
   useEffect(() => {
     if (user) {
-        history.push('/');
-      console.log('check API 성공');
-      console.log(user);
+      history.push('/main');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
     }
   }, [history, user]);
    
