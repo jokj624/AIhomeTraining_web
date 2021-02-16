@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 const UserSchema = new Schema({
     username: String,
     hashedPassword: String,
+    totalTime : Number,
+    level : String
 });
 UserSchema.methods.setPassword = async function(password) {
     const hash = await bcrypt.hash(password, 10);
@@ -38,6 +40,10 @@ UserSchema.methods.serialize = function() {
   
   UserSchema.statics.findByUsername = function(username) {
     return this.findOne({ username });
+  };
+
+  UserSchema.statics.findByID = function(Id) {
+    return this.findOne({ Id });
   };
 
 const User = mongoose.model('User', UserSchema);

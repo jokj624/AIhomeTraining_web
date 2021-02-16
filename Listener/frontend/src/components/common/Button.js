@@ -33,6 +33,14 @@ const buttonStyle = css`
         background: ${palette.cyan[4]};
       }
     `}
+  ${props =>
+    props.blue &&
+    css`
+      background: ${palette.blue[6]};
+      &:hover {
+        background: ${palette.blue[5]};
+      }
+    `}  
 `;
 
 const StyledButton = styled.button`
