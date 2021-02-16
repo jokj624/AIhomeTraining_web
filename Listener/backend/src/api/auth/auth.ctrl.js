@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import User from '../../models/user';
+import bcrypt from 'bcrypt';
 
 /*
   POST /api/auth/register
@@ -110,4 +111,25 @@ export const check = async ctx => {
 export const logout = async ctx => {
   ctx.cookies.set('access_token');
   ctx.status = 204; // No Content
+};
+
+
+/*
+  MODIFY /api/auth/modify/:id
+*/
+export const modify = async ctx => {
+
+  const { username, password } = ctx.request.body;
+  try {
+    
+    const filter = { username: username };
+    const hashpw = await bcrypt.hash(password, 10); //새 비번 해시
+    const update = { hashedPassword: hashpw };
+    let doc = await User.findOneAndUpdate(filter, update, {
+      new: true
+    });
+    ctx.body = doc.serialize();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
