@@ -5,7 +5,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
 import PostPage from './pages/PostPage';
-import MainPage from './pages/MainPage'
+import MainPage from './pages/MainPage';
+import TodayTr from './pages/TodayTr';
+import MyPage from './pages/MyPage';
+import Modify from './pages/Modify';
 import './App.css'
 
 function App() {
@@ -17,6 +20,9 @@ function App() {
       <Route component={WritePage} path="/write" />
       <Route component={PostPage} path="/@:username/:postId" />
       <Route component={MainPage} path="/main" />
+      <Route component={TodayTr}   path='/todaytr'/>
+      <Route component={MyPage} path="/mypage" />
+      <Route component={Modify} path="/modify/:id" />
     </>
   );
 }

@@ -12,12 +12,14 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
     'auth/REGISTER'
   );
-  
+
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
     'auth/LOGIN'
   );
 
-
+const [MODIFY, MODIFY_SUCCESS, MODIFY_FAILURE] = createRequestActionTypes(
+    'auth/MODIFY'
+  );
 
 export const changeField = createAction(
     CHANGE_FIELD,
@@ -37,13 +39,18 @@ export const changeField = createAction(
     username,
     password
   }));
-
+  export const modify = createAction(MODIFY, ({ username, password }) => ({
+    username,
+    password
+  }));
   const registerSaga = createRequestSaga(REGISTER, authAPI.register);
   const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+  const modifySaga = createRequestSaga(MODIFY, authAPI.modify);
+
   export function* authSaga() {
     yield takeLatest(REGISTER, registerSaga);
     yield takeLatest(LOGIN, loginSaga);
-  };
+    yield takeLatest(MODIFY, modifySaga);  };
 
   const initialState = {
     register: {
@@ -54,6 +61,10 @@ export const changeField = createAction(
     login: {
       username: '',
       password: ''
+    },
+    modify: {
+      password: '',
+      passwordConfirm: ''
     },
     auth: null,
     authError: null
@@ -91,10 +102,20 @@ export const changeField = createAction(
       [LOGIN_FAILURE]: (state, { payload: error }) => ({
         ...state,
         authError: error
+      }),
+      //비밀번호 변경 성공
+      [MODIFY_SUCCESS]: (state) => ({
+        ...state,
+        authError: null,
+        auth : null
+      }),
+      // 비밀번호변경 실패
+      [MODIFY_FAILURE]: (state, { payload: error }) => ({
+        ...state,
+        authError: error
       })
     },
     initialState
   );
-
 
 export default auth;

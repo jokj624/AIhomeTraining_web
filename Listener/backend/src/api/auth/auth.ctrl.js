@@ -1,12 +1,8 @@
 import Joi from 'joi';
 import User from '../../models/user';
-
+import bcrypt from 'bcrypt';
 /*
   POST /api/auth/register
-  {
-    username: 'velopert',
-    password: 'mypass123'
-  }
 */
 export const register = async ctx => {
   // Request Body 검증하기
@@ -103,11 +99,27 @@ export const check = async ctx => {
   }
   ctx.body = user;
 };
-
-/*
-  POST /api/auth/logout
-*/
 export const logout = async ctx => {
   ctx.cookies.set('access_token');
   ctx.status = 204; // No Content
+};
+
+export const modify = async (ctx) => {
+
+  const { username, password } = ctx.request.body;
+ 
+  try {
+    
+    // 계정이 존재하지 않으면 에러 처리
+    const filter = { username: username };
+    const hashpw = await bcrypt.hash(password, 10); //새 비번 해시
+    const update = { hashedPassword: hashpw };
+    let doc = await User.findOneAndUpdate(filter, update, {
+    new: true
+  });
+  ctx.body = doc.serialize();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+  
 };

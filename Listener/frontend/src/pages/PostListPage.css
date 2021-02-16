@@ -1,0 +1,6 @@
+.main_div{
+    position :absolute;
+    left:50%;
+    margin-left : -100px;
+    /*시원아 근데 이거 css 여기다 둬도 되니? 너가 위치 바꾸렴*/
+}
