@@ -19,7 +19,7 @@ const TodayTr = () => {
         <>
         <HeaderContainer/>
         <NavContainer/>
-        <Test/>
+        <Test displayState = {displayState}/>
         <h2>{labels}</h2>
         </>
     );
