@@ -11,14 +11,18 @@ import './App.css';
 import MyPage from './pages/MyPage';
 import Modify from './pages/Modify';
 import PostPage from './pages/PostPage';
+import { Helmet } from 'react-helmet-async';
 
 function App() {
   return (
     <>
+      <Helmet>
+        <title>HomeTraining</title>
+      </Helmet>
       <Route component={HomePage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />
-      <Route component={PostListPage} path={['/postlist/@:username', '/postlist']} exact />
+      <Route component={PostListPage} path="/postlist"/>
       <Route component={WritePage} path="/write" />
       <Route component={PostPage} path="/@:username/:postId" />
       <Route component={MainPage} path="/main" />
