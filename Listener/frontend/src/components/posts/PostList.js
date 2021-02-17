@@ -48,7 +48,7 @@ const PostItem = ({ post }) => {
         <Link to={`/@${user.username}/${_id}`}>{title}</Link>
       </h2>
       <SubInfo 
-        username="username" 
+        username= {user.username} 
         publishedDate={new Date(publishedDate)} />
       <p>{body}</p>
     </PostItemBlock>
@@ -57,11 +57,11 @@ const PostItem = ({ post }) => {
 
 const PostList = ({ posts, loading, error, showWriteButton }) => {
   // 에러 발생 시
-  /*
+  console.log(posts);
   if (error) {
     return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
   }
-  */
+  
 
   return (
     <PostListBlock>

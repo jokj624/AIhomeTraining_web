@@ -3,6 +3,7 @@ import HeaderContainer from '../containers/common/HeaderContainer';
 import NavContainer from '../components/common/Navbar';
 import sketch from '../components/common/DrawP5';
 import P5Wrapper from 'react-p5-wrapper';
+import { Helmet } from 'react-helmet-async';
 
 const TodayTr = () => {
     let poseLabel = "분석중";
@@ -17,6 +18,9 @@ const TodayTr = () => {
     */
     return (
         <>
+        <Helmet>
+            <title>Today</title>
+        </Helmet>
         <HeaderContainer/>
         <NavContainer/>
         <P5Wrapper sketch={sketch} /*displayState = {displayState}*/ />
