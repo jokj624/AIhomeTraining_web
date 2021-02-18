@@ -22,7 +22,7 @@ function App() {
       <Route component={HomePage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />
-      <Route component={PostListPage} path="/postlist"/>
+      <Route component={PostListPage} path={['/postlist/@:username', '/postlist']}/>
       <Route component={WritePage} path="/write" />
       <Route component={PostPage} path="/@:username/:postId" />
       <Route component={MainPage} path="/main" />
