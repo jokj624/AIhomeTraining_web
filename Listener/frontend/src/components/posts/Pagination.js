@@ -16,7 +16,7 @@ const buildLink = ({ username, page }) => {
     console.log(username);
     const query = qs.stringify({ page });
     //return `/?${query}`;
-    return username ? `/@${username}?${query}` : `/?${query}`;
+    return username ? `/postlist/@${username}?${query}` : `/postlist/?${query}`;
 };
 
 const Pagination = ({ page, lastPage, username }) => {
