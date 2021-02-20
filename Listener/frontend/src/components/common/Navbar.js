@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Responsive from './Responsive';
-import palette from '../../lib/style/palette';
+import palette from '../../lib/style/palette'
+
 const NavBlock = styled.div`
   position: fixed;
   width: 100%;
   background: ${palette.gray[2]};
 `;
+
 const Wrapper = styled(Responsive)`
     height: 3.2rem;
     display: flex;
@@ -17,7 +19,9 @@ const Wrapper = styled(Responsive)`
 
 const Spacer = styled.div`
   height: 0.3rem;
-  `;
+`;
+
+
 const Navbar = () => {
     return (
         <>
@@ -28,6 +32,9 @@ const Navbar = () => {
                 </Link>
                 <Link to="/" className="logo" style={{fontSize: 0.9 + 'em'}}>
                     운동 일지
+                </Link>
+                <Link to="/postlist" className="logo" style={{fontSize: 0.9 + 'em'}}>
+                    커뮤니티
                 </Link>
                 <Link to="/mypage" className="logo" style={{fontSize: 0.9 + 'em'}}>
                     마이페이지

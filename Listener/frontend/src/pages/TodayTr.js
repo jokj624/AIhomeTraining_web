@@ -5,6 +5,8 @@ import NavContainer from '../components/common/Navbar';
 import Test from '../components/common/Test';
 //import P5Wrapper from 'react-p5-wrapper';
 
+
+
 const TodayTr = () => {
     const [labels, setLabels] = useState('분석 중');
  //   let label = '분석 중';
@@ -12,14 +14,19 @@ const TodayTr = () => {
         setLabels({label});
         //console.log(label);
     };*/
+
     const displayState = (label) => {
         setLabels(label);
+        console.log(label);
     };
+    
     return (
         <>
         <HeaderContainer/>
         <NavContainer/>
-        <Test displayState = {displayState}/>
+        <Test 
+            displayState = {displayState}
+        />
         <h2>{labels}</h2>
         </>
     );

@@ -1,8 +1,35 @@
 import Post from '../../models/post';
 import mongoose from 'mongoose';
 import Joi from '@hapi/joi';
+import sanitizeHtml from 'sanitize-html';
+import { async } from '../../../node_modules/rxjs/index';
+import treeKill from '../../../node_modules/tree-kill/index';
 
 const { ObjectId } = mongoose.Types;
+
+const sanitizeOption = {
+  allowedTags: [
+    'h1',
+    'h2',
+    'b',
+    'i',
+    'u',
+    's',
+    'p',
+    'ul',
+    'ol',
+    'li',
+    'blockquote',
+    'a',
+    'img',
+  ],
+  allowedAttributes: {
+    a: ['href', 'name', 'target'],
+    img: ['src'],
+    li: ['class'],
+  },
+  allowedSchemes: ['data', 'http'],
+};
 
 export const getPostById = async (ctx, next) => {
   const { id } = ctx.params;
@@ -38,18 +65,14 @@ export const checkOwnPost = (ctx, next) => {
   POST /api/posts
   {
     title: '제목',
-    body: '내용',
-    tags: ['태그1', '태그2']
+    body: '내용'
   }
 */
 export const write = async ctx => {
   const schema = Joi.object().keys({
     // 객체가 다음 필드를 가지고 있음을 검증
     title: Joi.string().required(), // required() 가 있으면 필수 항목
-    body: Joi.string().required(),
-    tags: Joi.array()
-      .items(Joi.string())
-      .required(), // 문자열로 이루어진 배열
+    body: Joi.string().required()
   });
 
   // 검증 후, 검증 실패시 에러처리
@@ -60,11 +83,10 @@ export const write = async ctx => {
     return;
   }
 
-  const { title, body, tags } = ctx.request.body;
+  const { title, body } = ctx.request.body;
   const post = new Post({
     title,
     body,
-    tags,
     user: ctx.state.user,
   });
   try {
@@ -73,6 +95,13 @@ export const write = async ctx => {
   } catch (e) {
     ctx.throw(500, e);
   }
+};
+
+const removeHtmlAndShorten = (body) => {
+  const filtered = sanitizeHtml(body, {
+    allowedTags: [],
+  });
+  return filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}...`;
 };
 
 /*
@@ -88,13 +117,12 @@ export const list = async ctx => {
     return;
   }
 
-  const { tag, username } = ctx.query;
-  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+  const { username } = ctx.query;
+  // username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
   const query = {
-    ...(username ? { 'user.username': username } : {}),
-    ...(tag ? { tags: tag } : {}),
+    ...(username ? { 'user.username': username } : {})
   };
-
+  
   try {
     const posts = await Post.find(query)
       .sort({ _id: -1 })
@@ -104,10 +132,9 @@ export const list = async ctx => {
       .exec();
     const postCount = await Post.countDocuments(query).exec();
     ctx.set('Last-Page', Math.ceil(postCount / 10));
-    ctx.body = posts.map(post => ({
+    ctx.body = posts.map((post) => ({
       ...post,
-      body:
-        post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`,
+      body: removeHtmlAndShorten(post.body),
     }));
   } catch (e) {
     ctx.throw(500, e);
@@ -138,7 +165,6 @@ export const remove = async ctx => {
   {
     title: '수정',
     body: '수정 내용',
-    tags: ['수정', '태그']
   }
 */
 export const update = async ctx => {
@@ -146,8 +172,7 @@ export const update = async ctx => {
   // write 에서 사용한 schema 와 비슷한데, required() 가 없습니다.
   const schema = Joi.object().keys({
     title: Joi.string(),
-    body: Joi.string(),
-    tags: Joi.array().items(Joi.string()),
+    body: Joi.string()
   });
 
   // 검증 후, 검증 실패시 에러처리
@@ -169,6 +194,37 @@ export const update = async ctx => {
     }
     ctx.body = post;
   } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const comment = async ctx => {
+  const {text, username, level, id} = ctx.request.body;
+  const postDoc = await Post.findById(id);
+  const post = new Post();
+  const commentDoc = post.comments.create({text:text, user:username, level:level});
+  postDoc.comments.push(commentDoc); //comment 배열에 add
+  postDoc.save();    //comment DB 저장
+  try{
+    ctx.body = postDoc.comments;
+  } catch(e){
+    ctx.throw(500, e);
+  }
+};
+
+//없어도 될듯
+export const getComment = async ctx => {
+  const postId = ctx.request.body;
+  console.log(postId);
+  try{
+    const postDoc = await Post.findById(postId);
+    if(!postDoc.comments){
+      ctx.status = 404 //Not found
+      return;
+    }
+    ctx.body = postDoc.comments;
+    console.log(ctx.body);
+  } catch(e){
     ctx.throw(500, e);
   }
 };

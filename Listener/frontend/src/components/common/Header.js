@@ -41,17 +41,21 @@ const UserInfo = styled.div`
   font-weight: 800;
   margin-right: 1rem;
 `;
-
+const LevelInfo = styled.div`
+  font-weight: 800;
+  margin-right: 0.5rem;
+`;
 const Header = ({ user, onLogout }) => {
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-          <Link to="/" className="logo">
+          <Link to="/main" className="logo">
             HOMETRAINING
           </Link>
           {user ? (
             <div className="right">
+              <LevelInfo>{user.level}</LevelInfo>
               <UserInfo>{user.username}</UserInfo>
               <Button to ='/' onClick={onLogout}>로그아웃</Button>
             </div>

@@ -22,6 +22,8 @@ export const register = async ctx => {
   }
 
   const { username, password } = ctx.request.body;
+  const level = "🌱";
+  const totalTime = 0;
   try {
     // username  이 이미 존재하는지 확인
     const exists = await User.findByUsername(username);
@@ -31,7 +33,7 @@ export const register = async ctx => {
     }
 
     const user = new User({
-      username,
+      username, totalTime, level
     });
     await user.setPassword(password); // 비밀번호 설정
     await user.save(); // 데이터베이스에 저장
@@ -49,10 +51,6 @@ export const register = async ctx => {
 };
 /*
   POST /api/auth/login
-  {
-    username: 'velopert',
-    password: 'mypass123'
-  }
 */
 export const login = async ctx => {
   const { username, password } = ctx.request.body;
@@ -92,6 +90,7 @@ export const login = async ctx => {
 */
 export const check = async ctx => {
   const { user } = ctx.state;
+  
   if (!user) {
     // 로그인중 아님
     ctx.status = 401; // Unauthorized

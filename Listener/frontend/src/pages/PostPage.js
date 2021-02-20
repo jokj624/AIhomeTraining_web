@@ -1,7 +1,18 @@
 import React from 'react';
+import HeaderContainer from '../containers/common/HeaderContainer';
+import NavContainer from '../components/common/Navbar';
+import PostViewerContainer from '../containers/post/PostViewerContainer';
+import CommentContainer from '../containers/comments/CommentContainer';
 
 const PostPage = () => {
-    return <div>포스트 읽기</div>;
+    return(
+        <>
+        <HeaderContainer />
+        <NavContainer />
+        <PostViewerContainer />
+        <CommentContainer />
+        </>    
+    );
 };
 
 export default PostPage;

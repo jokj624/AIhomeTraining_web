@@ -1,5 +1,4 @@
 import client from './client';
-import queryString from 'query-string';
 // 로그인
 export const login = ({ username, password }) =>
   client.post('/api/auth/login', { username, password });

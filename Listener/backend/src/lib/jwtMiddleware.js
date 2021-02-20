@@ -6,9 +6,12 @@ const jwtMiddleware = async (ctx, next) => {
   if (!token) return next(); // 토큰이 없음
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded._id);
     ctx.state.user = {
       _id: decoded._id,
       username: decoded.username,
+      totalTime: user.totalTime,
+      level: user.level
     };
     // 토큰 3.5일 미만 남으면 재발급
     const now = Math.floor(Date.now() / 1000);
