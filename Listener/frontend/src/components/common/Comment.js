@@ -24,12 +24,11 @@ const Div = styled.div`
 `;
 
 const Comment = ({ username, level, text, publishedDate, hasMarginTop }) => {
-    console.log(text);
     return (
       <SubInfoBlock hasMarginTop={hasMarginTop}>
         <span>
           <b>
-            {level}<h> </h>
+            {level}<h1> </h1>
             {username} 
             <span> {new Date(publishedDate).toLocaleDateString()}</span>
           </b>

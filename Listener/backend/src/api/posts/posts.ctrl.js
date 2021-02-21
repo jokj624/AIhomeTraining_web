@@ -212,19 +212,23 @@ export const comment = async ctx => {
   }
 };
 
-//없어도 될듯
 export const getComment = async ctx => {
-  const postId = ctx.request.body;
-  console.log(postId);
+  console.log(1);
+    const { _id, title } = ctx.request.body;
+  if (!ObjectId.isValid(_id)) {
+    ctx.status = 400; // Bad Request
+    return;
+  }
   try{
-    const postDoc = await Post.findById(postId);
+    const postDoc = await Post.findById(ObjectId(_id));
     if(!postDoc.comments){
       ctx.status = 404 //Not found
       return;
     }
     ctx.body = postDoc.comments;
-    console.log(ctx.body);
+
   } catch(e){
+    console.log(e);
     ctx.throw(500, e);
   }
 };

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
-import Button from '../common/Button';
 import palette from '../../lib/style/palette';
-import Comment from '../common/Comment';
-import readComment from '../../modules/comment';
 import { useDispatch, useSelector } from 'react-redux';
+import Comment from '../common/Comment';
+import { readComment } from '../../modules/comment';
 
 const PostItemBlock = styled.div`
   margin-top:3rem;
@@ -44,31 +42,35 @@ const PostItem = ({ comments }) => {
     );
 };
 
-const ShowComments = ({newComment}) => {
+const ShowComments = () => {
     const [arr, setArr] = useState([]);
+    const [len, setLen] = useState(0);
     const {post, com} = useSelector(({ post, comment }) => ({
         post: post.post,
         com: comment.com,
     }));
-    
+    const dispatch = useDispatch();
+    useEffect(()=> {
+      if(post)   setLen(post.comments.length);
+    }, []);
     useEffect(() => {
-        if(post){
-            if(newComment){
-                setArr(arr.concat(newComment));
-            }
-            console.log(post);
-            setArr(post.comments);
-        }
-    }, [post, arr]);
-    /*const dispatch = useDispatch();
-    const { comment } = useSelector(({ comment }) => ({
-        comment: comment.com,
-    }));*/
+      if(post){
+        const { _id, title } = post;
+        dispatch(readComment({_id, title}));
+        if(com)   setLen(com.length);
+      }
+    }, [len]);
+    useEffect(() => {
+      if(com){
+        setArr(com);
+      }
+    });
     return (
       <div>
-        {arr.map(comments => (
+        {arr&& arr.map(comments => (
           <PostItem comments={comments} />
         ))}
+        {com && !com.length && <div>댓글이 없습니다.</div> } 
       </div>
     );
 };

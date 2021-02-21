@@ -30,7 +30,12 @@ export const writeComment = createAction(WRITE_COMMENT, ({ text, username, level
   level,
   id,
 }));
-export const readComment = createAction(READ_COMMENT, id=>id);
+export const readComment = createAction(READ_COMMENT, ({ _id, title }) => ({
+  _id,
+  title,
+}));
+
+//export const readComment = createAction(READ_COMMENT, id => id);
 
 //saga 생성
 const writeCommentSaga = createRequestSaga(WRITE_COMMENT, postsAPI.comment);

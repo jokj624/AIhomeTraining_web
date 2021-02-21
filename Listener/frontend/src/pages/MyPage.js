@@ -28,12 +28,12 @@ const MyPage = ({match}) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   useEffect(() => {
     let lv = user.level;   
-    if(lv === '🐣') setStr('헬스 병아리');
-    else if(lv === '👶') setStr('헬린이');
-    else if(lv === '🏋')  setStr('헬스 홀릭');
-    else if(lv === '💪')  setStr('헬스 전문가');
-    else if(lv === '👿')  setStr('PT 쌤');
-    else if(lv === '🦍')  setStr('측정 불가');
+    if(lv == '🐣') setStr('헬스 병아리');
+    else if(lv == '👶') setStr('헬린이');
+    else if(lv == '🏋')  setStr('헬스 홀릭');
+    else if(lv == '💪')  setStr('헬스 전문가');
+    else if(lv == '👿')  setStr('PT 쌤');
+    else if(lv == '🦍')  setStr('측정 불가');
   }, []);   
 
     return (

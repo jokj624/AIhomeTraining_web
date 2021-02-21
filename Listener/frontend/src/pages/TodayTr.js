@@ -1,33 +1,22 @@
-import React, {useState, useCallback } from 'react';
+import React from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import NavContainer from '../components/common/Navbar';
 //import sketch from '../components/common/DrawP5';
-import Test from '../components/common/Test';
 //import P5Wrapper from 'react-p5-wrapper';
-
-
+import { Helmet } from 'react-helmet-async';
+import ExerciseContainer from '../containers/exercise/ExerciseContainer';
 
 const TodayTr = () => {
-    const [labels, setLabels] = useState('분석 중');
- //   let label = '분석 중';
-    /*const displayState = ({label}) => {
-        setLabels({label});
-        //console.log(label);
-    };*/
-
-    const displayState = (label) => {
-        setLabels(label);
-        console.log(label);
-    };
-    
     return (
         <>
+        <Helmet>
+            <title>Today</title>
+        </Helmet>
         <HeaderContainer/>
         <NavContainer/>
-        <Test 
-            displayState = {displayState}
-        />
-        <h2>{labels}</h2>
+        <div style={{textAlign:'center'}}>
+        <ExerciseContainer/>
+        </div>
         </>
     );
 };

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { writeComment } from '../../modules/comment';
+import { writeComment, readComment } from '../../modules/comment';
 import ShowComments from '../../components/comments/ShowComments';
 import Button from '../../components/common/Button';
 import styled from 'styled-components';
@@ -34,7 +34,8 @@ const Cbutton = styled(Button)`
 
 const CommentContainer = () => {
     const [CommentValue, setCommentValue] = useState("");
-    const [newComment, setNewComment] = useState({});
+    const [arrSize, setSize] = useState(0);
+    const [updateCheck, setCheck] = useState(false);
     const {user, post} = useSelector(({ user, post }) => ({
         user: user.user,
         post: post.post,
@@ -46,11 +47,17 @@ const CommentContainer = () => {
         const _id = post._id;
         const userlevel = user.level;
         dispatch(writeComment({text: CommentValue, username: username,level:userlevel, id: _id}));
-        setNewComment({text: CommentValue, username: username, id: _id});
+        dispatch(readComment({_id, username}));
+        setCheck(true);
         //안됨 newComment 바로 렌더링 되게 해야함
         setCommentValue('');
         
     };
+    useEffect(() => {
+        if(post){
+            setSize(post.comments.length);
+        }
+    },[post]);
 
     const handleChange = (e) => {
         setCommentValue(e.currentTarget.value);
@@ -58,7 +65,7 @@ const CommentContainer = () => {
 
     return(
         <CoDiv>
-            <div style={{margin:'5% 0%', color:'black', fontSize:'1.2rem'}}>댓글</div>
+            <div style={{margin:'5% 0%', color:'black', fontSize:'1.2rem'}}>댓글 {arrSize}</div>
             <Comment>
                 <form style={{ display: 'flex', width: '100%', height: '52px' }} onSubmit={onSubmit} >
                 <input
@@ -71,7 +78,8 @@ const CommentContainer = () => {
                 </form>
                 <Cbutton onClick={onSubmit}>등록</Cbutton>
             </Comment>
-           <ShowComments newComment={newComment}/>
+           {post && <ShowComments /> }
+
         </CoDiv>
     )
 };  

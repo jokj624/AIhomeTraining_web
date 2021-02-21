@@ -1,24 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Sketch from "react-p5";
 import ml5 from "ml5";
-
-
-/*
-export function* displayState(){
-    setLabels(labels);
-    const [labels, setLabels] = useState('분석 중');
-    console.log(labels);
-
-}
-*/
-
-const Test = ({ displayState }) => {
-    let video, poseNet, brain, pose, skeleton, poseLabel = '테스트 중!!', state = 'waiting';
-
-    const setup = (p5, canvasParentRef) => {
-		p5.createCanvas(960, 600).parent(canvasParentRef);
+import styled from 'styled-components';
+const LabelBlock = styled.div`
+    font-size : 3em;
+    margin-bottom: 1rem;
+    text-align : center;
+`;
+const Spacer = styled.div`
+  height: 4rem;
+  `;
+const Test= () => {
+    let video, poseNet, brain, pose, skeleton,state = 'waiting';
+    let poseLabel = '테스트 중';
+    const setup = (p5,  canvasParentRef) => {
+        p5.createCanvas(900, 550).parent(canvasParentRef);
         video = p5.createCapture(p5.VIDEO);
-        video.size(960,600);
+        video.size(900,550);
         video.hide();
         poseNet = ml5.poseNet(video);   //posenet 시작
         poseNet.on('pose',gotPoses);
@@ -35,13 +33,11 @@ const Test = ({ displayState }) => {
             weights: "https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0216/15sec/loss_0.01/model.weights.bin"
           };
          brain.load(modelInfo, brainLoaded);
-	};
-    
-	const draw = (p5) => {
+    };
+    const draw = (p5) => {
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
-        p5.image(video, 0, 0, p5.width, p5.height);
-    
+        p5.image(video, 0, 0, 900, 550);
         if(pose){
             for(let i=0; i<skeleton.length; i++){
                 let a = skeleton[i][0];
@@ -58,21 +54,18 @@ const Test = ({ displayState }) => {
                 p5.ellipse(x,y,10,10); 
             }
         }
-        p5.textSize(100);
-        p5.fill(200, 200, 100);
-        p5.text(poseLabel, 400, 200);
-        //displayState(poseLabel);
-	};
-    const gotPoses = (poses) => {
+    };
+    const gotPoses = (poses, x, y) => {
         if(poses.length > 0){
           pose = poses[0].pose;
           skeleton = poses[0].skeleton;
+          
           for(let i =0; i<pose.keypoints.length; i++){
-              let x = pose.keypoints[i].position.x;
-              let y = pose.keypoints[i].position.y;
+              x = pose.keypoints[i].position.x;
+              y = pose.keypoints[i].position.y;
             }
-        }
         
+        }
     };
     const brainLoaded = () => {
         console.log('classification ready!');
@@ -122,12 +115,19 @@ const Test = ({ displayState }) => {
             else if(la == '6')  poseLabel = '나무 자세';
           }
           else  poseLabel = '분석 중';
-          displayState(poseLabel);
-          //console.log(poseLabel);
+          inputLabel(poseLabel);
+          console.log(poseLabel);
           classifyPose();
     };
-
-    //displayState(poseLabel);
-   return <Sketch setup={setup} draw={draw} />;
+    let inputLabel = (label) => {
+        document.getElementById("test").innerHTML = `${label}`;
+    };
+   return (
+    <>
+      <Spacer />
+      <LabelBlock id='test'>분석 중..</LabelBlock>
+      <Sketch setup={setup} draw={draw} />
+    </>
+   )
 };
 export default Test;

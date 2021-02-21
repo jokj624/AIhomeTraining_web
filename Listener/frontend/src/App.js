@@ -11,6 +11,7 @@ import './App.css';
 import MyPage from './pages/MyPage';
 import Modify from './pages/Modify';
 import PostPage from './pages/PostPage';
+import About from './pages/About';
 import { Helmet } from 'react-helmet-async';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Route component={TodayTr} path="/todaytr" />
       <Route component={MyPage} path="/mypage" />
       <Route component={Modify} path="/modify/:id" />
+      <Route component={About} path="/about" /> 
     </>
   );
 }
