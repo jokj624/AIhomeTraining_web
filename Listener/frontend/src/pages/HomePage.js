@@ -5,6 +5,7 @@ import palette from '../lib/style/palette';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from '../sketch/MainSketch';
 import './PostListPage.css';
+import Fade from 'react-reveal';
 
 const ButtonHome = styled(Button)`
   margin : 1rem;
@@ -18,7 +19,6 @@ const ButtonHome = styled(Button)`
 `;
 
 
-
 const PostListPage = ( { history } ) => {
     return (
       <div className="App">
@@ -28,12 +28,14 @@ const PostListPage = ( { history } ) => {
         <div className="main" onClick ={ () =>
             {history.push("/main")}}>
         </div>
+        <Fade bottom cascade>
         <div className = "bnt_div">
           <ButtonHome fullWidth onClick ={ () =>
             {history.push("/login")}}>SignIn</ButtonHome>
           <ButtonHome fullWidth onClick ={ () =>
             {history.push("/register")}}>SignUp</ButtonHome>
         </div>
+        </Fade>
       </div>
       </>
     </div> 

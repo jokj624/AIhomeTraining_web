@@ -90,7 +90,7 @@ const Sketch = (p5, props) => {
   p5.modelLoaded = () => {
     console.log('Model Loaded!');
   };
-
+  
   p5.gotPoses = (poses) => {
     if(poses.length > 0){
       pose = poses[0].pose;
@@ -106,7 +106,7 @@ const Sketch = (p5, props) => {
     p5.translate(video.width, 0);
     p5.scale(-1, 1);
     p5.image(video, 0, 0, video.width, video.height);
-    
+
     if(pose){
         for(let i=0; i<skeleton.length; i++){
             let a = skeleton[i][0];

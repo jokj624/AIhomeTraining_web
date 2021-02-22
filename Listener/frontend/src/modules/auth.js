@@ -39,8 +39,7 @@ export const changeField = createAction(
     username,
     password
   }));
-  export const modify = createAction(MODIFY, ({ id, username, password }) => ({
-    id,
+  export const modify = createAction(MODIFY, ({ username, password }) => ({
     username,
     password
   }));
@@ -64,7 +63,6 @@ export const changeField = createAction(
       password: ''
     },
     modify: {
-      username: '',
       password: '',
       passwordConfirm: ''
     },

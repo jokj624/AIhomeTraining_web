@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { changeField, initializeForm, modify } from '../../modules/auth';
 import ModifyAuthForm from '../../components/auth/ModifyAuthForm';
 import { logout } from '../../modules/user';
 
-const ModifyForm = ({ history }) => {
+const ModifyForm = ({history}) => {
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
     const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
       form: auth.modify,
-      auth: auth.auth,
+      auth: auth,
       authError: auth.authError,
       user: user.user
     }));
@@ -25,11 +25,11 @@ const ModifyForm = ({ history }) => {
         }),
       );
     };
-  
+
     // 폼 등록 이벤트 핸들러
     const onSubmit = e => {
       e.preventDefault();
-      const { password, passwordConfirm } = form;
+      const {password, passwordConfirm} = form;
       const username = user.username;
       if([password, passwordConfirm].includes('')) {
         setError('빈 칸을 모두 입력하세요.');
@@ -47,44 +47,36 @@ const ModifyForm = ({ history }) => {
       dispatch(modify({ username, password }));
       dispatch(logout());
     };
-    
-  
+
     // 컴포넌트가 처음 렌더링 될 때 form 을 초기화함
     useEffect(() => {
       dispatch(initializeForm('modify'));
     }, [dispatch]);
   
     useEffect(() => {
+      if (!user) {
+        console.log('변경 성공');
+        alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
+        history.push('/');
+      }
+      /*
         if (authError) {
           console.log('오류 발생');
           console.log(authError);
-          setError('비밀번호 변경 실패');
+          setError('변경 실패');
           return;
         }
-        if (!auth) {
-          console.log('비밀번호 변경 성공');
+          console.log('변경 성공');
           dispatch(logout());
           history.push('/');
           try {
             localStorage.setItem('user', JSON.stringify(user));
           } catch (e) {
-            console.log('localStorage is not working');
+          console.log('localStorage is not working');
           }
-        }
-      }, [auth, authError, dispatch]);
-      
-    /*
-      useEffect(() => {
-        if (user) {
-          history.push('/main');
-          try {
-            localStorage.setItem('user', JSON.stringify(user));
-          } catch (e) {
-            console.log('localStorage is not working');
-          }
-        }
+         */ 
       }, [history, user]);
-*/
+
     return (
       <ModifyAuthForm
         type="modify"
@@ -95,5 +87,5 @@ const ModifyForm = ({ history }) => {
       />
     );
   };
-  
+
   export default withRouter(ModifyForm);

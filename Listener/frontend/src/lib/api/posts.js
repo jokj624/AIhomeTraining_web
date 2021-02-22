@@ -22,4 +22,11 @@ export const updatePost = ({ id, title, body, tags }) =>
   });
 
 export const removePost = id => client.delete(`/api/posts/${id}`);
+export const comment = ({text, username, level, id}) =>  
+  client.post(`/api/posts/comments`, {text, username, level, id});
 
+export const getComment = ({ _id, title }) => 
+  client.patch(`/api/posts/comments`, { _id, title });
+/*
+export const getComment = id => 
+  client.get(`/api/posts/comments/${id}`);*/

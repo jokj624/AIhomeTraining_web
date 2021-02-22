@@ -2,6 +2,8 @@ import React from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import NavContainer from '../components/common/Navbar';
 import PostViewerContainer from '../containers/post/PostViewerContainer';
+import CommentContainer from '../containers/comments/CommentContainer';
+
 
 const PostPage = () => {
     return(
@@ -9,6 +11,7 @@ const PostPage = () => {
         <HeaderContainer />
         <NavContainer />
         <PostViewerContainer />
+        <CommentContainer />
         </>    
     );
 };

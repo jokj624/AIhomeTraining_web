@@ -7,6 +7,7 @@ import palette from '../../lib/style/palette'
 const NavBlock = styled.div`
   position: fixed;
   width: 100%;
+  z-index:1;
   background: ${palette.gray[2]};
 `;
 
@@ -34,7 +35,7 @@ const Navbar = () => {
                     운동 일지
                 </Link>
                 <Link to="/postlist" className="logo" style={{fontSize: 0.9 + 'em'}}>
-                    게시판
+                    커뮤니티
                 </Link>
                 <Link to="/mypage" className="logo" style={{fontSize: 0.9 + 'em'}}>
                     마이페이지

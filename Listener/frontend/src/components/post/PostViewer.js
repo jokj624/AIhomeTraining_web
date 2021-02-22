@@ -11,8 +11,9 @@ const PostHead = styled.div`
   border-bottom: 1px solid ${palette.gray[2]};
   padding-bottom: 3rem;
   margin-bottom: 3rem;
+  margin-top: 5em;
   h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     line-height: 1.5;
     margin: 0;
   }
@@ -42,6 +43,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
         <h1>{title}</h1>
         <SubInfo 
             username = {user.username}
+            userlevel = {user.level}
             publishedDate = {publishedDate}
             hasMarginTop
         />
