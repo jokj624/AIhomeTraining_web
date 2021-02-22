@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Carter+One&family=Kalam:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@700&family=Gothic+A1:wght@700&display=swap');
 
 html, body {
-  /*text-align: center;*/
+  font-family: 'Gothic A1', sans-serif;
   height: 100%;
 }
 
@@ -20,21 +19,7 @@ html, body {
   vertical-align: middle;
 }
 .main {
-  color :black;
-  font-size : 6em;
-  font-family: 'Kalam', cursive;
-}
-
-.bnt_div {
-  margin-top : 20px;
-  display : inline-block;
-  text-align: center;
-}
-
-.signin {
-  color : white;
-}
-
-.signup {
-  color : white;
+  color : black;
+  font-size : 5em;
+  padding : 25px;
 }

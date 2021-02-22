@@ -1,10 +1,10 @@
-
 const Sketch = (p5) => {
     const words = [] // store word objects
     p5.windowResized = () => {
       //  p5.resizeCanvas(p5.windowWidth, p5.windowHeight/2);
         p5.setup();
     }
+
     p5.setup = () => {
         p5.createCanvas(p5.windowWidth, p5.windowHeight/2);
         p5.background('white');
@@ -95,11 +95,9 @@ const Sketch = (p5) => {
             p5.noStroke();
             p5.text(this.word, this.x, this.y);
             p5.textFont('Kalam');
+            p5.textStyle(p5.BOLD);
            // p5.textAlign(p5.CENTER, p5.CENTER);
         }
     }
-
-
 };
-
 export default Sketch;

@@ -13,7 +13,7 @@ const PostListBlock = styled(Responsive)`
 const WritePostButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 3rem;
+  margin-top: 5em;
 `;
 
 const PostItemBlock = styled.div`
@@ -48,7 +48,8 @@ const PostItem = ({ post }) => {
         <Link to={`/@${user.username}/${_id}`}>{title}</Link>
       </h2>
       <SubInfo 
-        username= {user.username} 
+        username ={user.username} 
+        userlevel={user.level}
         publishedDate={new Date(publishedDate)} />
       <p>{body}</p>
     </PostItemBlock>

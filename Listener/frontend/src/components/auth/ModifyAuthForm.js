@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import palette from '../../lib/style/palette';
 import Button from '../common/Button';
 import { useSelector } from 'react-redux';
-
-
 /**
  * 회원가입 또는 로그인 폼을 보여줍니다.
  */
-
 const AuthFormBlock = styled.div`
   h3 {
     margin: 0;
@@ -16,7 +14,6 @@ const AuthFormBlock = styled.div`
     margin-bottom: 1rem;
   }
 `;
-
 /**
  * 스타일링된 input
  */
@@ -35,7 +32,6 @@ const StyledInput = styled.input`
     margin-top: 1rem;
   }
 `;
-
 /**
  * 폼 하단에 로그인 혹은 회원가입 링크를 보여줌
  */
@@ -53,10 +49,6 @@ const Footer = styled.div`
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
-
-/**
- * 에러를 보여줍니다
- */
 const ErrorMessage = styled.div`
   color: red;
   text-align: center;
@@ -64,7 +56,7 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const ModifyAuthForm = ({form, onChange, onSubmit, error}) => {
+const ModifyAuthForm = ({form, onChange, onSubmit, error }) => {
     const text = '비밀번호 변경';
     const { user } = useSelector(({ user }) => ({ user: user.user }));
   return (
@@ -102,5 +94,4 @@ const ModifyAuthForm = ({form, onChange, onSubmit, error}) => {
     </AuthFormBlock>
   );
 };
-
 export default ModifyAuthForm;

@@ -1,13 +1,8 @@
 import Joi from 'joi';
 import User from '../../models/user';
 import bcrypt from 'bcrypt';
-
 /*
   POST /api/auth/register
-  {
-    username: 'velopert',
-    password: 'mypass123'
-  }
 */
 export const register = async ctx => {
   // Request Body 검증하기
@@ -27,6 +22,8 @@ export const register = async ctx => {
   }
 
   const { username, password } = ctx.request.body;
+  const level = "🌱";
+  const totalTime = 0;
   try {
     // username  이 이미 존재하는지 확인
     const exists = await User.findByUsername(username);
@@ -36,7 +33,7 @@ export const register = async ctx => {
     }
 
     const user = new User({
-      username,
+      username, totalTime, level
     });
     await user.setPassword(password); // 비밀번호 설정
     await user.save(); // 데이터베이스에 저장
@@ -54,10 +51,6 @@ export const register = async ctx => {
 };
 /*
   POST /api/auth/login
-  {
-    username: 'velopert',
-    password: 'mypass123'
-  }
 */
 export const login = async ctx => {
   const { username, password } = ctx.request.body;
@@ -97,6 +90,7 @@ export const login = async ctx => {
 */
 export const check = async ctx => {
   const { user } = ctx.state;
+  
   if (!user) {
     // 로그인중 아님
     ctx.status = 401; // Unauthorized
@@ -104,32 +98,27 @@ export const check = async ctx => {
   }
   ctx.body = user;
 };
-
-/*
-  POST /api/auth/logout
-*/
 export const logout = async ctx => {
   ctx.cookies.set('access_token');
   ctx.status = 204; // No Content
 };
 
-
-/*
-  MODIFY /api/auth/modify/:id
-*/
-export const modify = async ctx => {
+export const modify = async (ctx) => {
 
   const { username, password } = ctx.request.body;
+ 
   try {
     
+    // 계정이 존재하지 않으면 에러 처리
     const filter = { username: username };
     const hashpw = await bcrypt.hash(password, 10); //새 비번 해시
     const update = { hashedPassword: hashpw };
     let doc = await User.findOneAndUpdate(filter, update, {
-      new: true
-    });
-    ctx.body = doc.serialize();
+    new: true
+  });
+  ctx.body = doc.serialize();
   } catch (e) {
     ctx.throw(500, e);
   }
+  
 };
