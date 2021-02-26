@@ -1,0 +1,24 @@
+@import '~@fullcalendar/common/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+.fc .fc-toolbar-title {
+    font-size: 1.3em;
+  };
+
+.fc .fc-button {
+    font-size : 0.9em;
+}
+
+.fc-today-button {
+    height: 32px;
+    padding : 0px;;
+}
+
+.fc-prev-button {
+    height: 32px;
+}
+
+.fc-next-button {
+    height: 32px;
+}
+

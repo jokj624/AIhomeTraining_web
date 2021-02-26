@@ -7,6 +7,7 @@ import palette from '../../lib/style/palette'
 const NavBlock = styled.div`
   position: fixed;
   width: 100%;
+  z-index:1;
   background: ${palette.gray[2]};
 `;
 
@@ -27,16 +28,16 @@ const Navbar = () => {
         <>
         <NavBlock>
             <Wrapper>
-                <Link to="/todaytr" className="logo" style={{fontSize: 0.9 + 'em'}}>
+                <Link to="/todaytr" className="logo" style={{fontSize: 0.9 + 'em', color:'black', textDecoration: 'none'}}>
                     오늘의 운동
                 </Link>
-                <Link to="/" className="logo" style={{fontSize: 0.9 + 'em'}}>
+                <Link to="/calendar" className="logo" style={{fontSize: 0.9 + 'em', color:'black', textDecoration: 'none'}}>
                     운동 일지
                 </Link>
-                <Link to="/postlist" className="logo" style={{fontSize: 0.9 + 'em'}}>
+                <Link to="/postlist" className="logo" style={{fontSize: 0.9 + 'em', color:'black', textDecoration: 'none'}}>
                     커뮤니티
                 </Link>
-                <Link to="/mypage" className="logo" style={{fontSize: 0.9 + 'em'}}>
+                <Link to="/mypage" className="logo" style={{fontSize: 0.9 + 'em', color:'black', textDecoration: 'none'}}>
                     마이페이지
                 </Link>
             </Wrapper>

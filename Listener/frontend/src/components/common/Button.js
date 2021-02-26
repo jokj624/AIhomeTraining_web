@@ -15,6 +15,8 @@ const buttonStyle = css`
   background: ${palette.gray[8]};
   &:hover {
     background: ${palette.gray[6]};
+    color: white;
+    text-decoration: none;
   }
   ${props =>
     props.fullWidth &&

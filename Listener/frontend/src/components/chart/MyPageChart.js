@@ -3,39 +3,37 @@ import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { useSelector } from 'react-redux';
 import palette from '../../lib/style/palette';
-
 const MyDiv = styled.div`
   display: inline-block;
-  width : 40%;
-  height : 50%;
-  margin-left : 25%;
+  width : 50%;
+  height : 100%;
 `;
 const Level = styled.div`
   text-align:center;
   font-size:1.5rem;
   margin-top:1.5rem;
-  color : ${palette.blue[5]};
+  color : ${palette.gray[8]};
 `;
-let data = {
-    datasets: [
-      {
-        data: [10, 20],
-        backgroundColor: [
-          "rgba(54, 162, 235, 1)",
-          
-        ],
-        borderColor: [
-          "rgba(54, 162, 235, 1)",
-          
-        ],
-        borderWidth: 0.3,
-        weight : 0.3
-      }
-    ]
-};
 
 const MyPageChart = () => {
     const user = useSelector(({ user }) => ({ user: user.user }));
+    let data = {
+      datasets: [
+        {
+          data: [10, 20],
+          backgroundColor: [
+            "rgba(54, 162, 235, 1)",
+            
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            
+          ],
+          borderWidth: 0.3,
+          weight : 0.3
+        }
+      ]
+  };
     let val = 1;
     const time = user.user.totalTime;
     if(time > 420 && time <= 840)   val = 2;
@@ -52,6 +50,7 @@ const MyPageChart = () => {
           <Doughnut data={data} />
           <Level>{text}</Level>
         </MyDiv>
+        
       );
 
 };

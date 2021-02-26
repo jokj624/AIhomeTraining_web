@@ -1,7 +1,8 @@
+
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
 import palette from '../../lib/style/palette';
+
 
 const SubInfoBlock = styled.div`
   ${props =>
@@ -19,16 +20,16 @@ const SubInfoBlock = styled.div`
   }
 `;
 const Div = styled.div`
-  padding-top: 5%;
+  padding-top: 1.5rem;
   color: black;
 `;
 
-const Comment = ({ username, level, text, publishedDate, hasMarginTop }) => {
+const Comment = ({ username, text, publishedDate, hasMarginTop, usrlevel }) => {
+  
     return (
       <SubInfoBlock hasMarginTop={hasMarginTop}>
         <span>
           <b>
-            {level}<h1> </h1>
             {username} 
             <span> {new Date(publishedDate).toLocaleDateString()}</span>
           </b>

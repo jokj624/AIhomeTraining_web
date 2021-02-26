@@ -35,13 +35,19 @@ const WhiteBox = styled.div`
   background: white;
   border-radius: 2px;
 `;
+const LinkTo = styled(Link)`
+  color: black;
+  &:hover{
+    color: ${palette.gray[6]};
+  }
+`;
 
 const AuthTemplate = ({ children }) => {
     return (
       <AuthTemplateBlock>
         <WhiteBox>
           <div className="logo-area">
-            <Link to="/">HOMETRAINING</Link>
+            <LinkTo to="/" style={{textDecoration:'none'}} >HOMETRAINING</LinkTo>
           </div>
           {children}
         </WhiteBox>

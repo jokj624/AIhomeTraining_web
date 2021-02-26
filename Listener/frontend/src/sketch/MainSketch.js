@@ -95,7 +95,6 @@ const Sketch = (p5) => {
             p5.noStroke();
             p5.text(this.word, this.x, this.y);
             p5.textFont('Kalam');
-            p5.textStyle(p5.BOLD);
            // p5.textAlign(p5.CENTER, p5.CENTER);
         }
     }

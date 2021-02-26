@@ -15,7 +15,7 @@ const PaginationContainer = ({ location, match }) => {
   if (!posts || loading) return null;
   const { username } = match.params;
   // page가 없으면 1을 기본값으로 사용
-  const { tag, page = 1 } = qs.parse(location.search, {
+  const {  page = 1 } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 

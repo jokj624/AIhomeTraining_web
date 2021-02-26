@@ -1,25 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer'; 
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector} from 'react-redux';
 import NavContainer from '../components/common/Navbar';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MyPageChart from '../components/chart/MyPageChart';
-import palette from '../lib/style/palette';
-
+import { Helmet } from 'react-helmet-async';
+import FooterContainer from '../containers/common/FooterContainer';
+import Responsive from '../components/common/Responsive';
 const MainDiv = styled.div`
-  position : absolute;
-  width : 75%;
-
+  width : 100%;
+  display: inline-block;
 `;
 const MyDiv = styled.div`
   display : inline-block;
   width: auto;
-  position : absolute;
+  hegiht: 100%;
+  padding: 5%;
 `;
 const InfoDiv = styled.div`
-  font-size : 1.5rem;
+  font-size : 1.3rem;
   margin-top : 0.5rem;
+`;
+const Wrapper = styled(Responsive)`
+    display: flex;
+    align-items: center;
 `;
 
 
@@ -35,13 +40,16 @@ const MyPage = ({match}) => {
     else if(lv == '👿')  setStr('PT 쌤');
     else if(lv == '🦍')  setStr('측정 불가');
   }, []);   
-
+ 
     return (
-
-    <div>
+      <>
+      <Helmet>
+        <title>My Page</title>  
+      </Helmet>
       <HeaderContainer />
       <NavContainer />
-      <br/><br/><br/><br/><br/>
+      <br/><br/><br/>
+      <Wrapper>
       <MainDiv>
       <MyPageChart/>
       <MyDiv>
@@ -52,13 +60,15 @@ const MyPage = ({match}) => {
       </div><hr/>
       <br/><br/>
       <div>
-          <Link to={`/modify/${user._id}`}>
+          <Link to={`/modify/${user._id}`} style={{color: 'black', textDecoration: 'none'}}>
               <InfoDiv>회원정보수정</InfoDiv>
           </Link>
       </div>
       </MyDiv>
       </MainDiv>
-    </div>
+      </Wrapper>
+      <FooterContainer />
+      </>
   );
 };
 

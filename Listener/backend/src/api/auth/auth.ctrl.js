@@ -108,7 +108,6 @@ export const modify = async (ctx) => {
   const { username, password } = ctx.request.body;
  
   try {
-    
     // 계정이 존재하지 않으면 에러 처리
     const filter = { username: username };
     const hashpw = await bcrypt.hash(password, 10); //새 비번 해시
@@ -121,4 +120,22 @@ export const modify = async (ctx) => {
     ctx.throw(500, e);
   }
   
+};
+
+export const findLevel = async (ctx) => {
+  const { username } = ctx.request.body;
+  console.log(username);
+  try{
+    const user = await User.findByUsername(username);
+    if(user){
+      const doc = {level: user.level, username: username};
+      console.log(doc);
+      ctx.body = doc;
+    }else{  
+      ctx.state = 404;
+      return;
+    }
+  } catch(e) {
+    ctx.throw(500, e);
+  }
 };

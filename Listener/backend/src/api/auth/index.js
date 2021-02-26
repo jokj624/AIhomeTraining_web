@@ -7,4 +7,5 @@ auth.post('/login', authCtrl.login);
 auth.get('/check', authCtrl.check);
 auth.post('/logout', authCtrl.logout);
 auth.patch('/modify/:id', authCtrl.modify); 
+auth.patch('/level', authCtrl.findLevel);
 export default auth;

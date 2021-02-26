@@ -1,15 +1,18 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Sketch from "react-p5";
 import ml5 from "ml5";
 import styled from 'styled-components';
+import {Animated} from "react-animated-css";
+
 const LabelBlock = styled.div`
     font-size : 3em;
-    margin-bottom: 1rem;
+    margin: 0.3rem;
     text-align : center;
 `;
 const Spacer = styled.div`
   height: 4rem;
   `;
+
 const Test= () => {
     let video, poseNet, brain, pose, skeleton,state = 'waiting';
     let poseLabel = '테스트 중';
@@ -34,6 +37,7 @@ const Test= () => {
           };
          brain.load(modelInfo, brainLoaded);
     };
+
     const draw = (p5) => {
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
@@ -55,6 +59,9 @@ const Test= () => {
             }
         }
     };
+
+
+
     const gotPoses = (poses, x, y) => {
         if(poses.length > 0){
           pose = poses[0].pose;
@@ -124,9 +131,8 @@ const Test= () => {
     };
    return (
     <>
-      <Spacer />
-      <LabelBlock id='test'>분석 중..</LabelBlock>
-      <Sketch setup={setup} draw={draw} />
+      <Animated animationIn="fadeIn"><LabelBlock id='test'>분석중...</LabelBlock></Animated>
+      <Sketch setup={setup} draw={draw}/>
     </>
    )
 };

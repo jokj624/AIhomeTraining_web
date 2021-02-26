@@ -12,7 +12,6 @@ post.get('/', postsCtrl.read);
 post.delete('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.remove);
 post.patch('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.update);
 posts.post('/comments', postsCtrl.comment);
-posts.patch('/comments', postsCtrl.getComment);
 
 posts.use('/:id', postsCtrl.getPostById, post.routes());
 

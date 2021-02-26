@@ -1,0 +1,57 @@
+
+.footer{
+    position: relative;
+    width: 100%;
+    bottom : 0;
+    left: 0;
+    background: #eceff1;
+    color:black;
+}
+
+ul {
+    list-style-type: none;
+}
+li a {
+    color: #616161;
+    transition: color .2s;
+    text-decoration: none;
+}
+.footer > .links > a:hover{
+    text-decoration: none;
+    color:#4180CB;
+}
+
+.about-company > p{
+    color: #616161;
+}
+.footer > .links > .about-company > a{
+    color: #616161;
+    transition: color .2s;
+    text-emphasis: none;
+}
+
+ .location > i{
+    font-size: 18px;
+}
+.location > p{
+    color: #616161;
+}
+.developer{
+    border-top: 1px solid #b0bec5;
+    padding-top: 3%;
+}
+
+.dev{
+    font-size: 18px;
+    padding: 2%; 
+    color: #616161;
+}
+
+.dev > i{
+    font-size: 18px;
+    color: black;
+}
+.dev > a{
+    text-decoration: none;
+    color: black;
+}
