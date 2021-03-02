@@ -1,6 +1,14 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import {Animated} from "react-animated-css";
 
+const Wrapper = styled.div`
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%); 
+    text-align: center;
+`;
 
 const Check = () => {
     const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -9,8 +17,15 @@ const Check = () => {
         authError: auth.authError,
         user: user.user
       }));
+      const hours = parseInt(user.s/60/60);
+      const minutes = parseInt(user.s%(60*60)/60);
+      const seconds = parseInt(user.s%60);
+            
   return (
-    <div>운동 한 시간은..{user.s}<br/>지금까지 총 운동시간은...{user.totalTime}<br/>다시 운동을 하시려면 재시작을 눌러주세요.</div>
+    <Wrapper>
+      <Animated>운동한 시간 : {hours}시간 {minutes}분 {seconds}초</Animated><br/><br/>
+      <Animated>운동을 다시 진행하시려면 다시하기 버튼을,<br/>끝내시려면 끝내기 버튼을 눌러주세요.</Animated>
+    </Wrapper>
   )
 };
 

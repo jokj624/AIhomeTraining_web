@@ -1,0 +1,17 @@
+img {
+    width : 500px;
+    height: 500px;
+}
+
+#pose {
+    cursor: pointer;
+    position: absolute;
+    bottom : 10%;
+    right : 20%;
+}
+
+#posetext {
+    position: flex;
+    top : 25%;
+    right : 30%;
+}

@@ -20,3 +20,6 @@ export const logout = () => client.post('/api/auth/logout');
 //댓글에 레벨 표시 하려고 레벨 쿼리해오는 api 
 export const findLevel = ({ username }) => 
   client.patch('/api/auth/level', { username }); 
+
+export const exercise = ({title, username}) =>
+  client.post('/api/auth/exercises', {title, username});

@@ -7,25 +7,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import Check from '../../components/common/Check';
 import First from './First';
 import Responsive from '../../components/common/Responsive';
+import {Animated} from "react-animated-css";
+import { writeExercise } from '../../modules/exercise';
 
+//import squat from './image/squat';
+
+const ButtonWrapper = styled.div`
+  position:absolute;
+  left:50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+`;
 const StyledButton = styled(Button)`
-  height: 2rem;
-  & + & {
-    margin-left: 0.5rem;
-  }
   background: ${palette.gray[7]};
   &:hover {
     background: ${palette.gray[5]};
   }
+  position:absolute;
+    left:50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
 `;
 const Spacer = styled.div`
   height: 4rem;
   `;
-
 const Wrapper = styled(Responsive)`
-  display: flex;
-  align-items: center;
-  height: 100%;
+    height : 650px;
 `;
 const Text = styled.div`
   display: block;
@@ -34,12 +41,15 @@ const Text = styled.div`
 `;
 
 const ExerciseContainer = () => {
+  const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.modify,
     auth: auth,
     authError: auth.authError,
     user: user.user
   }));
+  const expose = ["스쿼트", "런지", "숄더프레스"];
+  const [pose, setPose] = useState(1);
   const [showResults, setShowResults] = useState(false);
   const [first, setFirst] = useState(true);
   var total = 0;
@@ -49,7 +59,6 @@ const ExerciseContainer = () => {
   var time;
 
   const videoOff = () => {
-      
       if (showResults === true) {
         const video = document.querySelector('video');
         const mediaStream = video.srcObject;
@@ -57,16 +66,20 @@ const ExerciseContainer = () => {
         tracks[0].stop();
         tracks.forEach(track => track.stop())
       }
-      
       setShowResults(false);
-      user.s = total;
-      console.log(user.s);
+      total = total/60;
+      user.s = Number(total.toFixed(2));
+      const username = user.username;
+      dispatch(writeExercise({title: user.s, username : username}));
   };
-
   const videoOn = () => {
     setShowResults(true);
     setFirst(false);
   };
+  const linkTo = () => {
+    document.location.href = "/main";
+  }
+
 
   useEffect(() => {
     if (showResults === true) {
@@ -88,20 +101,15 @@ const ExerciseContainer = () => {
     }
     return () => clearInterval(time); 
   });
-
   return (
     <>
+    <Spacer/>
     <Wrapper>
-    <Spacer />
-    <Text>
-    { first ? <First/> : <div>{ showResults ? <div><div id="time">운동 시간 <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span></div><Test/></div>
-    : <Check/> }</div> }
-    </Text>
-    <div style={{position: 'absolute', bottom: '0', left: '50%', marginLeft: '-31px'}}>
-    { first ? <StyledButton onClick={videoOn} style={{width: '62px'}}>시작</StyledButton> : <div>{ showResults ? <StyledButton onClick = {videoOff}>종료</StyledButton> : <StyledButton onClick={videoOn}>재시작</StyledButton>}</div>}
-    </div>
+      {first && <div><First/><StyledButton onClick={videoOn}>시작</StyledButton></div>}
+      {showResults && <div>운동시간 <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span><Test/><StyledButton onClick={videoOff}>종료</StyledButton></div>}
+      {(!first && !showResults) && <div><Check/><ButtonWrapper><Button onClick={videoOn}>다시시작</Button> <Button onClick={linkTo}>끝내기</Button></ButtonWrapper></div>}
     </Wrapper>
     </>
-  )
+  ) 
 };
 export default ExerciseContainer;
