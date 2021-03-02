@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {Animated} from "react-animated-css";
 import styled from 'styled-components';
+
 import image1 from '../../img/lunge.jpeg';
 import image2 from '../../img/tree.png';
 import image3 from '../../img/shoulder1_after.jpg';
-//import './First.css';  css 이거 키면 이상해짐..
+//import './First.css'; 이거 키면 main 이상해져
 
 const Wrapper = styled.div`
 font-size : 16px;
@@ -45,6 +46,7 @@ const First = () => {
         setTimeout(isvisible, 5000);
         setTimeout(remove, 8000);
      }, []);
+
 
      const nextPose = () => {
         if (pose === 0)

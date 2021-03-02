@@ -72,6 +72,7 @@ const ExerciseContainer = () => {
       user.t = Number(total.toFixed(2));
       const username = user.username;
       dispatch(writeExercise({title: user.t, username : username}));
+
   };
   const videoOn = () => {
     setShowResults(true);
