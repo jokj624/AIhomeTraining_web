@@ -2,11 +2,20 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+const ExerciseSchema = new Schema({
+  title : Number,
+  date: {
+    type: Date,
+    default: Date.now,
+  }
+});
+
 const UserSchema = new Schema({
     username: String,
     hashedPassword: String,
     totalTime : Number,
-    level : String
+    level : String,
+    exercises: [ExerciseSchema]
 });
 UserSchema.methods.setPassword = async function(password) {
     const hash = await bcrypt.hash(password, 10);

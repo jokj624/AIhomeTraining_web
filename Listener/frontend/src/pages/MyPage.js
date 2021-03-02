@@ -8,6 +8,7 @@ import MyPageChart from '../components/chart/MyPageChart';
 import { Helmet } from 'react-helmet-async';
 import FooterContainer from '../containers/common/FooterContainer';
 import Responsive from '../components/common/Responsive';
+
 const MainDiv = styled.div`
   width : 100%;
   display: inline-block;

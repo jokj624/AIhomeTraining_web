@@ -4,28 +4,28 @@
     width: 100%;
     bottom : 0;
     left: 0;
-    background: #eceff1;
-    color:black;
+    background: black;
+    color:white;
 }
 
 ul {
     list-style-type: none;
 }
 li a {
-    color: #616161;
+    color: #afafaf;
     transition: color .2s;
     text-decoration: none;
 }
 .footer > .links > a:hover{
     text-decoration: none;
-    color:#4180CB;
+    color:#afafaf
 }
 
 .about-company > p{
-    color: #616161;
+    color: #afafaf;
 }
 .footer > .links > .about-company > a{
-    color: #616161;
+    color:#afafaf;
     transition: color .2s;
     text-emphasis: none;
 }
@@ -34,17 +34,17 @@ li a {
     font-size: 18px;
 }
 .location > p{
-    color: #616161;
+    color: #afafaf;
 }
 .developer{
-    border-top: 1px solid #b0bec5;
-    padding-top: 3%;
+    border-top: 0.2px solid #535353;
+    padding-top: 2%;
 }
 
 .dev{
     font-size: 18px;
     padding: 2%; 
-    color: #616161;
+    color: #afafaf;
 }
 
 .dev > i{
@@ -53,5 +53,9 @@ li a {
 }
 .dev > a{
     text-decoration: none;
-    color: black;
+    color: #afafaf;
+}
+
+.dev > a:hover{
+    color: #afafaf;
 }

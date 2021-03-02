@@ -22,3 +22,39 @@
     height: 32px;
 }
 
+.fc-daygrid-day-number {
+    color : black;
+}
+
+.fc-daygrid-day-number :hover {
+    color : black;
+    text-decoration: none !important;
+}
+
+.fc-col-header-cell-cushion {
+    color : black;
+} 
+
+.fc-col-header-cell-cushion :hover {
+    color : black;
+    text-decoration: none !important;
+} 
+
+.fc-scroller .fc-col-header   {
+    position: relative;
+    z-index: -2;
+}
+
+.fc .fc-daygrid-body { /* a <div> that wraps the table */
+    position: relative;
+    z-index: -1; /* container inner z-index's because <tr>s can't do it */
+  }
+
+
+.fc-daygrid-day-events {
+    color : #1864ab;
+}
+
+.fc-event-title-container {
+    padding-left : 10px;
+}

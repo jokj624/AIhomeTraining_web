@@ -50,8 +50,10 @@ const LevelInfo = styled.div`
 
 const LinkTo = styled(Link)`
   color: black;
+  font-style: oblique;
   &:hover{
-    color: ${palette.gray[6]};
+    color: gray;
+    text-decoration: none;
   }
 `;
 const Header = ({ user, onLogout }) => {
@@ -59,7 +61,7 @@ const Header = ({ user, onLogout }) => {
     <>
       <HeaderBlock>
         <Wrapper>
-          <LinkTo to="/main" className="logo" style={{textDecoration:'none'}}>
+          <LinkTo to="/main" className="logo" style={{ fontSize: '1.4em'}}>
             HOMETRAINING
           </LinkTo>
           {user ? (

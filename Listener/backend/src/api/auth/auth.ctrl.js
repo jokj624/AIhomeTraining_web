@@ -75,6 +75,7 @@ export const login = async ctx => {
       return;
     }
     ctx.body = user.serialize();
+    //console.log(ctx.body);
     const token = user.generateToken();
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
@@ -90,13 +91,15 @@ export const login = async ctx => {
 */
 export const check = async ctx => {
   const { user } = ctx.state;
-  
   if (!user) {
     // 로그인중 아님
     ctx.status = 401; // Unauthorized
     return;
   }
-  ctx.body = user;
+  const userDoc = await User.findByUsername(user.username);
+  //console.log(userDoc);
+  ctx.body = userDoc.serialize();
+  //ctx.body = userDoc;
 };
 export const logout = async ctx => {
   ctx.cookies.set('access_token');
@@ -136,6 +139,20 @@ export const findLevel = async (ctx) => {
       return;
     }
   } catch(e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const exercise = async ctx => {
+  const {title, totalTime, username, id} = ctx.request.body;
+  const userDoc = await User.findByUsername(username);
+  const user = new User();
+  const exerDoc = user.exercises.create({title : title});
+  userDoc.exercises.push(exerDoc); //exercise 배열에 add
+  userDoc.save();    //exercise DB 저장
+  try{
+    ctx.body = exerDoc;
+  } catch(e){
     ctx.throw(500, e);
   }
 };

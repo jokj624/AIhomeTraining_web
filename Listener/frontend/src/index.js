@@ -9,11 +9,12 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
+import ScrollToTop from './components/common/ScrollToTop';
 import { tempSetUser, check } from './modules/user';
 import { HelmetProvider } from 'react-helmet-async';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import '@fortawesome/fontawesome-free/css/all.min.css';
 import "@fortawesome/fontawesome-free/js/all.js";
+
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer, 
@@ -43,6 +44,7 @@ loadUser();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+    <ScrollToTop />
       <HelmetProvider>
         <App />
       </HelmetProvider>

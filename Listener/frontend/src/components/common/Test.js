@@ -13,6 +13,12 @@ const Spacer = styled.div`
   height: 4rem;
   `;
 
+const Wrapper = styled.div`
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%); 
+`;  
+
 const Test= () => {
     let video, poseNet, brain, pose, skeleton,state = 'waiting';
     let poseLabel = '테스트 중';
@@ -113,7 +119,7 @@ const Test= () => {
         }
         if(results && (results[0].confidence > 0.8)){
             let la = results[0].label;
-            if(la == '0')   poseLabel = '분석 중';
+            if(la == '0')    poseLabel = '분석 중';
             else if(la == '1')  poseLabel = '스쿼트';
             else if(la == '2')  poseLabel = '런지';
             else if(la == '3')  poseLabel = '런지';
@@ -129,10 +135,14 @@ const Test= () => {
     let inputLabel = (label) => {
         document.getElementById("test").innerHTML = `${label}`;
     };
+
    return (
     <>
-      <Animated animationIn="fadeIn"><LabelBlock id='test'>분석중...</LabelBlock></Animated>
+    <Wrapper>
+    <Spacer/>
+    <Animated animationIn="fadeIn"><LabelBlock id='test'>분석중...</LabelBlock></Animated>
       <Sketch setup={setup} draw={draw}/>
+    </Wrapper>
     </>
    )
 };
