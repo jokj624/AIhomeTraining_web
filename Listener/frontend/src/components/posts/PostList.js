@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import Button from '../common/Button';
 import palette from '../../lib/style/palette';
 import SubInfo from '../common/SubInfo';
+import { findLevel, unloadLevel } from '../../modules/level';
 import { Link } from 'react-router-dom';
+import user from '../../modules/user';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -41,34 +44,33 @@ const PostItemBlock = styled.div`
 
 
 const PostItem = ({ post }) => {
+  const [usrlevel, setLevel] = useState('');
   const { publishedDate, user, title, body, _id } = post;
+
+
   return (
     <PostItemBlock>
       <h2>
-        <Link to={`/@${user.username}/${_id}`}>{title}</Link>
+        <Link to={`/@${user.username}/${_id}`} style={{color: 'black', textDecoration: 'none'}}>{title}</Link>
       </h2>
-      <SubInfo 
+      {<SubInfo 
         username ={user.username} 
-        userlevel={user.level}
-        publishedDate={new Date(publishedDate)} />
+        userlevel={usrlevel}
+        publishedDate={new Date(publishedDate)}/>}
       <p>{body}</p>
     </PostItemBlock>
   );
 };
 
 const PostList = ({ posts, loading, error, showWriteButton }) => {
-  // 에러 발생 시
-  console.log(posts);
   if (error) {
     return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
   }
-  
-
   return (
     <PostListBlock>
       <WritePostButtonWrapper>
       {showWriteButton && (
-          <Button cyan to="/write">
+          <Button to="/write" style={{textDecoration: 'none', color: 'white'}}>
             새 글 작성하기
           </Button>
         )}
@@ -76,9 +78,9 @@ const PostList = ({ posts, loading, error, showWriteButton }) => {
       {/*  로딩 중 아니고, 포스트 배열이 존재할 때만 보여줌 */}
       {!loading && posts && (
         <div>
-          {posts.map(post => (
-            <PostItem post={post} key={post._id} />
-          ))}
+         {posts.map(post => (
+          <PostItem post={post} key={post._id} />
+        ))}
         </div>
       )}
     </PostListBlock>

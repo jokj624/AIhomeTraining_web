@@ -11,13 +11,13 @@ import './App.css';
 import MyPage from './pages/MyPage';
 import Modify from './pages/Modify';
 import PostPage from './pages/PostPage';
+import CalendarPage from './pages/CalendarPage';
 import { Helmet } from 'react-helmet-async';
-
 function App() {
   return (
     <>
       <Helmet>
-        <title>HomeTraining</title>
+        <title>MAIT_메이트</title>
       </Helmet>
       <Route component={HomePage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />
@@ -28,6 +28,7 @@ function App() {
       <Route component={MainPage} path="/main" />
       <Route component={TodayTr} path="/todaytr" />
       <Route component={MyPage} path="/mypage" />
+      <Route component={CalendarPage} path="/calendar" />
       <Route component={Modify} path="/modify/:id" />
     </>
   );

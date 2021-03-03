@@ -21,7 +21,6 @@ mongoose
 
 const app = new Koa();
 const router = new Router();
-
 router.use('/api', api.routes());
 app.use(bodyParser());
 app.use(jwtMiddleware);

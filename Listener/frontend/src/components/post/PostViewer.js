@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components';
 import palette from '../../lib/style/palette';
 import Responsive from '../common/Responsive';
 import SubInfo from '../common/SubInfo';
+import { findLevel } from '../../modules/level';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;
@@ -24,8 +26,9 @@ const PostContent = styled.div`
   color: ${palette.gray[8]};
 `;
 
-const PostViewer = ({ post, error, loading, actionButtons }) => {
-    if(error) {
+const PostViewer = ({ post, error, levels, loading, actionButtons }) => {
+
+  if(error) {
         if(error.response && error.response.status === 404){
             return <PostViewerBlock>존재하지 않는 포스트입니다.</PostViewerBlock>;
         }
@@ -36,14 +39,16 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
         return null;
     }
     const { title, body, user, publishedDate } = post;
-
+  if(!levels){
+    return null;
+  }
   return (
     <PostViewerBlock>
       <PostHead>
         <h1>{title}</h1>
         <SubInfo 
             username = {user.username}
-            userlevel = {user.level}
+            userlevel = {levels.level}
             publishedDate = {publishedDate}
             hasMarginTop
         />

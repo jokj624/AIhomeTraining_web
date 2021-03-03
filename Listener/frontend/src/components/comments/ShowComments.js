@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/style/palette';
 import { useDispatch, useSelector } from 'react-redux';
 import Comment from '../common/Comment';
-import { readComment } from '../../modules/comment';
-import Fade from 'react-reveal';
+
 
 const PostItemBlock = styled.div`
-  margin-top:3rem;
+  margin-top:2rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
   /* 맨 위 포스트는 padding-top 없음 */
@@ -31,50 +30,31 @@ const PostItemBlock = styled.div`
 `;
 
 const PostItem = ({ comments }) => {
-    const { text, user, level, publishedDate,} = comments;
+    const { text, user, publishedDate } = comments;
     return (
-      <Fade bottom cascade>
       <PostItemBlock>
         <Comment
           username ={user} 
-          level = {level}
           text={text}
-          publishedDate={new Date(publishedDate)} />
+          publishedDate={new Date(publishedDate)}
+           />
       </PostItemBlock>
-      </Fade>
     );
 };
 
-const ShowComments = () => {
+const ShowComments = ( { post } ) => {
     const [arr, setArr] = useState([]);
-    const [len, setLen] = useState(0);
-    const {post, com} = useSelector(({ post, comment }) => ({
-        post: post.post,
-        com: comment.com,
-    }));
-    const dispatch = useDispatch();
+   
     useEffect(()=> {
-      if(post)   setLen(post.comments.length);
-    }, []);
-    useEffect(() => {
-      if(post){
-        const { _id, title } = post;
-        dispatch(readComment({_id, title}));
-        if(com)   setLen(com.length);
-      }
-    }, [len]);
-    useEffect(() => {
-      if(com){
-        setArr(com);
-      }
-    });
+      setArr(post.comments);
+    }, [post]);
+
     return (
-      
       <div>
         {arr&& arr.map(comments => (
-          <PostItem comments={comments} />
+          <PostItem comments={comments} key={comments._id} />
         ))}
-        {com && !com.length && <div>댓글이 없습니다.</div> } 
+        {arr && !arr.length && <div style={{margin:'5% 0%', color:'black', fontSize:'1.2rem'}}>댓글이 없습니다.</div> } 
       </div>
     );
 };

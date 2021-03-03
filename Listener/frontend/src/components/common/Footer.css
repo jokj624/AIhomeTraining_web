@@ -1,0 +1,61 @@
+
+.footer{
+    position: relative;
+    width: 100%;
+    bottom : 0;
+    left: 0;
+    background: black;
+    color:white;
+}
+
+ul {
+    list-style-type: none;
+}
+li a {
+    color: #afafaf;
+    transition: color .2s;
+    text-decoration: none;
+}
+.footer > .links > a:hover{
+    text-decoration: none;
+    color:#afafaf
+}
+
+.about-company > p{
+    color: #afafaf;
+}
+.footer > .links > .about-company > a{
+    color:#afafaf;
+    transition: color .2s;
+    text-emphasis: none;
+}
+
+ .location > i{
+    font-size: 18px;
+}
+.location > p{
+    color: #afafaf;
+}
+.developer{
+    border-top: 0.2px solid #535353;
+    padding-top: 2%;
+}
+
+.dev{
+    font-size: 18px;
+    padding: 2%; 
+    color: #afafaf;
+}
+
+.dev > i{
+    font-size: 18px;
+    color: black;
+}
+.dev > a{
+    text-decoration: none;
+    color: #afafaf;
+}
+
+.dev > a:hover{
+    color: #afafaf;
+}

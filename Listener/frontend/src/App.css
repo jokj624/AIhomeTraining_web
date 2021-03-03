@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@700&family=Gothic+A1:wght@700&display=swap');
 
-html, body {
+html{
+  overflow: auto;
+}
+html,
+body {
   font-family: 'Gothic A1', sans-serif;
   height: 100%;
 }
