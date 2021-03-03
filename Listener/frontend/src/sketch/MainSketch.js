@@ -10,7 +10,7 @@ const Sketch = (p5) => {
         p5.background('white');
         //const str = 'HOME TRAINING';
         words.length = 0;
-        const str = 'H o m e T r a i n i n g';
+        const str = 'M A I T';
         const wordsStr = str.split(' ');
 
         if(p5.windowWidth > 757)    p5.textSize(72);
@@ -95,7 +95,6 @@ const Sketch = (p5) => {
             p5.noStroke();
             p5.text(this.word, this.x, this.y);
             p5.textFont('Kalam');
-            p5.textStyle(p5.BOLD);
            // p5.textAlign(p5.CENTER, p5.CENTER);
         }
     }

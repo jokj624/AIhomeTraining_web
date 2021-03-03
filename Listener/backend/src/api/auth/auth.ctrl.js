@@ -75,6 +75,7 @@ export const login = async ctx => {
       return;
     }
     ctx.body = user.serialize();
+    //console.log(ctx.body);
     const token = user.generateToken();
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
@@ -90,13 +91,15 @@ export const login = async ctx => {
 */
 export const check = async ctx => {
   const { user } = ctx.state;
-  
   if (!user) {
     // 로그인중 아님
     ctx.status = 401; // Unauthorized
     return;
   }
-  ctx.body = user;
+  const userDoc = await User.findByUsername(user.username);
+  //console.log(userDoc);
+  ctx.body = userDoc.serialize();
+  //ctx.body = userDoc;
 };
 export const logout = async ctx => {
   ctx.cookies.set('access_token');
@@ -108,7 +111,6 @@ export const modify = async (ctx) => {
   const { username, password } = ctx.request.body;
  
   try {
-    
     // 계정이 존재하지 않으면 에러 처리
     const filter = { username: username };
     const hashpw = await bcrypt.hash(password, 10); //새 비번 해시
@@ -121,4 +123,36 @@ export const modify = async (ctx) => {
     ctx.throw(500, e);
   }
   
+};
+
+export const findLevel = async (ctx) => {
+  const { username } = ctx.request.body;
+  console.log(username);
+  try{
+    const user = await User.findByUsername(username);
+    if(user){
+      const doc = {level: user.level, username: username};
+      console.log(doc);
+      ctx.body = doc;
+    }else{  
+      ctx.state = 404;
+      return;
+    }
+  } catch(e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const exercise = async ctx => {
+  const {title, totalTime, username, id} = ctx.request.body;
+  const userDoc = await User.findByUsername(username);
+  const user = new User();
+  const exerDoc = user.exercises.create({title : title});
+  userDoc.exercises.push(exerDoc); //exercise 배열에 add
+  userDoc.save();    //exercise DB 저장
+  try{
+    ctx.body = exerDoc;
+  } catch(e){
+    ctx.throw(500, e);
+  }
 };

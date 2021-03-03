@@ -13,6 +13,7 @@ const AuthFormBlock = styled.div`
     margin: 0;
     color: ${palette.gray[8]};
     margin-bottom: 1rem;
+    text-align : center;
   }
 `;
 
@@ -102,7 +103,7 @@ const AuthForm = ({type, form, onChange, onSubmit, error}) => {
           />
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <ButtonWithMarginTop cyan fullWidth>
+        <ButtonWithMarginTop fullWidth>
             {text}
         </ButtonWithMarginTop>
       </form>

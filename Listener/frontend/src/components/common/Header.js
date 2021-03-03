@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Responsive from './Responsive';
 import Button from './Button';
+import palette from '../../lib/style/palette';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -46,14 +47,28 @@ const LevelInfo = styled.div`
   font-weight: 800;
   margin-right: 0.5rem;
 `;
+
+const LinkTo = styled(Link)`
+  color: black;
+  font-style: oblique;
+  &:hover{
+    color: gray;
+    text-decoration: none;
+  }
+`;
+
+const Ai = styled.span`
+  color : ${palette.indigo[9]};
+`;
+
 const Header = ({ user, onLogout }) => {
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-          <Link to="/main" className="logo">
-            HOMETRAINING
-          </Link>
+          <LinkTo to="/main" className="logo" style={{ fontSize: '1.5em'}}>
+            M<Ai>AI</Ai>T
+          </LinkTo>
           {user ? (
             <div className="right">
               <LevelInfo>{user.level}</LevelInfo>

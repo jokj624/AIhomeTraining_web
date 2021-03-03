@@ -25,7 +25,7 @@ const SubInfo = ({ username, userlevel, publishedDate, hasMarginTop }) => {
       <span>
         <b>
           {userlevel}
-          <Link to={`/@${username}`}> {username}</Link>
+          <Link to={`/@${username}`} style={{color: `${palette.gray[6]}`, textDecoration: 'none'}}> {username}</Link>
         </b>
       </span>
       <span>{new Date(publishedDate).toLocaleDateString()}</span>

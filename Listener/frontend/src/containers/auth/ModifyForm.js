@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import {  withRouter } from 'react-router-dom';
 import { changeField, initializeForm, modify } from '../../modules/auth';
 import ModifyAuthForm from '../../components/auth/ModifyAuthForm';
 import { logout } from '../../modules/user';

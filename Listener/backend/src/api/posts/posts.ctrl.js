@@ -2,8 +2,6 @@ import Post from '../../models/post';
 import mongoose from 'mongoose';
 import Joi from '@hapi/joi';
 import sanitizeHtml from 'sanitize-html';
-import { async } from '../../../node_modules/rxjs/index';
-import treeKill from '../../../node_modules/tree-kill/index';
 
 const { ObjectId } = mongoose.Types;
 
@@ -199,36 +197,15 @@ export const update = async ctx => {
 };
 
 export const comment = async ctx => {
-  const {text, username, level, id} = ctx.request.body;
+  const {text, username, id} = ctx.request.body;
   const postDoc = await Post.findById(id);
   const post = new Post();
-  const commentDoc = post.comments.create({text:text, user:username, level:level});
+  const commentDoc = post.comments.create({text:text, user:username});
   postDoc.comments.push(commentDoc); //comment 배열에 add
   postDoc.save();    //comment DB 저장
   try{
-    ctx.body = postDoc.comments;
+    ctx.body = postDoc;
   } catch(e){
-    ctx.throw(500, e);
-  }
-};
-
-export const getComment = async ctx => {
-  console.log(1);
-    const { _id, title } = ctx.request.body;
-  if (!ObjectId.isValid(_id)) {
-    ctx.status = 400; // Bad Request
-    return;
-  }
-  try{
-    const postDoc = await Post.findById(ObjectId(_id));
-    if(!postDoc.comments){
-      ctx.status = 404 //Not found
-      return;
-    }
-    ctx.body = postDoc.comments;
-
-  } catch(e){
-    console.log(e);
     ctx.throw(500, e);
   }
 };
