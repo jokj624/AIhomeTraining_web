@@ -156,3 +156,19 @@ export const exercise = async ctx => {
     ctx.throw(500, e);
   }
 };
+
+export const updateTotalTime = async ctx => {
+  const { username, totalTime } = ctx.request.body;
+  try {
+    const filter = { username : username };
+    const total = totalTime;
+    console.log(total);
+    const update = { totalTime: total};
+    let doc = await User.findOneAndUpdate(filter, update, {
+    new: true
+  });
+  ctx.body = doc.serialize();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};

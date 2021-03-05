@@ -21,6 +21,10 @@ const [MODIFY, MODIFY_SUCCESS, MODIFY_FAILURE] = createRequestActionTypes(
     'auth/MODIFY'
   );
 
+  const [UPDATETOTALTIME, UPDATETOTALTIME_SUCCESS, UPDATETOTALTIME_FAILURE] = createRequestActionTypes(
+    'auth/UPDATETOTALTIME'
+  );
+
 export const changeField = createAction(
     CHANGE_FIELD,
     ({ form, key, value }) => ({
@@ -43,14 +47,21 @@ export const changeField = createAction(
     username,
     password
   }));
+  export const updateTotalTime = createAction(UPDATETOTALTIME, ({ username, totalTime }) => ({
+    username,
+    totalTime
+  }));
+  
   const registerSaga = createRequestSaga(REGISTER, authAPI.register);
   const loginSaga = createRequestSaga(LOGIN, authAPI.login);
   const modifySaga = createRequestSaga(MODIFY, authAPI.modify);
+  const updateTotalTimeSaga = createRequestSaga(UPDATETOTALTIME, authAPI.updateTotalTime);
 
   export function* authSaga() {
     yield takeLatest(REGISTER, registerSaga);
     yield takeLatest(LOGIN, loginSaga);
-    yield takeLatest(MODIFY, modifySaga);  };
+    yield takeLatest(MODIFY, modifySaga);
+    yield takeLatest(UPDATETOTALTIME, updateTotalTimeSaga);  };
 
   const initialState = {
     register: {
@@ -111,6 +122,16 @@ export const changeField = createAction(
       }),
       // 비밀번호변경 실패
       [MODIFY_FAILURE]: (state, { payload: error }) => ({
+        ...state,
+        authError: error
+      }),
+      [UPDATETOTALTIME_SUCCESS]: (state, { payload: auth }) => ({
+        ...state,
+        authError: null,
+        auth
+      }),
+      // 비밀번호변경 실패
+      [UPDATETOTALTIME_FAILURE]: (state, { payload: error }) => ({
         ...state,
         authError: error
       })

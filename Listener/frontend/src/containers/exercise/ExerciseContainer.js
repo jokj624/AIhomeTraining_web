@@ -9,6 +9,7 @@ import First from './First';
 import Responsive from '../../components/common/Responsive';
 import {Animated} from "react-animated-css";
 import { writeExercise } from '../../modules/exercise';
+import { updateTotalTime } from '../../modules/auth';
 
 //import squat from './image/squat';
 
@@ -78,8 +79,9 @@ const ExerciseContainer = () => {
       total = total/60;
       user.t = Number(total.toFixed(2));
       const username = user.username;
+      const totaltime = Number((user.t + user.totalTime).toFixed(2));
       dispatch(writeExercise({title: user.t, username : username}));
-
+      dispatch(updateTotalTime({ username : username, totalTime :totaltime }));
   };
   const videoOn = () => {
     setShowResults(true);

@@ -18,10 +18,9 @@ const Check = ({analysis}) => {
         authError: auth.authError,
         user: user.user
       }));
-      const total=user.s*60; 
-      const hours = parseInt(total/60/60);
-      const minutes = parseInt(total%(60*60)/60);
-      const seconds = parseInt(total%60);
+      const hours = parseInt(user.s/60/60);
+      const minutes = parseInt(user.s%(60*60)/60);
+      const seconds = parseInt(user.s%60);
       console.log(analysis);
 
     useEffect(() => {

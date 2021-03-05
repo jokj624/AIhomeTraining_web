@@ -9,5 +9,6 @@ auth.post('/logout', authCtrl.logout);
 auth.patch('/modify/:id', authCtrl.modify); 
 auth.patch('/level', authCtrl.findLevel);
 auth.post('/exercises', authCtrl.exercise);
+auth.patch('/exercises', authCtrl.updateTotalTime);
 
 export default auth;
