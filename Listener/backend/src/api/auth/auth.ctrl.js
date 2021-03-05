@@ -158,12 +158,13 @@ export const exercise = async ctx => {
 };
 
 export const updateTotalTime = async ctx => {
-  const { username, totalTime } = ctx.request.body;
+  const { username, totalTime, level } = ctx.request.body;
   try {
     const filter = { username : username };
     const total = totalTime;
+    const newlevel = level;
     console.log(total);
-    const update = { totalTime: total};
+    const update = { totalTime: total, level: newlevel};
     let doc = await User.findOneAndUpdate(filter, update, {
     new: true
   });
@@ -172,3 +173,20 @@ export const updateTotalTime = async ctx => {
     ctx.throw(500, e);
   }
 };
+/*
+export const updateLevel = async ctx => {
+  const { username, level } = ctx.request.body;
+  try {
+    const filter = { username : username };
+    const total = level;
+    console.log(total);
+    const update = { level: total};
+    let doc = await User.findOneAndUpdate(filter, update, {
+    new: true
+  });
+  ctx.body = doc.serialize();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+*/

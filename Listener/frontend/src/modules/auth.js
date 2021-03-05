@@ -24,7 +24,10 @@ const [MODIFY, MODIFY_SUCCESS, MODIFY_FAILURE] = createRequestActionTypes(
   const [UPDATETOTALTIME, UPDATETOTALTIME_SUCCESS, UPDATETOTALTIME_FAILURE] = createRequestActionTypes(
     'auth/UPDATETOTALTIME'
   );
-
+  /*const [UPDATELEVEL, UPDATELEVEL_SUCCESS, UPDATELEVEL_FAILURE] = createRequestActionTypes(
+    'auth/UPDATELEVEL'
+  );
+*/
 export const changeField = createAction(
     CHANGE_FIELD,
     ({ form, key, value }) => ({
@@ -47,21 +50,31 @@ export const changeField = createAction(
     username,
     password
   }));
-  export const updateTotalTime = createAction(UPDATETOTALTIME, ({ username, totalTime }) => ({
+  export const updateTotalTime = createAction(UPDATETOTALTIME, ({ username, totalTime ,level}) => ({
     username,
-    totalTime
+    totalTime,
+    level
   }));
-  
+  /*
+  export const updateLevel = createAction(UPDATELEVEL, ({ username, level }) => ({
+    username,
+    level
+  }));
+  */
+
   const registerSaga = createRequestSaga(REGISTER, authAPI.register);
   const loginSaga = createRequestSaga(LOGIN, authAPI.login);
   const modifySaga = createRequestSaga(MODIFY, authAPI.modify);
   const updateTotalTimeSaga = createRequestSaga(UPDATETOTALTIME, authAPI.updateTotalTime);
+  //const updateLevelSaga = createRequestSaga(UPDATELEVEL, authAPI.updateLevel);
 
   export function* authSaga() {
     yield takeLatest(REGISTER, registerSaga);
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(MODIFY, modifySaga);
-    yield takeLatest(UPDATETOTALTIME, updateTotalTimeSaga);  };
+    yield takeLatest(UPDATETOTALTIME, updateTotalTimeSaga);
+    //yield takeLatest(UPDATELEVEL, updateLevelSaga);  
+  };
 
   const initialState = {
     register: {
@@ -130,11 +143,20 @@ export const changeField = createAction(
         authError: null,
         auth
       }),
-      // 비밀번호변경 실패
       [UPDATETOTALTIME_FAILURE]: (state, { payload: error }) => ({
         ...state,
         authError: error
+      })/*,
+      [UPDATELEVEL_SUCCESS]: (state, { payload: auth }) => ({
+        ...state,
+        authError: null,
+        auth
+      }),
+      [UPDATELEVEL_FAILURE]: (state, { payload: error }) => ({
+        ...state,
+        authError: error
       })
+      */
     },
     initialState
   );

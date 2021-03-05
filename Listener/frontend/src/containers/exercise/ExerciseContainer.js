@@ -9,7 +9,7 @@ import First from './First';
 import Responsive from '../../components/common/Responsive';
 import {Animated} from "react-animated-css";
 import { writeExercise } from '../../modules/exercise';
-import { updateTotalTime } from '../../modules/auth';
+import { updateTotalTime, updateLevel } from '../../modules/auth';
 
 //import squat from './image/squat';
 
@@ -80,8 +80,25 @@ const ExerciseContainer = () => {
       user.t = Number(total.toFixed(2));
       const username = user.username;
       const totaltime = Number((user.t + user.totalTime).toFixed(2));
+      let newlevel = '🌱';
       dispatch(writeExercise({title: user.t, username : username}));
-      dispatch(updateTotalTime({ username : username, totalTime :totaltime }));
+
+      if (totaltime < 420) 
+        newlevel = '🌱';
+      else if (totaltime >= 420 && totaltime < 840)
+        newlevel = '🐣';
+      else if (totaltime >= 840 && totaltime < 1260)
+        newlevel = '👶';
+      else if (totaltime >= 1260 && totaltime < 1680)
+        newlevel = '🏋';
+      else if (totaltime >= 1680 && totaltime < 2100)
+        newlevel = '💪';
+      else if (totaltime >= 2100 && totaltime < 2520)
+        newlevel = '👿';
+      else
+        newlevel = '🦍';
+
+      dispatch(updateTotalTime({ username : username, totalTime :totaltime, level : newlevel}));
   };
   const videoOn = () => {
     setShowResults(true);
