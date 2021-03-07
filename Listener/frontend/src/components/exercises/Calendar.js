@@ -35,7 +35,7 @@ const Calendar = () => {
             plugins={[ dayGridPlugin, interaction ]}
             initialView = 'dayGridMonth'
             events = {user.exercises}
-            dayMaxEvents = 'true'
+            dayMaxEvents = {true}
             contentHeight = "800px"
             eventDisplay = 'block'
             eventBackgroundColor = "#1864ab"

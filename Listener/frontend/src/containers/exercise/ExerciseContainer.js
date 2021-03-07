@@ -48,7 +48,7 @@ let analysis = [];
 const getData = (data) => {
   analysis = data;
   console.log(analysis);
-};
+};   //Test.js 에서 analysis 객체 받아오는 함수
 
 const ExerciseContainer = () => {
   const dispatch = useDispatch();

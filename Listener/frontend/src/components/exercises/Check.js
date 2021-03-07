@@ -44,6 +44,10 @@ const Check = ({analysis}) => {
       {
         exname: "숄더 프레스",
         angle: []
+      },
+      {
+        exname: "나무 자세",
+        angle: []
       }
     ];
 
@@ -60,7 +64,7 @@ const Check = ({analysis}) => {
       else if(exer.exname == "사이드 런지 오른쪽"){
         idx = 2;
       }
-      else if(exer.exname == "숄더 프레스"){
+      else if(exer.exname == "숄더프레스"){
         idx = 3;
       }
       const inputX = exer.x, inputY = exer.y;

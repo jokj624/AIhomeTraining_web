@@ -20,10 +20,11 @@ const Wrapper = styled.div`
 
 const Test = ({getData}) => {
     let video, poseNet, brain, pose, skeleton,state = 'waiting';
-    let squat = 0, lungeL = 0, lungeR = 0, press = 0, ck = 0;  //운동 횟수 변수
-    let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0; // 각 운동 종료 여부 확인 변수
+    let squat = 0, lungeL = 0, lungeR = 0, press = 0, tree = 0, ck = 0;  //운동 횟수 변수
+    let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0, treeCk = 0; // 각 운동 종료 여부 확인 변수
     let poseLabel = '분석 중';
-    
+    let timer, timeover;
+
     let analysis = [
         {
             exname: "스쿼트",
@@ -42,6 +43,11 @@ const Test = ({getData}) => {
         },
         {
             exname: "숄더프레스",
+            x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            y: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        },
+        {
+            exname: "나무 자세",
             x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             y: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         }
@@ -65,9 +71,9 @@ const Test = ({getData}) => {
         };
         brain = ml5.neuralNetwork(options);  //ml5 neuralNetwork 시작
         const modelInfo = {
-            model:"https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0216/15sec/loss_0.02/model.json",
-            metadata : "https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0216/15sec/loss_0.02/model_meta.json",
-            weights: "https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0216/15sec/loss_0.02/model.weights.bin"
+            model:"https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0307/lr_0.02_epoch50_2/model.json",
+            metadata : "https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0307/lr_0.02_epoch50_2/model_meta.json",
+            weights: "https://smlistener.s3.ap-northeast-2.amazonaws.com/model_0307/lr_0.02_epoch50_2/model.weights.bin"
           };  //model load
          brain.load(modelInfo, brainLoaded);
     };
@@ -150,43 +156,55 @@ const Test = ({getData}) => {
             console.log(err);
             return;
         }
-        if(results && (results[0].confidence > 0.8)){
+        if(results && (results[0].confidence > 0.5)){
             let la = results[0].label;
             if(la == '0')    poseLabel = '분석 중';
             else if(la == '1')  poseLabel = '스쿼트';
-            else if(la == '2')  poseLabel = '런지';
-            else if(la == '3')  poseLabel = '런지';
-            //else if(la == '4')  poseLabel = '숄더프레스 전';
-            else if(la == '5')  poseLabel = '숄더프레스';
-            //else if(la == '6')  poseLabel = '나무 자세';
+            else if(la == '2')  poseLabel = '런지 왼쪽';
+            else if(la == '3')  poseLabel = '런지 오른쪽';
+            else if(la == '4')  poseLabel = '숄더프레스';
+            else if(la == '5')  poseLabel = '나무 자세';
           }
           else  poseLabel = '분석 중';
           if(poseLabel == '분석 중'){
               ck = 0;
+              if(tree>0 && !treeCk){        //나무 자세 시간 종료 전에 멈추면 다시 시작하라고 알림
+                  clearInterval(timer);
+                  clearTimeout(timeover);
+                  document.getElementById("test").innerHTML = "나무 자세 다시 시작 하세요";
+              }
           } 
           else {
             inputLabel(poseLabel);    //라벨, 횟수 화면에 보여주는
           }
-          //console.log(poseLabel);
+          console.log(poseLabel);
           classifyPose();
     };
 
-    const save = (index) => {
+    const save = (index, isTree) => {
         //현재 자세 좌표 저장하는 함수
-        for(let i = 0; i<pose.keypoints.length; i++){
-            let x = pose.keypoints[i].position.x;
-            let y = pose.keypoints[i].position.y;
-            console.log("x = %d",x);
-            console.log("y = %d",y)
-            analysis[index].x[i] += (x/3);
-            analysis[index].y[i] += (y/3);   //횟수로 미리 나눠서 평균 계산
+        //isTree == 1 => 나무 자세 좌표 (평균 낼 필요 없음)
+        if(!isTree){    
+            for(let i = 0; i<pose.keypoints.length; i++){
+                let x = pose.keypoints[i].position.x;
+                let y = pose.keypoints[i].position.y;
+                analysis[index].x[i] += (x/3);
+                analysis[index].y[i] += (y/3);   //횟수로 미리 나눠서 평균 계산
+            }
         }    
-        console.log(analysis[0]);
+        else{
+            for(let i = 0; i<pose.keypoints.length; i++){
+                let x = pose.keypoints[i].position.x;
+                let y = pose.keypoints[i].position.y;
+                analysis[index].x[i] += x;
+                analysis[index].y[i] += y;   
+            }
+        }
     };
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
         if(label == '스쿼트' && !ck && squat < 3){
-            save(0);  // 현재 좌표 저장
+            save(0, 0);  // 현재 좌표 저장
             squat += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
             ck = 1;
@@ -195,8 +213,8 @@ const Test = ({getData}) => {
                 squatCk = 1;
             }
         }  // 스쿼트 개수 세기 (임의로 3개로 해둠)
-        else if(label == '런지' && !ck && lungeL < 3 && squatCk==1){
-            save(1);
+        else if(label == '런지 왼쪽' && !ck && lungeL < 3 && squatCk==1){
+            save(1, 0);
             lungeL += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
             ck = 1;
@@ -205,8 +223,8 @@ const Test = ({getData}) => {
                 lungeLCk = 1;
             }
         }
-        else if(label == '런지' && !ck && lungeR < 3 && lungeL >= 3 && lungeLCk == 1){
-            save(2);
+        else if(label == '런지 오른쪽' && !ck && lungeR < 3 && lungeL >= 3 && lungeLCk == 1){
+            save(2, 0);
             lungeR += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
             ck = 1;
@@ -215,15 +233,32 @@ const Test = ({getData}) => {
                 lungeRCk = 1;
             }
         }
-        else if(label == '숄더프레스 후' && !ck && press < 3 && lungeRCk == 1){
-            save(3);
+        else if(label == '숄더프레스' && !ck && press < 3 && lungeRCk == 1){
+            save(3, 0);
             press += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
             ck = 1;
             if(press == 3 && !pressCk){
-                document.getElementById("test").innerHTML = "운동 종료";
-                pressCk = 1;
-                myCustomRedrawAccordingToNewPropsHandler();   //Exercise Container 로 analysis 배열 전달하는 함수 
+                document.getElementById("test").innerHTML = "나무 자세 시작하세요";
+                pressCk = 1; 
+            }
+        }
+        else if(label == '나무 자세' && !ck && pressCk == 1){
+            tree += 1;
+            ck = 1;   
+            if(!treeCk){
+                let sec = 15;
+                timer = setInterval(() => {
+                    if(sec == 2)    save(4, 1);     //종료 직전에 좌표 저장
+                    document.getElementById("test").innerHTML = `${label}` + " " + `${sec--}` + "초 남았습니다.";
+                }, 1000);   //1초마다 반복
+
+                timeover = setTimeout(()=>{
+                    clearInterval(timer);
+                    treeCk = 1;
+                    document.getElementById("test").innerHTML = "운동 종료";
+                    myCustomRedrawAccordingToNewPropsHandler();   //Exercise Container 로 analysis 배열 전달하는 함수
+                }, 16000);      //1초 더 많이 해야 잘 맞음
             }
         }
     };
