@@ -63,25 +63,6 @@ const PostItem = ({ post }) => {
 };
 
 const PostList = ({ posts, loading, error, showWriteButton }) => {
- /* const { levels } = useSelector(({ level }) => ({ 
-    levels : level.levelInfo,
-  }));
-  let arr = [];
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if(posts){
-    posts.map(post => (
-      dispatch(findLevel(post.user.username)),
-      arr.concat(levels.level)
-    ));
-    }
-    console.log(arr);
-    return () => {
-      dispatch(unloadLevel());
-    }
-  }, [dispatch, posts]); */
-  //게시판 글 보여줄 때 작성자 레벨 보여주게끔 ? 
-  //에러 발생 시 
   if (error) {
     return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
   }
@@ -89,7 +70,7 @@ const PostList = ({ posts, loading, error, showWriteButton }) => {
     <PostListBlock>
       <WritePostButtonWrapper>
       {showWriteButton && (
-          <Button cyan to="/write" style={{textDecoration: 'none', color: 'white'}}>
+          <Button to="/write" style={{textDecoration: 'none', color: 'white'}}>
             새 글 작성하기
           </Button>
         )}

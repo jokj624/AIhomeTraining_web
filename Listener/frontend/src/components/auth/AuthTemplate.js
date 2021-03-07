@@ -47,7 +47,7 @@ const AuthTemplate = ({ children }) => {
       <AuthTemplateBlock>
         <WhiteBox>
           <div className="logo-area">
-            <LinkTo to="/" style={{textDecoration:'none'}} >HOMETRAINING</LinkTo>
+            <LinkTo to="/" style={{textDecoration:'none', fontSize : '1.4rem'}} >MAIT</LinkTo>
           </div>
           {children}
         </WhiteBox>

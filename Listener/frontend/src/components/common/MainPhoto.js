@@ -26,15 +26,15 @@ const Wrap = styled.div`
 
 const Text = styled.div`
     position: absolute;
-    left: 50%;
+    left : 50%;
+    transform:translateX(-50%);
+    margin-left : 15px;
     top: 80%;
-    width: 200px;
-    margin-left: -100px;
+    padding: 0 10px;
     border 4px solid white;
     @media (max-width: 768px) {
-        width: 150px;
-        margin-left: -75px;
         border 3.5px solid white;
+        margin-left : 0px;
     }
 `;
 const H = styled.div`

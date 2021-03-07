@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>HomeTraining</title>
+        <title>MAIT_메이트</title>
       </Helmet>
       <Route component={HomePage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />

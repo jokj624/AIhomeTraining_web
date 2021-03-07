@@ -8,7 +8,7 @@ const Footer = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-5 col-xs-12 about-company">
-          <h2 style={{fontStyle: 'oblique', fontWeight:'bold'}}>Home Training</h2>
+          <h2 style={{fontStyle: 'oblique', fontWeight:'bold'}}>My AI Trainer</h2>
           <p className="pr-3">당신만의 Personal Trainer가 되어드립니다.<br/>지금 바로 운동을 시작하고 당신의 자세를 분석해보세요.</p>
         </div>
         <div className="col-lg-3 col-xs-12 links">

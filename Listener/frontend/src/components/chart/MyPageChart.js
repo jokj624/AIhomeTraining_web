@@ -34,17 +34,19 @@ const MyPageChart = () => {
         }
       ]
   };
-    let val = 1;
+
+    let val = 0;
     const time = user.user.totalTime;
-    if(time > 420 && time <= 840)   val = 2;
-    else if(time> 840 && time <= 1260) val = 3;
-    else if(time > 1260 && time <= 1680)    val = 4;
-    else if(time > 1680 && time <= 2100)    val = 5;
-    else if(time > 2100 && time <= 2520)    val = 6;
-    else if(time > 2520)  val = 7;    
-    data.datasets[0].data[0]=(time/(420 * val)) * 100;
-    data.datasets[0].data[1]=100-((time/(420 * val)) * 100);
-    const text = "현재 경험치 "+Math.round((time/(420 * val)) * 100)+"%"; 
+    if(time > 420 && time <= 840)   val = 420;
+    else if(time> 840 && time <= 1260) val = 840;
+    else if(time > 1260 && time <= 1680)    val = 1260;
+    else if(time > 1680 && time <= 2100)    val = 1680;
+    else if(time > 2100 && time <= 2520)    val = 2100;
+    else if(time > 2520)  val = 2520;    
+    data.datasets[0].data[0]=((time-val)/420) * 100;
+    data.datasets[0].data[1]=100-(((time-val)/420) * 100);
+    const text = "현재 경험치 "+((time-val)/420 * 100).toFixed(2)+"%"; 
+
     return (
         <MyDiv>
           <Doughnut data={data} />

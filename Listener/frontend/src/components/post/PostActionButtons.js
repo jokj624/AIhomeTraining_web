@@ -21,7 +21,7 @@ const ActionButton = styled.button`
   cursor: pointer;
   &:hover {
     background: ${palette.gray[1]};
-    color: ${palette.cyan[7]};
+    color: ${palette.blue[7]};
   }
   & + & {
     margin-left: 0.25rem;

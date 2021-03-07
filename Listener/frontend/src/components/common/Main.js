@@ -5,6 +5,8 @@ import Fade from 'react-reveal';
 import './Main.css'
 import MainPhoto from './MainPhoto';
 import MainCard from './MainCard';
+import MainAbout from './MainAbout';
+
 const Spacer1 = styled.div`
   height: 0.3rem;
 `;
@@ -32,11 +34,12 @@ const Main = () => {
       <>
       <Spacer1 />
       <MainPhoto/> 
-      <Fade bottom>
       <Tutorial>
+      <Fade bottom>
+        <MainAbout />
         <MainCard />
-      </Tutorial> 
       </Fade>
+      </Tutorial> 
       <Spacer1/>
       
       </>

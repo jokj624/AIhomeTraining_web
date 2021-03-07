@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import Test from '../../components/common/Test';
+import Test from '../../components/exercises/Test';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import palette from '../../lib/style/palette';
 import { useSelector, useDispatch } from 'react-redux';
-import Check from '../../components/common/Check';
+import Check from '../../components/exercises/Check';
 import First from './First';
 import Responsive from '../../components/common/Responsive';
 import {Animated} from "react-animated-css";
 import { writeExercise } from '../../modules/exercise';
+import { updateTotalTime, updateLevel } from '../../modules/auth';
+import './ExerciseContainer.css';
 
 //import squat from './image/squat';
 
 const ButtonWrapper = styled.div`
   position:absolute;
-  left:50%;
-  bottom: 0;
+  bottom: 0; left:50%;
   transform: translate(-50%, -50%);
+`;
+const StyledButton2 = styled(Button)`
+  background: ${palette.gray[7]};
+  &:hover {
+    background: ${palette.gray[5]};
+  }
 `;
 const StyledButton = styled(Button)`
   background: ${palette.gray[7]};
@@ -24,21 +31,24 @@ const StyledButton = styled(Button)`
     background: ${palette.gray[5]};
   }
   position:absolute;
-    left:50%;
-    bottom: 0;
-    transform: translate(-50%, -50%);
+  bottom: 0; left:50%;
+  transform: translate(-50%, -50%);
 `;
 const Spacer = styled.div`
   height: 4rem;
   `;
-const Wrapper = styled(Responsive)`
-    height : 100%;
-`;
+
 const Text = styled.div`
   display: block;
   width: 100%;
   text-align: center;
 `;
+
+let analysis = [];
+const getData = (data) => {
+  analysis = data;
+  console.log(analysis);
+};
 
 const ExerciseContainer = () => {
   const dispatch = useDispatch();
@@ -49,7 +59,6 @@ const ExerciseContainer = () => {
     user: user.user
   }));
   const expose = ["스쿼트", "런지", "숄더프레스"];
-  const [pose, setPose] = useState(1);
   const [showResults, setShowResults] = useState(false);
   const [first, setFirst] = useState(true);
   var total = 0;
@@ -57,6 +66,7 @@ const ExerciseContainer = () => {
   var minutes = 0;
   var hours = 0;
   var time;
+
 
   const videoOff = () => {
       if (showResults === true) {
@@ -71,8 +81,26 @@ const ExerciseContainer = () => {
       total = total/60;
       user.t = Number(total.toFixed(2));
       const username = user.username;
+      const totaltime = Number((user.t + user.totalTime).toFixed(2));
+      let newlevel = '🌱';
       dispatch(writeExercise({title: user.t, username : username}));
 
+      if (totaltime < 420) 
+        newlevel = '🌱';
+      else if (totaltime >= 420 && totaltime < 840)
+        newlevel = '🐣';
+      else if (totaltime >= 840 && totaltime < 1260)
+        newlevel = '👶';
+      else if (totaltime >= 1260 && totaltime < 1680)
+        newlevel = '🏋';
+      else if (totaltime >= 1680 && totaltime < 2100)
+        newlevel = '💪';
+      else if (totaltime >= 2100 && totaltime < 2520)
+        newlevel = '👿';
+      else
+        newlevel = '🦍';
+
+      dispatch(updateTotalTime({ username : username, totalTime :totaltime, level : newlevel}));
   };
   const videoOn = () => {
     setShowResults(true);
@@ -106,11 +134,19 @@ const ExerciseContainer = () => {
   return (
     <>
     <Spacer/>
-    <Wrapper>
-      {first && <div><First/><StyledButton onClick={videoOn}>시작</StyledButton></div>}
-      {showResults && <div>운동시간 <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span><Test/><StyledButton onClick={videoOff}>종료</StyledButton></div>}
-      {(!first && !showResults) && <div><Check/><ButtonWrapper><Button onClick={videoOn}>다시시작</Button> <Button onClick={linkTo}>끝내기</Button></ButtonWrapper></div>}
-    </Wrapper>
+    <div className="ec">
+      {first && <div><First/><Spacer/><StyledButton onClick={videoOn}>시작</StyledButton></div>}
+      {showResults && 
+      <div id="extime">
+        운동시간 <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span>
+        <Test getData = {getData}/><Spacer/><StyledButton onClick={videoOff}>종료</StyledButton>
+      </div>}
+      {(!first && !showResults) &&
+      <div>
+        <Check analysis={analysis}/>
+        <ButtonWrapper><StyledButton2 onClick={videoOn}>다시시작</StyledButton2> <StyledButton2 onClick={linkTo}>끝내기</StyledButton2></ButtonWrapper>
+      </div>}
+    </div>
     </>
   ) 
 };
