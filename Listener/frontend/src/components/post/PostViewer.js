@@ -1,10 +1,8 @@
-import React, {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/style/palette';
 import Responsive from '../common/Responsive';
 import SubInfo from '../common/SubInfo';
-import { findLevel } from '../../modules/level';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;

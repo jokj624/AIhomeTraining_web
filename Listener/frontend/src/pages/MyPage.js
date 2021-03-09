@@ -40,7 +40,7 @@ const MyPage = ({match}) => {
     else if(lv == '💪')  setStr('헬스 전문가');
     else if(lv == '👿')  setStr('PT 쌤');
     else if(lv == '🦍')  setStr('측정 불가');
-  }, []);   
+  }, [user]);   
  
     return (
       <>

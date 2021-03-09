@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/style/palette';
 import './MainAbout.css';
-import { nodeName } from 'jquery';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 

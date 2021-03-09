@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Responsive from './Responsive';
-import palette from '../../lib/style/palette'
 const NavBlock = styled.div`
   position: fixed;
   width: 100%;

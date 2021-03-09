@@ -1,9 +1,11 @@
 import Joi from 'joi';
 import User from '../../models/user';
 import bcrypt from 'bcrypt';
+
 /*
   POST /api/auth/register
 */
+
 export const register = async ctx => {
   // Request Body 검증하기
   const schema = Joi.object().keys({
@@ -153,6 +155,36 @@ export const exercise = async ctx => {
   try{
     ctx.body = exerDoc;
   } catch(e){
+    ctx.throw(500, e);
+  }
+};
+
+export const updateTotalTime = async ctx => {
+  const { user } = ctx.state;
+  const { username, totalTime } = ctx.request.body;
+  try {
+    const filter = { username : username };
+    const doc = {level: user.level, username: username};
+    if(user){
+    }else{  
+      ctx.state = 404;
+      return;
+    }
+    const time = totalTime;
+    if(time > 420 && time <= 840)   doc.level = "🐣";
+    else if(time> 840 && time <= 1260) doc.level = "👶";
+    else if(time > 1260 && time <= 1680)    doc.level = "🏋";
+    else if(time > 1680 && time <= 2100)    doc.level = "💪";
+    else if(time > 2100 && time <= 2520)    doc.level = "👿";
+    else if(time > 2520)  doc.level = '🦍';  
+
+    const total = totalTime;
+    const update = { totalTime: total,  level: doc.level };
+    let docUser = await User.findOneAndUpdate(filter, update, {
+    new: true
+  });
+  ctx.body = docUser.serialize();
+  } catch (e) {
     ctx.throw(500, e);
   }
 };
