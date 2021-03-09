@@ -1,17 +1,44 @@
-img {
-    width : 500px;
-    height: 500px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 #pose {
-    cursor: pointer;
-    position: absolute;
-    bottom : 10%;
-    right : 20%;
+    font-size: 2.5rem;
+    padding : 0px;
+    font-family: 'Anton', sans-serif;
+    padding: 1rem;
 }
 
+.ex {
+    text-align: center;
+}
+
+#image {
+    width: 500px;
+    height: 500px;
+    padding: 30px;
+}
+
+ol {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    width: 500px;
+}
+li {
+    padding: 0.7rem;
+}
 #posetext {
-    position: flex;
-    top : 25%;
-    right : 30%;
+    width: 500px;
+}
+
+#hello {
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%);
+}
+
+#order {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+   
 }

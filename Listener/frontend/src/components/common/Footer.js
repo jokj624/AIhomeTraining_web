@@ -31,12 +31,12 @@ const Footer = () => {
         <div className="col copyright">
             <h4 className="mt-lg-0 mt-sm-4 developer">‍<i class="fas fa-code"></i> Developers</h4>
             <p className="m-1 p-1">
-                <span className="dev"><a href = "https://github.com/jokj624"><i class="fab fa-github-square mr-3"></i></a> 채정아</span> 
-                <span className="dev"><a href = "https://github.com/coolkim99"><i class="fab fa-github-square mr-3"></i></a> 김시원</span>
-                <span className="dev"><a href = "https://github.com/EunHye146"><i class="fab fa-github-square mr-3"></i></a> 주은혜</span>
+                <span className="dev"><a href = "https://github.com/jokj624"><i className="fab fa-github-square mr-3"></i></a> 채정아</span> 
+                <span className="dev"><a href = "https://github.com/coolkim99"><i className="fab fa-github-square mr-3"></i></a> 김시원</span>
+                <span className="dev"><a href = "https://github.com/EunHye146"><i className="fab fa-github-square mr-3"></i></a> 주은혜</span>
             </p>
-          <p><midium></midium></p>
-          <p><midium>© 2021. All Rights Reserved.<br/> <a href="https://github.com/jokj624/AIhomeTraining_web" style={{color:'#616161'}}>HomeTraining's Github</a></midium></p>
+          <p></p>
+          <p>© 2021. All Rights Reserved.<br/> <a href="https://github.com/jokj624/AIhomeTraining_web" style={{color:'#616161'}}>HomeTraining's Github</a></p>
         </div>
       </div>
     </div>

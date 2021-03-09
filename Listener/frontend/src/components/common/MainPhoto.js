@@ -4,21 +4,12 @@ import exercise2 from '../../img/exercise19.jpg'
 import exercise3 from '../../img/exercise18.jpg'
 import exercise4 from '../../img/exercise20.jpg'
 import exercise5 from '../../img/exercise15.jpg'
-import Responsive from './Responsive';
 import Slider from 'react-slick';
 import Fade from 'react-reveal';
 import { Link } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './MainPhoto.css';
-
-
-const Wrapper = styled(Responsive)`
-    display: flex;
-    width:100%;
-    padding-left: 0;
-    padding-right: 0;
-`;
 
 const Wrap = styled.div`
     position: relative;

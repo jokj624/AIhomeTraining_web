@@ -1,13 +1,10 @@
-import React, {useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import Button from '../common/Button';
 import palette from '../../lib/style/palette';
 import SubInfo from '../common/SubInfo';
-import { findLevel, unloadLevel } from '../../modules/level';
 import { Link } from 'react-router-dom';
-import user from '../../modules/user';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;

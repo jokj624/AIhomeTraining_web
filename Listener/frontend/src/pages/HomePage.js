@@ -18,6 +18,10 @@ const ButtonHome = styled(Button)`
   &:hover {
     background: ${palette.gray[6]};
   }
+  @media (max-height : 800px) {
+    width : 200px;
+    height : 60px;
+  }
 `;
 
 const VideoDiv = styled.div`
@@ -59,6 +63,7 @@ const BtnDiv = styled.div`
     left : 50%;
     transform:translateX(-50%);
   }
+
 `;
 
 const Title = styled.div`
@@ -78,6 +83,15 @@ const Title = styled.div`
   span {
     font-size : 9rem;
     text-shadow : 10px 10px black;
+  }
+
+  @media (max-height : 800px) {
+    h1 {
+      font-size : 4rem;
+    }
+    span {
+      font-size : 6rem;
+    }
   }
 `;
 

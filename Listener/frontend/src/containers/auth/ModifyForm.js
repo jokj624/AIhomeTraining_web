@@ -8,10 +8,8 @@ import { logout } from '../../modules/user';
 const ModifyForm = ({history}) => {
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
-    const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
+    const { form, user } = useSelector(({ auth, user }) => ({
       form: auth.modify,
-      auth: auth,
-      authError: auth.authError,
       user: user.user
     }));
     // 인풋 변경 이벤트 핸들러

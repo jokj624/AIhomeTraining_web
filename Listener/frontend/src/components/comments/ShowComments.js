@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/style/palette';
-import { useDispatch, useSelector } from 'react-redux';
 import Comment from '../common/Comment';
 
 

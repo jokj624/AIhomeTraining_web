@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { useSelector } from 'react-redux';
@@ -50,9 +50,7 @@ const MyPageChart = () => {
           <Doughnut data={data} />
           <Level>{text}</Level>
         </MyDiv>
-        
       );
-
 };
   
   export default MyPageChart;

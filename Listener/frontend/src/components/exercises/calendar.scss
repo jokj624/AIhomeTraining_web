@@ -47,7 +47,7 @@
 
 .fc .fc-daygrid-body { /* a <div> that wraps the table */
     position: relative;
-    z-index: -1; /* container inner z-index's because <tr>s can't do it */
+    z-index: 0; /* container inner z-index's because <tr>s can't do it */
   }
 
 
