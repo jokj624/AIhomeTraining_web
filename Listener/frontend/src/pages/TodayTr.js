@@ -7,10 +7,7 @@ import FooterContainer from '../containers/common/FooterContainer';
 import styled  from 'styled-components';
 
 const Background = styled.div`
-background: -webkit-linear-gradient(110deg, #8c9fbf 40%, #e9ecef 40%);
-background: -o-linear-gradient(110deg,   #8c9fbf 40%, #e9ecef 40%);
-background: -moz-linear-gradient(110deg,#8c9fbf 40%, #e9ecef 40%);
-background: linear-gradient(110deg,   #8c9fbf 40%, #e9ecef 40%);
+background: linear-gradient(120deg, #d8e2ed 33%, #f5f5f5 33%);
 `;
 
 const TodayTr = () => {
