@@ -7,9 +7,11 @@ const Progress = styled.div`
     position: relative;
     height: 30px;
     width: 450px;
+    top : 200px;
     margin : 0 auto;
     @media (max-width: 750px) {
         width: 350px;
+        height : 500px
     }
 `;
 

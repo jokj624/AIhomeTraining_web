@@ -256,10 +256,11 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </ol>
                 </span>
                 </Animated>}
+                {(exerciseEx) &&
                 <Order>
                     {timeover && <StyledButtonPre onClick={prePose}><NavigateBeforeIcon/>이전 운동</StyledButtonPre>}
                     {timeover && <StyledButtonNext onClick={nextPose}>다음 운동<NavigateNextIcon/></StyledButtonNext>}
-                </Order>              
+                </Order>}              
         </div>
         </>
     );

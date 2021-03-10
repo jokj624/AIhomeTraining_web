@@ -78,7 +78,8 @@ const Check = ({analysis}) => {
       }
       const inputX = exer.x, inputY = exer.y;
       //왼쪽 허리 부분 (상체-하체)
-      userAngle[idx].angle[0] = (Math.abs(Math.atan2(inputY[13] - inputY[11], inputX[13] - inputX[11])) + Math.abs(Math.atan2(inputY[5] - inputY[11], inputX[5] - inputX[11]))) * (180 / Math.PI);
+      userAngle[idx].angle[0] += (Math.abs(Math.atan2(inputY[13] - inputY[11], inputX[13] - inputX[11])) + Math.abs(Math.atan2(inputY[5] - inputY[11], inputX[5] - inputX[11]))) * (180 / Math.PI);
+      console.log(userAngle[idx].angle[0][0]);
       //오른쪽 허리 부분 (상체-하체)
       userAngle[idx].angle[1] += 360 - (Math.abs(Math.atan2(inputY[14] - inputY[12], inputX[14] - inputX[12])) + Math.abs(Math.atan2(inputY[6] - inputY[12], inputX[6] - inputX[12]))) * (180 / Math.PI);
       //왼쪽 상체 팔(겨드랑이 부분)
@@ -101,7 +102,7 @@ const Check = ({analysis}) => {
       let squatms = [], lungeLms = [], lungeRms = [], pressms = [], treems = [];
       //스쿼트
       cmp = parseFloat(trainerAngle[0]["0"]) - userAngle[0].angle[0];   //스쿼트 허리 계산
-      console.log(userAngle[0].angle.length);
+      console.log(userAngle[0].angle);
       if(cmp > 10){
         str = "상체를 조금 더 세우세요";
         squatms.push(str);
@@ -222,7 +223,6 @@ const Check = ({analysis}) => {
       <Loading>
         {!showResults && <LoadingBar done={100}/>}  
       </Loading>
-
     </Wrapper>
   )
 };
