@@ -9,7 +9,7 @@ const HeaderBlock = styled.div`
   position: fixed;
   width: 100%;
   background: white;
-  z-index : 1;
+  z-index : 100;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
 `;
 

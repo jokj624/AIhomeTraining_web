@@ -3,12 +3,17 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {Animated} from "react-animated-css";
 import LoadingBar from '../common/LoadingBar';
-import './Check.css';
 import Responsive from '../common/Responsive';
+import ExerciseResult from './ExerciseResult';
 
-const Wrapper = styled.div`
+const Wrapper1 = styled.div`
   position:relative;
-  height: 600px;
+  text-align: center;
+`;
+
+const Wrapper2 = styled.div`
+height : 500px;
+  position:relative;
   text-align: center;
 `;
 
@@ -19,13 +24,27 @@ const Loading = styled(Responsive)`
 
 `;
 
+const Spacer = styled.div`
+  height: 5rem;
+  `;
+
 const Check = ({analysis}) => {
     const [showResults, setShowResults] = useState(false);
     const [trainerAngle, setTrainer] = useState([]);
+    const [result, setResult] = useState([]);
     const [loading, setLoading] = useState(false);
     const { user } = useSelector(({ user }) => ({
         user: user.user
       }));
+    let mistakes = [   
+      {
+        squat: [],
+        lungeL: [],
+        lungeR: [],
+        press: [],
+        tree: []
+      }
+    ]
     let userAngle = [
       {
         exname: "스쿼트",
@@ -48,16 +67,6 @@ const Check = ({analysis}) => {
         angle: []
       }
     ];
-    //자세 분석 결과 저장
-    let mistakes = [   
-      {
-        squat: [],
-        lungeL: [],
-        lungeR: [],
-        press: [],
-        tree: []
-      }
-    ]
     const hours = parseInt(user.s/60/60);
     const minutes = parseInt(user.s%(60*60)/60);
     const seconds = parseInt(user.s%60);
@@ -78,31 +87,38 @@ const Check = ({analysis}) => {
       }
       const inputX = exer.x, inputY = exer.y;
       //왼쪽 허리 부분 (상체-하체)
-      userAngle[idx].angle[0] += (Math.abs(Math.atan2(inputY[13] - inputY[11], inputX[13] - inputX[11])) + Math.abs(Math.atan2(inputY[5] - inputY[11], inputX[5] - inputX[11]))) * (180 / Math.PI);
-      console.log(userAngle[idx].angle[0][0]);
+      userAngle[idx].angle.push((Math.abs(Math.atan2(inputY[13] - inputY[11], inputX[13] - inputX[11])) + Math.abs(Math.atan2(inputY[5] - inputY[11], inputX[5] - inputX[11]))) * (180 / Math.PI));
       //오른쪽 허리 부분 (상체-하체)
-      userAngle[idx].angle[1] += 360 - (Math.abs(Math.atan2(inputY[14] - inputY[12], inputX[14] - inputX[12])) + Math.abs(Math.atan2(inputY[6] - inputY[12], inputX[6] - inputX[12]))) * (180 / Math.PI);
+      userAngle[idx].angle.push(360 - (Math.abs(Math.atan2(inputY[14] - inputY[12], inputX[14] - inputX[12])) + Math.abs(Math.atan2(inputY[6] - inputY[12], inputX[6] - inputX[12]))) * (180 / Math.PI));
       //왼쪽 상체 팔(겨드랑이 부분)
-      userAngle[idx].angle[2] += (Math.abs(Math.atan2(inputY[11] - inputY[5], inputX[11] - inputX[5])) + Math.abs(Math.atan2(inputY[7] - inputY[5], inputX[7] - inputX[5]))) * (180 / Math.PI);
+      userAngle[idx].angle.push((Math.abs(Math.atan2(inputY[11] - inputY[5], inputX[11] - inputX[5])) + Math.abs(Math.atan2(inputY[7] - inputY[5], inputX[7] - inputX[5]))) * (180 / Math.PI));
       //오른쪽 상체 팔(겨드랑이 부분)
-      userAngle[idx].angle[3] += 360 - (Math.abs(Math.atan2(inputY[8] - inputY[6], inputX[8] - inputX[6])) + Math.abs(Math.atan2(inputY[12] - inputY[6], inputX[12] - inputX[6]))) * (180 / Math.PI);
+      userAngle[idx].angle.push(360 - (Math.abs(Math.atan2(inputY[8] - inputY[6], inputX[8] - inputX[6])) + Math.abs(Math.atan2(inputY[12] - inputY[6], inputX[12] - inputX[6]))) * (180 / Math.PI));
       //왼쪽 팔꿈치
-      userAngle[idx].angle[4] += (Math.abs(Math.atan2(inputY[9] - inputY[7], inputX[9] - inputX[7])) + Math.abs(Math.atan2(inputY[5] - inputY[7], inputX[5] - inputX[7]))) * (180 / Math.PI);
+      userAngle[idx].angle.push((Math.abs(Math.atan2(inputY[9] - inputY[7], inputX[9] - inputX[7])) + Math.abs(Math.atan2(inputY[5] - inputY[7], inputX[5] - inputX[7]))) * (180 / Math.PI));
       //오른쪽 팔꿈치 
-      userAngle[idx].angle[5] += 360 - (Math.abs(Math.atan2(inputY[10] - inputY[8], inputX[10] - inputX[8])) + Math.abs(Math.atan2(inputY[6] - inputY[8], inputX[6] - inputX[8]))) * (180 / Math.PI);
+      userAngle[idx].angle.push(360 - (Math.abs(Math.atan2(inputY[10] - inputY[8], inputX[10] - inputX[8])) + Math.abs(Math.atan2(inputY[6] - inputY[8], inputX[6] - inputX[8]))) * (180 / Math.PI));
       //왼쪽 무릎
-      userAngle[idx].angle[6] += (Math.abs((Math.atan2(inputY[15] - inputY[13], inputX[15] - inputX[13])) + Math.abs(Math.atan2(inputY[11] - inputY[13], inputX[11] - inputX[13])))) * (180 / Math.PI);
+      userAngle[idx].angle.push((Math.abs((Math.atan2(inputY[15] - inputY[13], inputX[15] - inputX[13])) + Math.abs(Math.atan2(inputY[11] - inputY[13], inputX[11] - inputX[13])))) * (180 / Math.PI));
       //오른쪽 무릎
-      userAngle[idx].angle[7] += 360 - (Math.abs((Math.atan2(inputY[16] - inputY[14], inputX[16] - inputX[14])) + Math.abs(Math.atan2(inputY[12] - inputY[14], inputX[12] - inputX[14])))) * (180 / Math.PI);
+      userAngle[idx].angle.push(360 - (Math.abs((Math.atan2(inputY[16] - inputY[14], inputX[16] - inputX[14])) + Math.abs(Math.atan2(inputY[12] - inputY[14], inputX[12] - inputX[14])))) * (180 / Math.PI));
+      console.log(userAngle[idx]);
+     
+      if(idx == 4){
+        calculateAngle();
+      }
     };
 
     const calculateAngle = () => {
+       //자세 분석 결과 저장
+    
       let cmp = 0.0; //각도 차
       let str = "";
       let squatms = [], lungeLms = [], lungeRms = [], pressms = [], treems = [];
+
+      console.log(userAngle[0].angle[7]);
       //스쿼트
       cmp = parseFloat(trainerAngle[0]["0"]) - userAngle[0].angle[0];   //스쿼트 허리 계산
-      console.log(userAngle[0].angle);
       if(cmp > 10){
         str = "상체를 조금 더 세우세요";
         squatms.push(str);
@@ -140,6 +156,7 @@ const Check = ({analysis}) => {
         lungeRms.push(str);
       }
       cmp = trainerAngle[2]["7"] - userAngle[2].angle[7];   //런지 오른쪽 무릎
+      console.log(userAngle[2].angle[7]);
       if(cmp < -10){
         str = "오른쪽 무릎을 조금 더 굽히세요";
         lungeRms.push(str);
@@ -174,6 +191,7 @@ const Check = ({analysis}) => {
         treems.push(str);
       }
       cmp = trainerAngle[4]["7"] - userAngle[4].angle[7];   //나무자세 오른쪽 무릎
+      console.log(trainerAngle[4]["7"]);
       if(cmp < -10){
         str = "오른쪽 무릎을 위로 더 굽히세요";
         treems.push(str);
@@ -183,6 +201,10 @@ const Check = ({analysis}) => {
       mistakes[0].lungeR = lungeRms;
       mistakes[0].press = pressms;
       mistakes[0].tree = treems;
+      setResult(mistakes);
+      setTimeout(()=> {
+        setShowResults(true);
+      }, 3000);
     }
 
     useEffect(() => {
@@ -192,38 +214,32 @@ const Check = ({analysis}) => {
         .then(json => {
            setTrainer(json);
            setLoading(true);
-        }).then(() => {
-            analysis.map(exer => {
-              angle(exer);
-          });
-        });
-        console.log(userAngle);
+        })
         
-      setTimeout(()=>{
-     //   setShowResults(true);
-      }, 4000);
     }, [])   
     
     useEffect(() => {
       if(loading){
-        calculateAngle();
-        console.log(mistakes);
+        analysis.map(exer => {
+          angle(exer);
+        });
+        
       }
     }, [loading])
 
     
-
   return (
-    <Wrapper> 
-      <div id="checkcon">
-      {showResults && 
-      <Animated>운동한 시간 : {hours}시간 {minutes}분 {seconds}초</Animated>}<br/><br/> 
-      {showResults&&<Animated>운동을 다시 진행하시려면 다시하기 버튼을,<br/>끝내시려면 끝내기 버튼을 눌러주세요.</Animated> }
-    </div>
+    <>
+    {showResults && <Wrapper1> 
+      <Spacer/>
+      <Animated><ExerciseResult mistakes = { result }/> </Animated>
+    </Wrapper1>}
+    {!showResults &&<Wrapper2>
       <Loading>
-        {!showResults && <LoadingBar done={100}/>}  
+         <LoadingBar done={100}/>
       </Loading>
-    </Wrapper>
+      </Wrapper2>}  
+      </>
   )
 };
 

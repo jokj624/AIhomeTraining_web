@@ -3,11 +3,14 @@ import Sketch from "react-p5";
 import ml5 from "ml5";
 import styled from 'styled-components';
 import {Animated} from "react-animated-css";
+import './Test.css';
 
 const LabelBlock = styled.div`
     font-size : 3em;
-    margin: 0.3rem;
     text-align : center;
+    font-weight: bold;
+    padding: 1rem;
+
 `;
 const Spacer = styled.div`
     height: 4rem;
@@ -18,12 +21,14 @@ const Wrapper = styled.div`
     text-align: center;
 `;  
 
-const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
+const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes, hours}) => {
     let video, poseNet, brain, pose, skeleton,state = 'waiting';
     let squat = 0, lungeL = 0, lungeR = 0, press = 0, tree = 0, ck = 0;  //운동 횟수 변수
     let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0, treeCk = 0; // 각 운동 종료 여부 확인 변수
     let poseLabel = '분석 중';
     let timer, timeover;
+    const ww = window.innerWidth*0.7;
+    const wh = window.innerHeight*0.7;
 
     let analysis = [
         {
@@ -55,11 +60,11 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
     useEffect(() => {
         myCustomRedrawAccordingToNewPropsHandler();
     }, []) //test
-    
+
     const setup = (p5,  canvasParentRef) => {
-        p5.createCanvas(900, 550).parent(canvasParentRef);
+        p5.createCanvas(window.innerWidth*0.7, window.innerHeight*0.7).parent(canvasParentRef);
         video = p5.createCapture(p5.VIDEO);
-        video.size(900,550);
+        video.size(window.innerWidth*0.7, window.innerHeight*0.7);
         video.hide();
         poseNet = ml5.poseNet(video);   //posenet 시작
         poseNet.on('pose',gotPoses);
@@ -81,24 +86,27 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
     const draw = (p5) => {
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
-        p5.image(video, 0, 0, 900, 550);
+        p5.image(video, 0, 0, window.innerWidth*0.7, window.innerHeight*0.7);
         if(pose){
             for(let i=0; i<skeleton.length; i++){
                 let a = skeleton[i][0];
                 let b = skeleton[i][1];
                 p5.strokeWeight(2);
                 p5.stroke(73, 161, 165);
-                p5.line(a.position.x, a.position.y, b.position.x, b.position.y);
+                p5.line(a.position.x*(window.innerWidth*0.7/ww), a.position.y*(window.innerHeight*0.7/wh), b.position.x*(window.innerWidth*0.7/ww), b.position.y*(window.innerHeight*0.7/wh));
             }
             for(let i = 0; i<pose.keypoints.length; i++){
-                let x = pose.keypoints[i].position.x;
-                let y = pose.keypoints[i].position.y;
+                let x = pose.keypoints[i].position.x*(window.innerWidth*0.7/ww);
+                let y = pose.keypoints[i].position.y*(window.innerHeight*0.7/wh);
                 p5.fill(0);
                 p5.stroke(255);
                 p5.ellipse(x,y,10,10); 
             }
         }
     };
+    const windowResized = (p5) => {
+        p5.resizeCanvas(window.innerWidth*0.7, window.innerHeight*0.7, true);
+      };
     
 
     const myCustomRedrawAccordingToNewPropsHandler = () => {
@@ -283,7 +291,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
     <>
     <Wrapper>
     <Animated animationIn="fadeIn"><LabelBlock id='test'>스쿼트를 시작하세요</LabelBlock></Animated>
-      <Sketch setup={setup} draw={draw}/>
+      <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
     </Wrapper>
     </>
    )
