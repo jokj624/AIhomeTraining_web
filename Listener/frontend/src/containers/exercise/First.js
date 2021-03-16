@@ -5,32 +5,39 @@ import image1 from '../../img/squat.gif';
 import image2 from '../../img/lunge.gif';
 import image3 from '../../img/shoulderpress.gif';
 import image4 from '../../img/tree.png';
-import './First.css'; //이거 키면 main 이상해져
+import './First.css';
 import Button from '../../components/common/Button';
 import palette from '../../lib/style/palette';
 import Responsive from '../../components/common/Responsive';
 import FirstExer from '../../components/exercises/FirstExer';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-
-
 const Hello = styled(Responsive)`
     text-align : center;
     
 `;
-
-const Wrapper = styled.div`
+const Wrapper1 = styled.div`
 font-size : 16px;
 margin : 0 auto;
 height: 600px;
-@media screen (max-width: 768px) {
-    height : 950px;
+@media (max-width: 768px) {
+    height : 750px;
+};
+@media (max-width: 500px) {
+    height : 850px;
 };
 `;
+
+const Wrapper2 = styled.div`
+font-size : 16px;
+margin : 0 auto;
+height: 630px;
+`;
+
+
 const Spacer = styled.div`
   height: 4rem;
   `;
-
 
   const StyledButtonPre = styled(Button)`
   background: ${palette.gray[6]};
@@ -41,8 +48,11 @@ const Spacer = styled.div`
     margin-right: 24rem;
     display : inline-block;
     padding-left : 5px;
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
         margin-right: 8rem;
+    };
+    @media (max-width: 500px) {
+        margin-right: 1rem;
     };
 `;
 const StyledButtonNext = styled(Button)`
@@ -54,32 +64,31 @@ background: ${palette.gray[6]};
   margin-left: 24rem;
   display : inline-block;
   padding-right : 5px;
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
       margin-left: 8rem;
   };
+  @media (max-width: 500px) {
+    margin-left: 1rem;
+};
 `;
 const Order = styled.div`
 @media screen (max-width: 768px) {
   align-items : center;
 };
 `
-
 const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
        const [timeover, setTimeover] = useState(false);
        const [visible1, setVisible1] = useState(true);
        const [visible2, setVisible2] = useState(true);
        const [exerciseEx, setExerciseEx] = useState(false);
        const [pose, setPose] = useState(0);
-
        const styleExplain = {
         fontSize : "1.3rem",
         textAlign : "center"
     };
-
     const styleExercise = {
      textAlign : "center"
     };
-
        let time1=0;
        let menus = ["안녕하세요", "운동을 시작해보겠습니다.", "우리가 할 운동은 다음과 같이 4가지 입니다."];
         let menuList = menus.map((menu) => {
@@ -87,7 +96,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     animationIn="fadeIn" 
                     animationInDelay={1000} 
                     animationOut="fadeOut" 
-                    animationOutDelay={2000} 
+                    animationOutDelay={1000} 
                     isVisible={visible1}
                     style = {styleExplain}>{menu}</Animated>
         });
@@ -95,12 +104,11 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
      useEffect(() => {
         setTimeout(function() {
             setVisible1(false);
-        }, 5000);
+        }, 4000);
         setTimeout(function() {
             setTimeover(true);
-        }, 8000);
+        }, 6000);
      }, []);
-
 
      const nextPose = () => {
         if (pose === 0)
@@ -112,7 +120,6 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
         else
             setPose(0);
      };
-
      const prePose = () => {
          if (pose === 1)
             setPose(0);
@@ -123,49 +130,44 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
         else
             setPose(3);
      }
-
      const showExer = () => {
          setVisible2(false);
          setTimeout(function() {
             setExerciseEx(true);
          }, 3000);
      }
-
      const setSCount = (e) => {
          setSquatCount(e.target.value);
      }
-
      const setLCount = (e) => {
         setLungeCount(e.target.value);
      }
-
      const setShCount = (e) => {
          setShoulderCount(e.target.value);
      }
     
-
     return (
         <>
-        
         {!timeover &&
-         <Wrapper>
-         <Spacer/>
+         <Wrapper1>
+         <Spacer/><Spacer/>
          <Hello>{menuList}
          <Spacer/>
              <Animated
                  animationIn="fadeIn"
                  animationInDelay={2000}
                  animationOut="fadeOut"
-                 animationOutDelay={2000}
+                 animationOutDelay={1000}
                  isVisible={visible1}
              >
                  <FirstExer/>
              </Animated>
          </Hello>
-     </Wrapper>}
+     </Wrapper1>}
         {( timeover && !exerciseEx ) &&
-        <Wrapper>
+        <Wrapper2>
             <div id="hello">
+                <Spacer/>
                 <Animated animationIn="fadeIn" animationInDelay={1000} animationOut="fadeOut" animationOutDelay={500} isVisible={visible2}>
                 <div className="inputWrapper">
                 <div id="setCount">먼저 각 운동별 목표 개수를 입력해주세요.<br/>운동 준비가 되었다면 시작버튼을,<br/>운동 자세를 보시려면 운동자세 보기를 눌러주세요.</div>
@@ -175,7 +177,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                             스쿼트
                             </td>
                             <td>
-                            <input className="inputBox" type="text" onChange={setSCount} placeholder="15"/>
+                            <input className="inputBox" type="number" onChange={setSCount} placeholder="15"/>
                             </td>
                             <div className="recomend" id="squEx">스쿼트는 10~15회씩 3~5set를 기본으로 합니다. 처음이시라면 10회부터 시작하여 천천히 늘려보세요.</div>
                         </tr>
@@ -184,7 +186,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                             런지
                             </td>
                             <td>
-                            <input className="inputBox" type="text" onChange={setLCount} placeholder="15"/>
+                            <input className="inputBox" type="number" onChange={setLCount} placeholder="15"/>
                             </td>
                             <div className="recomend" id="lunEx">런지는 한 쪽 다리에 10~15회씩 3~5set를 기본으로 합니다. 처음이시라면 10회부터 시작하여 천천히 늘려보세요.</div>
                         </tr>
@@ -193,7 +195,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                             숄더프레스
                             </td>
                             <td>
-                            <input className="inputBox" type="text" onChange={setShCount} placeholder="15"/>
+                            <input className="inputBox" type="number" onChange={setShCount} placeholder="15"/>
                             </td>
                             <div className="recomend" id="preEx">숄더프레스는 6~15회씩 4set를 기본으로 합니다. 자신에게 알맞은 무게의 덤벨을 이용하면 더 큰 운동 효과를 볼 수 있습니다. 가벼운 무게부터 시작하여 천천히 중량을 늘려보세요.</div>
                         </tr>
@@ -202,9 +204,12 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </div>
                 </Animated>
             </div>
-        </Wrapper>}
+        </Wrapper2>}
+        {exerciseEx && 
+        <Animated animationIn="fadeIn" animationInDelay={500}>
+            <Spacer/>
         <div className="ex">
-                {(exerciseEx && pose === 0) && <Animated animationIn="fadeIn" animationInDelay={500}>
+                {(pose === 0) && <Animated animationIn="fadeIn" animationInDelay={500}>
                 <div id="pose">SQUAT</div>
                 <img id="image" src={image1}/>
                 <span id="posetext">
@@ -217,7 +222,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </ol>
                 </span>
                 </Animated>}
-                {(exerciseEx && pose === 1) && <Animated animationIn="fadeIn" animationInDelay={500}>
+                {(pose === 1) && <Animated animationIn="fadeIn" animationInDelay={500}>
                 <div id="pose">SIDE LUNGE</div>
                 <img id="image" src={image2}/>
                 <span id="posetext">
@@ -230,7 +235,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </ol>
                 </span>
                 </Animated>}
-                {(exerciseEx && pose === 2) && <Animated animationIn="fadeIn" animationInDelay={500}>
+                {(pose === 2) && <Animated animationIn="fadeIn" animationInDelay={500}>
                 <div id="pose">SHOULDER PRESS</div>
                 <img id="image" src={image3}/>
                 <span id="posetext">
@@ -243,7 +248,7 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </ol>
                 </span>
                 </Animated>}
-                {(exerciseEx && pose === 3) && <Animated animationIn="fadeIn" animationInDelay={500}>
+                {(pose === 3) && <Animated animationIn="fadeIn" animationInDelay={500}>
                 <div id="pose">TREE POSE</div>
                 <img id="image" src={image4}/>
                 <span id="posetext">
@@ -256,14 +261,13 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </ol>
                 </span>
                 </Animated>}
-                {(exerciseEx) &&
                 <Order>
-                    {timeover && <StyledButtonPre onClick={prePose}><NavigateBeforeIcon/>이전 운동</StyledButtonPre>}
-                    {timeover && <StyledButtonNext onClick={nextPose}>다음 운동<NavigateNextIcon/></StyledButtonNext>}
-                </Order>}              
+                    {exerciseEx && <StyledButtonPre onClick={prePose}><NavigateBeforeIcon/>이전 운동</StyledButtonPre>}
+                    {exerciseEx && <StyledButtonNext onClick={nextPose}>다음 운동<NavigateNextIcon/></StyledButtonNext>}
+                </Order>              
         </div>
+        </Animated>}
         </>
     );
 };
-
 export default First;

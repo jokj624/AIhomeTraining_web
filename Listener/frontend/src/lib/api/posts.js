@@ -14,6 +14,15 @@ export const listPosts = ({ page, username }) => {
     return client.get(`/api/posts?${queryString}`);
 };
 
+export const searchPosts = ({ page, option, content }) => {
+  const queryString = qs.stringify({
+    page,
+    option,
+    content
+  });
+  return client.get(`/api/posts/search?${queryString}`);
+}
+
 export const updatePost = ({ id, title, body, tags }) =>
   client.patch(`/api/posts/${id}`, {
     title,

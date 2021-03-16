@@ -9,7 +9,14 @@
 
 .ex {
     position: relative;
+    width: 90%;
+    left: 5%;
     text-align: center;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 5px gray;
+    padding-bottom: 2rem;
+    margin-bottom: auto;
+    background-color: #f7f7f7;
 }
 
 #image {
@@ -34,11 +41,30 @@ li {
 #hello {
     position:absolute;
     width: 600px;
-    height: 500px;
     top:50%; left:50%;
     transform: translate(-50%, -50%);
     font-size: 1.3rem;
+    font-family: 'Gothic A1', sans-serif;
 }
+
+@media ( max-width: 600px ) {
+    #hello {
+        width: 90%;
+    }
+    #image {
+        width: 90%;
+        height: 50%;
+    }
+    ol {
+        width: 90%;
+    }
+    #posetext {
+        width: 90%;
+    }
+    
+}
+
+
 
 #next {
     position: absolute;
@@ -53,10 +79,9 @@ li {
 }
 
 #setCount {
-    padding: 2rem;
-    padding-top: 3rem;
+    padding: 1rem;
+    padding-top: 4rem;
     text-align: center;
-    font-size : 1.2rem;
 }
 
 #inputCount {
@@ -70,10 +95,9 @@ td {
 
 #showExer {
     height: 5rem;
-    width: 600px;
     line-height: 5rem;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     cursor: pointer;
     margin-top: 2rem;
@@ -82,6 +106,10 @@ td {
     transition-duration: 0.2s;
     /*빠른 시작 서서히 감속*/
     transition-timing-function: ease-out;
+}
+
+.inputBox {
+    width : 150px;
 }
 .inputBox:focus { 
     outline: 0 none;
@@ -105,16 +133,16 @@ td {
 
 .inputWrapper {
     border-radius: 5px;
-    box-shadow: 1px 6px 6px 1px rgba(0, 0, 0, 0.2);
-    background : white;
+    box-shadow: 5px 5px 5px 5px gray;
+    background-color: #f7f7f7;
 }
 
 .recomend {
     visibility: hidden;
     position: absolute;
     left: 50%;
-    bottom: 7.5rem;
-    width: 30rem;
+    bottom: 3.5rem;
+    width: 90%;
     transform:translate(-49%, 0);
     font-size: 0.8rem;
     color: #9c1432;

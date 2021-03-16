@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PostList from '../../components/posts/PostList';
 import { listPosts } from '../../modules/posts';
+import SearchPostContainer from './SearchPostContainer';
 
 const PostListContainer = ({ location }) => {
   const dispatch = useDispatch();
@@ -23,12 +24,15 @@ const PostListContainer = ({ location }) => {
   }, [dispatch, location.search]);
 
   return (
+    <>
     <PostList
       loading={loading}
       error={error}
       posts={posts}
       showWriteButton={user}
     />
+    <SearchPostContainer />
+    </>
   );
 };
 

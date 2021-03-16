@@ -5,10 +5,10 @@ import Button from '../common/Button';
 
 const PaginationBlock = styled.div`
   width: 320px;
-  margin: 0 auto;
+  margin: 5em auto;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3rem;
+
 `;
 const PageNumber = styled.div``;
 
@@ -20,6 +20,7 @@ const buildLink = ({ username, page }) => {
 
 const Pagination = ({ page, lastPage, username }) => {
   return (
+    <>
     <PaginationBlock>
       <Button
         disabled={page === 1}
@@ -41,6 +42,7 @@ const Pagination = ({ page, lastPage, username }) => {
         다음
       </Button>
     </PaginationBlock>
+    </>
   );
 };
 

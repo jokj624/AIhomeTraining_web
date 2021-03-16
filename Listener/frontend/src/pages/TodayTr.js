@@ -19,7 +19,7 @@ const TodayTr = () => {
         <Background>
         <HeaderContainer/>
         <NavContainer/>
-        <ExerciseContainer/>
+        <ExerciseContainer style = {{overflowX : "hidden"}}/>
         <FooterContainer />
         </Background>
         </>
