@@ -6,7 +6,6 @@ import './Main.css'
 import MainPhoto from './MainPhoto';
 import MainCard from './MainCard';
 import MainAbout from './MainAbout';
-
 const Spacer1 = styled.div`
   height: 0.3rem;
 `;
@@ -20,13 +19,6 @@ const Tutorial = styled(Responsive)`
     span {
         font-size : 1rem;
     }
-`
-const Text = styled.div`
-    display: absolute;
-    height:60px;
-    z-index: 100;
-    left: 50%;
-    top: 50%;
 `;
 //      <Text><h1 style={{zIndex: '100'}}>Hello world</h1></Text>
 const Main = () => {
@@ -34,12 +26,14 @@ const Main = () => {
       <>
       <Spacer1 />
       <MainPhoto/> 
+      
       <Tutorial>
       <Fade bottom>
         <MainAbout />
         <MainCard />
       </Fade>
       </Tutorial> 
+      
       <Spacer1/>
       
       </>

@@ -1,17 +1,20 @@
-import React, { Component } from "react";
+import React, {useState} from "react";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { useSelector } from 'react-redux';
 import palette from '../../lib/style/palette';
+
 const MyDiv = styled.div`
   display: inline-block;
-  width : 50%;
+  width : 100%;
   height : 100%;
+  text-align: center;
 `;
 const Level = styled.div`
+  display:inline;
   text-align:center;
   font-size:1.5rem;
-  margin-top:1.5rem;
+  font-weight: bold;
   color : ${palette.gray[8]};
 `;
 
@@ -22,11 +25,11 @@ const MyPageChart = () => {
         {
           data: [10, 20],
           backgroundColor: [
-            "rgba(54, 162, 235, 1)",
+            "rgb(110,198,221)",
             
           ],
           borderColor: [
-            "rgba(54, 162, 235, 1)",
+            "rgb(110,198,221)",
             
           ],
           borderWidth: 0.3,
@@ -34,27 +37,51 @@ const MyPageChart = () => {
         }
       ]
   };
-
-    let val = 0;
+    let val = 1, lefttime = 0, num = 0;
     const time = user.user.totalTime;
-    if(time > 420 && time <= 840)   val = 420;
-    else if(time> 840 && time <= 1260) val = 840;
-    else if(time > 1260 && time <= 1680)    val = 1260;
-    else if(time > 1680 && time <= 2100)    val = 1680;
-    else if(time > 2100 && time <= 2520)    val = 2100;
-    else if(time > 2520)  val = 2520;    
-    data.datasets[0].data[0]=((time-val)/420) * 100;
-    data.datasets[0].data[1]=100-(((time-val)/420) * 100);
-    const text = "현재 경험치 "+((time-val)/420 * 100).toFixed(2)+"%"; 
-
+    lefttime = 420-time;
+    if(time > 420 && time <= 840){   
+      val = 2;
+      lefttime = 840-time;
+    } else if(time> 840 && time <= 1260){
+      val = 3;
+      lefttime = 1260-time;
+    } else if(time > 1260 && time <= 1680){
+      val = 4;
+      lefttime = 1680-time;
+    } else if(time > 1680 && time <= 2100){
+      val = 5;
+      lefttime = 2100-time;
+    } else if(time > 2100 && time <= 2520){
+      val = 6;
+      lefttime = 2520-time;
+    } else if(time > 2520){
+      val = 7;
+      lefttime = 0;
+    }
+    if(val != 7){    
+      data.datasets[0].data[0]=(time/(420 * val)) * 100;
+      data.datasets[0].data[1]=100-((time/(420 * val)) * 100);
+      num = Math.floor(data.datasets[0].data[0]);
+    } else if(val == 7){
+      data.datasets[0].data[1] = 0;
+      num = "MAX"
+    }
+    const text = "현재 경험치 "; 
+    
     return (
         <MyDiv>
-          <Doughnut data={data} />
-          <Level>{text}</Level>
+          <Doughnut data={data}/>
+          <br/>
+          <div style={{paddingBottom: '5%'}}>  
+            <Level>{text}
+            <Level style={{color:'#6ec6dd'}}>{num}</Level> %</Level>
+            <br/>
+            {lefttime>0 && <Level style={{fontSize: '1.2em'}}>다음 레벨 승급까지   
+            <Level style={{fontSize: '1.2em', color: '#6ec6dd'}}> {lefttime}</Level> 분 남았습니다.</Level>}
+          </div>
         </MyDiv>
-        
       );
-
 };
   
   export default MyPageChart;

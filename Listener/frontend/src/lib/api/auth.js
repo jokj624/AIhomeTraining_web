@@ -24,6 +24,5 @@ export const findLevel = ({ username }) =>
 export const exercise = ({title, username}) =>
   client.post('/api/auth/exercises', {title, username});
 
-export const updateTotalTime = ({ username, totalTime, level }) =>
-  client.patch(`/api/auth/exercises`, { username, totalTime, level });
-
+export const updateTotalTime = ({ username, totalTime }) =>
+  client.patch(`/api/auth/exercises`, { username, totalTime });

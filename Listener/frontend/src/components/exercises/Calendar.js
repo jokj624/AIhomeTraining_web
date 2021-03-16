@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-//import { readExercise } from '../../modules/exercise';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import FullCalendar from '@fullcalendar/react';
@@ -36,6 +34,7 @@ const Calendar = () => {
             initialView = 'dayGridMonth'
             events = {user.exercises}
             dayMaxEvents = {true}
+            moreLinkClick = "popover"
             contentHeight = "800px"
             eventDisplay = 'block'
             eventBackgroundColor = "#1864ab"

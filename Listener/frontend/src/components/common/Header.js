@@ -48,7 +48,6 @@ const LevelInfo = styled.div`
   margin-right: 0.5rem;
 `;
 
-
 const LinkTo = styled(Link)`
   color: black;
   font-style: oblique;
@@ -62,13 +61,11 @@ const Ai = styled.span`
   color : ${palette.indigo[9]};
 `;
 
-
 const Header = ({ user, onLogout }) => {
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-
           <LinkTo to="/main" className="logo" style={{ fontSize: '1.5em'}}>
             M<Ai>AI</Ai>T
           </LinkTo>

@@ -21,7 +21,7 @@ const [MODIFY, MODIFY_SUCCESS, MODIFY_FAILURE] = createRequestActionTypes(
     'auth/MODIFY'
   );
 
-const [UPDATETOTALTIME, UPDATETOTALTIME_SUCCESS, UPDATETOTALTIME_FAILURE] = createRequestActionTypes(
+  const [UPDATETOTALTIME, UPDATETOTALTIME_SUCCESS, UPDATETOTALTIME_FAILURE] = createRequestActionTypes(
     'auth/UPDATETOTALTIME'
   );
 
@@ -47,25 +47,25 @@ export const changeField = createAction(
     username,
     password
   }));
-  export const updateTotalTime = createAction(UPDATETOTALTIME, ({ username, totalTime ,level}) => ({
+  export const updateTotalTime = createAction(UPDATETOTALTIME, ({ username, totalTime }) => ({
     username,
-    totalTime,
-    level
+    totalTime
   }));
- 
-
+  export const updateLevel = createAction(UPDATETOTALTIME, ({ username, totalTime }) => ({
+    username,
+    totalTime
+  }));
+  
   const registerSaga = createRequestSaga(REGISTER, authAPI.register);
   const loginSaga = createRequestSaga(LOGIN, authAPI.login);
   const modifySaga = createRequestSaga(MODIFY, authAPI.modify);
   const updateTotalTimeSaga = createRequestSaga(UPDATETOTALTIME, authAPI.updateTotalTime);
 
-
   export function* authSaga() {
     yield takeLatest(REGISTER, registerSaga);
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(MODIFY, modifySaga);
-    yield takeLatest(UPDATETOTALTIME, updateTotalTimeSaga);
-  };
+    yield takeLatest(UPDATETOTALTIME, updateTotalTimeSaga);  };
 
   const initialState = {
     register: {

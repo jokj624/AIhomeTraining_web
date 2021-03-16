@@ -3,11 +3,14 @@ import Sketch from "react-p5";
 import ml5 from "ml5";
 import styled from 'styled-components';
 import {Animated} from "react-animated-css";
+import './Test.css';
 
 const LabelBlock = styled.div`
     font-size : 3em;
-    margin: 0.3rem;
     text-align : center;
+    font-weight: bold;
+    padding: 1rem;
+
 `;
 const Spacer = styled.div`
     height: 4rem;
@@ -18,12 +21,14 @@ const Wrapper = styled.div`
     text-align: center;
 `;  
 
-const Test = ({getData}) => {
+const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes, hours}) => {
     let video, poseNet, brain, pose, skeleton,state = 'waiting';
     let squat = 0, lungeL = 0, lungeR = 0, press = 0, tree = 0, ck = 0;  //운동 횟수 변수
     let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0, treeCk = 0; // 각 운동 종료 여부 확인 변수
     let poseLabel = '분석 중';
     let timer, timeover;
+    const ww = window.innerWidth*0.7;
+    const wh = window.innerHeight*0.7;
 
     let analysis = [
         {
@@ -55,11 +60,11 @@ const Test = ({getData}) => {
     useEffect(() => {
         myCustomRedrawAccordingToNewPropsHandler();
     }, []) //test
-    
+
     const setup = (p5,  canvasParentRef) => {
-        p5.createCanvas(900, 550).parent(canvasParentRef);
+        p5.createCanvas(window.innerWidth*0.7, window.innerHeight*0.7).parent(canvasParentRef);
         video = p5.createCapture(p5.VIDEO);
-        video.size(900,550);
+        video.size(window.innerWidth*0.7, window.innerHeight*0.7);
         video.hide();
         poseNet = ml5.poseNet(video);   //posenet 시작
         poseNet.on('pose',gotPoses);
@@ -81,24 +86,27 @@ const Test = ({getData}) => {
     const draw = (p5) => {
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
-        p5.image(video, 0, 0, 900, 550);
+        p5.image(video, 0, 0, window.innerWidth*0.7, window.innerHeight*0.7);
         if(pose){
             for(let i=0; i<skeleton.length; i++){
                 let a = skeleton[i][0];
                 let b = skeleton[i][1];
                 p5.strokeWeight(2);
                 p5.stroke(73, 161, 165);
-                p5.line(a.position.x, a.position.y, b.position.x, b.position.y);
+                p5.line(a.position.x*(window.innerWidth*0.7/ww), a.position.y*(window.innerHeight*0.7/wh), b.position.x*(window.innerWidth*0.7/ww), b.position.y*(window.innerHeight*0.7/wh));
             }
             for(let i = 0; i<pose.keypoints.length; i++){
-                let x = pose.keypoints[i].position.x;
-                let y = pose.keypoints[i].position.y;
+                let x = pose.keypoints[i].position.x*(window.innerWidth*0.7/ww);
+                let y = pose.keypoints[i].position.y*(window.innerHeight*0.7/wh);
                 p5.fill(0);
                 p5.stroke(255);
                 p5.ellipse(x,y,10,10); 
             }
         }
     };
+    const windowResized = (p5) => {
+        p5.resizeCanvas(window.innerWidth*0.7, window.innerHeight*0.7, true);
+      };
     
 
     const myCustomRedrawAccordingToNewPropsHandler = () => {
@@ -188,8 +196,24 @@ const Test = ({getData}) => {
             for(let i = 0; i<pose.keypoints.length; i++){
                 let x = pose.keypoints[i].position.x;
                 let y = pose.keypoints[i].position.y;
-                analysis[index].x[i] += (x/3);
-                analysis[index].y[i] += (y/3);   //횟수로 미리 나눠서 평균 계산
+                if (index === 0) {
+                    analysis[index].x[i] += (x/squatCount);
+                    analysis[index].y[i] += (y/squatCount);
+                }
+                else if (index === 1) {
+                    analysis[index].x[i] += (x/lungeCount);
+                    analysis[index].y[i] += (y/lungeCount);
+                }
+                else if (index === 2) {
+                    analysis[index].x[i] += (x/lungeCount);
+                    analysis[index].y[i] += (y/lungeCount);
+                }
+                else {
+                    analysis[index].x[i] += (x/shoulderCount);
+                    analysis[index].y[i] += (y/shoulderCount);
+                }
+                console.log(index);
+                console.log(analysis);
             }
         }    
         else{
@@ -203,42 +227,42 @@ const Test = ({getData}) => {
     };
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
-        if(label == '스쿼트' && !ck && squat < 3){
+        if(label == '스쿼트' && !ck && squat < squatCount){
             save(0, 0);  // 현재 좌표 저장
             squat += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
             ck = 1;
-            if(squat == 3 && !squatCk){
+            if(squat == squatCount && !squatCk){
                 document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
                 squatCk = 1;
             }
         }  // 스쿼트 개수 세기 (임의로 3개로 해둠)
-        else if(label == '런지 왼쪽' && !ck && lungeL < 3 && squatCk==1){
+        else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
             save(1, 0);
             lungeL += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
             ck = 1;
-            if(lungeL == 3 && !lungeLCk){
+            if(lungeL == lungeCount && !lungeLCk){
                 document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
                 lungeLCk = 1;
             }
         }
-        else if(label == '런지 오른쪽' && !ck && lungeR < 3 && lungeL >= 3 && lungeLCk == 1){
+        else if(label == '런지 오른쪽' && !ck && lungeR < lungeCount && lungeL >= lungeCount && lungeLCk == 1){
             save(2, 0);
             lungeR += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
             ck = 1;
-            if(lungeR == 3 && !lungeRCk){
+            if(lungeR == lungeCount && !lungeRCk){
                 document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
                 lungeRCk = 1;
             }
         }
-        else if(label == '숄더프레스' && !ck && press < 3 && lungeRCk == 1){
+        else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
             save(3, 0);
             press += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
             ck = 1;
-            if(press == 3 && !pressCk){
+            if(press == shoulderCount && !pressCk){
                 document.getElementById("test").innerHTML = "나무 자세 시작하세요";
                 pressCk = 1; 
             }
@@ -267,7 +291,7 @@ const Test = ({getData}) => {
     <>
     <Wrapper>
     <Animated animationIn="fadeIn"><LabelBlock id='test'>스쿼트를 시작하세요</LabelBlock></Animated>
-      <Sketch setup={setup} draw={draw}/>
+      <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
     </Wrapper>
     </>
    )

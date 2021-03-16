@@ -11,6 +11,12 @@ body {
 
 #root {
   height : 100%;
+  /*
+  background: -webkit-linear-gradient(110deg, #849fbd 40%, #459fc9 40%);
+  background: -o-linear-gradient(110deg,   #6085d4 40%, #459fc9 40%);
+  background: -moz-linear-gradient(110deg,  #6085d4 40%, #459fc9 40%);
+  background: linear-gradient(110deg,   #6085d4 40%, #459fc9 40%);
+  */
 }
 .App {
   height :100%;

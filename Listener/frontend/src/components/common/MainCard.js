@@ -95,7 +95,7 @@ export default function MainCard() {
         <Typography variant="body2" component="p">
           <br/>
           시작 버튼을 누르고 준비된 운동을 완료하세요.<br/>
-          운동 자세를 인식하여 완료 후 운동 자세를 분석해줍니다.    
+          운동 자세를 인식하여 완료 후 운동 자세를 분석해줍니다.           
         </Typography>
       </CardContent>
       <CardActions>

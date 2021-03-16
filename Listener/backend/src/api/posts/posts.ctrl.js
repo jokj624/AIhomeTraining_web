@@ -108,6 +108,7 @@ const removeHtmlAndShorten = (body) => {
 export const list = async ctx => {
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
   // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
+  console.log(ctx.query);
   const page = parseInt(ctx.query.page || '1', 10);
 
   if (page < 1) {
@@ -138,6 +139,47 @@ export const list = async ctx => {
     ctx.throw(500, e);
   }
 };
+
+//GET /api/posts/search
+export const searchPosts = async ctx => {
+  console.log(ctx.query);
+  const page = parseInt(ctx.query.page || '1', 10);
+  let options = [];
+  if(page < 1){
+    ctx.status = 400;
+    return;      
+  }
+  try{
+    if(ctx.query.option == 'title'){
+      options = [{ title: new RegExp(ctx.query.content) }];
+    } else if(ctx.query.option == 'body'){
+      options = [{ body: new RegExp(ctx.query.content) }];
+    } else if(ctx.query.option == 'title_body'){
+      options = [{ title: new RegExp(ctx.query.content) }, { body: new RegExp(ctx.query.content) }];
+    } else {
+      const err = new Error('검색 옵션이 없습니다.');
+      err.status = 400;
+      throw err;
+    }
+   
+    const posts = await Post.find({ $or: options })
+    .sort({ _id: -1 })
+    .limit(10)
+    .skip((page - 1) * 10)
+    .lean()
+    .exec();
+    const postCount = await Post.countDocuments(posts).exec();
+    ctx.set('Last-Page', Math.ceil(postCount / 10));
+    ctx.body = posts.map((post) => ({
+      ...post,
+      body: removeHtmlAndShorten(post.body),
+    }));
+
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 /*
   GET /api/posts/:id
 */
