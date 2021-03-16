@@ -57,22 +57,6 @@ const ModifyForm = ({history}) => {
         alert('비밀번호가 변경되었습니다. 다시 로그인해주세요.');
         history.push('/');
       }
-      /*
-        if (authError) {
-          console.log('오류 발생');
-          console.log(authError);
-          setError('변경 실패');
-          return;
-        }
-          console.log('변경 성공');
-          dispatch(logout());
-          history.push('/');
-          try {
-            localStorage.setItem('user', JSON.stringify(user));
-          } catch (e) {
-          console.log('localStorage is not working');
-          }
-         */ 
       }, [history, user]);
 
     return (

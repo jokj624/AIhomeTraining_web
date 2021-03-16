@@ -86,9 +86,6 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
         fontSize : "1.3rem",
         textAlign : "center"
     };
-    const styleExercise = {
-     textAlign : "center"
-    };
        let time1=0;
        let menus = ["안녕하세요", "운동을 시작해보겠습니다.", "우리가 할 운동은 다음과 같이 4가지 입니다."];
         let menuList = menus.map((menu) => {

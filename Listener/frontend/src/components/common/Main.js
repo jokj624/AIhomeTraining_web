@@ -20,7 +20,7 @@ const Tutorial = styled(Responsive)`
         font-size : 1rem;
     }
 `;
-//      <Text><h1 style={{zIndex: '100'}}>Hello world</h1></Text>
+
 const Main = () => {
     return (
       <>

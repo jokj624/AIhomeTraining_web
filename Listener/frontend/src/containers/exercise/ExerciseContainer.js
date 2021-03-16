@@ -14,9 +14,6 @@ import './ExerciseContainer.css';
 const Wrapper = styled.div`
   text-align: center;
 `;
-
-
-
 const ButtonWrapper = styled.div`
   position:flex;
   bottom: 0;
@@ -60,7 +57,6 @@ position: relative;
 let analysis = [];
 const getData = (data) => {
   analysis = data;
-  console.log(analysis);
 };   //Test.js 에서 analysis 객체 받아오는 함수
 let squatCount = 15;
 let lungeCount = 15;
@@ -197,6 +193,7 @@ const ExerciseContainer = () => {
       }, 3500);
       setTimeout(function() {
         document.getElementById('ready').style.visibility="hidden";
+        document.getElementById('endbutton').style.visibility="visible";
       }, 5000);
     }
   });
@@ -219,7 +216,7 @@ const ExerciseContainer = () => {
           </div>
           <div id="strap_bottom"></div>
         </div>
-        <Test getData = {getData} squatCount={squatCount} lungeCount={lungeCount} shoulderCount={shoulderCount}/><Spacer/><StyledButton onClick={videoOff}>종료</StyledButton>
+        <Test getData = {getData} squatCount={squatCount} lungeCount={lungeCount} shoulderCount={shoulderCount}/><Spacer/><div id="endbutton"><StyledButton onClick={videoOff}>종료</StyledButton></div>
       </Wrapper>}
       {(!first && !showResults) &&
       <div>

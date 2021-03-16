@@ -185,7 +185,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
           else {
             inputLabel(poseLabel);    //라벨, 횟수 화면에 보여주는
           }
-          console.log(poseLabel);
           classifyPose();
     };
 
@@ -212,8 +211,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                     analysis[index].x[i] += (x/shoulderCount);
                     analysis[index].y[i] += (y/shoulderCount);
                 }
-                console.log(index);
-                console.log(analysis);
             }
         }    
         else{

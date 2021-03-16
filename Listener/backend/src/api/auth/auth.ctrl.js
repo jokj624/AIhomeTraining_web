@@ -44,7 +44,7 @@ export const register = async ctx => {
 
     const token = user.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
+      maxAge: 1000 * 60 * 60 * 24 , // 하루
       httpOnly: true,
     });
   } catch (e) {
@@ -80,7 +80,7 @@ export const login = async ctx => {
     //console.log(ctx.body);
     const token = user.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
+      maxAge: 1000 * 60 * 60 * 24, // 하루
       httpOnly: true,
     });
   } catch (e) {

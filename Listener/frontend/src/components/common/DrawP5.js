@@ -60,17 +60,6 @@ const Sketch = (p5, props) => {
   };
 
   p5.gotResult = (error, results) =>{
-    console.log(results);
-    
-    /*if(results[0].confidence > 0.85){
-      if(la === '0')   setLabel('스쿼트');
-      else if(la === '1')  setLabel('숄더프레스 전');
-      else if(la === '2')  setLabel('숄더프레스 후');
-      else if(la === '3')  setLabel('런지');
-      else if(la === '4')  setLabel('런지');
-      else if(la === '5')  setLabel('나무 자세');
-    }
-    else  setLabel('분석 중');*/
    if(results && (results[0].confidence > 0.8)){
       let la = results[0].label;
       if(la == '0')   poseLabel = '숄더프레스 전';
@@ -82,8 +71,6 @@ const Sketch = (p5, props) => {
       else if(la == '6')  poseLabel = '나무 자세';
     }
     else  poseLabel = '분석 중';
-  //  displayState(poseLabel);
-    console.log(poseLabel);
     p5.classifyPose();
   };
 

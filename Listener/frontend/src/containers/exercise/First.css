@@ -44,7 +44,6 @@ li {
     top:50%; left:50%;
     transform: translate(-50%, -50%);
     font-size: 1.3rem;
-    font-family: 'Gothic A1', sans-serif;
 }
 
 @media ( max-width: 600px ) {
