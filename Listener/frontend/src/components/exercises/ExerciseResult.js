@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import palette from '../../lib/style/palette';
 import squatIcon from '../../img/squatIcon.png';
@@ -63,8 +63,6 @@ const Ai = styled.span`
 `;
 const ExLabel = styled.div`
     margin-top : 20px;
-    padding-left : 70px;
-    padding-right : 70px;
     padding : 30px;
     width : 90%;
     display: flex;
@@ -128,13 +126,21 @@ const Grade = styled.div`
 `
 
 const ExerciseResult = ({ mistakes }) => {
+    const [lender, setLender] = useState(false);
+    let state = false;
+    useEffect(() => {
+        console.log(mistakes);
+        let str = "운동을 진행해주세요";
+        if(mistakes[0].squat[0] == str || mistakes[0].lungeL[0] == str || mistakes[0].lungeR[0] == str || mistakes[0].press[0] == str || mistakes[0].tree[0]==str){
+            setLender(true);
+        }
+    }, []);
 
     let squat = mistakes[0].squat;
     let lungeL = mistakes[0].lungeL;
     let lungeR = mistakes[0].lungeR;
     let press = mistakes[0].press;
     let tree = mistakes[0].tree;
-    console.log(mistakes);
 
     let squatMt, lungeLMt, lungeRMt, pressMt, treeMt;
 
@@ -155,19 +161,22 @@ const ExerciseResult = ({ mistakes }) => {
 
     let mtNum = squat.length + lungeL.length + lungeR.length + press.length + tree.length;
 
-    let grade
-
-    if (mtNum == 0 || mtNum == 1) grade = 'A+';
-    else if (mtNum == 2 || mtNum == 3) grade = 'A-';
-    else if (mtNum == 4) grade ='B+';
-    else if (mtNum == 5) grade ='B-';
-    else if (mtNum == 6) grade ='C+';
-    else if (mtNum == 7) grade ='C-';
-    else if (mtNum == 8) grade ='D+';
-    else if (mtNum == 9) grade ='D-';
-    else if (mtNum == 10) grade ='F!!';
-
-    let fail = 10-mtNum;
+    let grade, fail;
+    if(!lender){
+        if (mtNum == 0 || mtNum == 1) grade = 'A+';
+        else if (mtNum == 2 || mtNum == 3) grade = 'A-';
+        else if (mtNum == 4 || mtNum == 5) grade ='B+';
+        else if (mtNum == 6 || mtNum == 7) grade ='B-';
+        else if (mtNum == 8 || mtNum == 9) grade ='C+';
+        else if (mtNum == 10 || mtNum == 11) grade ='C-';
+        else if (mtNum == 12) grade ='D+';
+        else if (mtNum == 13) grade ='D-';
+        else if (mtNum == 14) grade ='F!!';
+        fail = 14 - mtNum;
+    } else {
+        grade = 'F!';
+        fail = '?';
+    }
 
     return(
         
@@ -176,12 +185,12 @@ const ExerciseResult = ({ mistakes }) => {
             <Mait>M<Ai>AI</Ai>T</Mait>
             </div>
             <h2>오늘의 운동 결과</h2>
-            <ScoreDiv>
+     -      <ScoreDiv>
                 <Grade>{grade}</Grade>
             <Score>
-                <h3>{fail}/10</h3>
+                <h3>{fail}/14</h3>
             </Score>
-            </ScoreDiv>
+            </ScoreDiv> 
             <ExLabel>
             <Pose>
                 <img src = {squatIcon}/>

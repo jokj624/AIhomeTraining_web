@@ -16,14 +16,25 @@ const Hello = styled(Responsive)`
     text-align : center;
     
 `;
-const Wrapper = styled.div`
+const Wrapper1 = styled.div`
 font-size : 16px;
 margin : 0 auto;
 height: 600px;
-@media screen (max-width: 768px) {
-    height : 950px;
+@media (max-width: 768px) {
+    height : 750px;
+};
+@media (max-width: 500px) {
+    height : 850px;
 };
 `;
+
+const Wrapper2 = styled.div`
+font-size : 16px;
+margin : 0 auto;
+height: 630px;
+`;
+
+
 const Spacer = styled.div`
   height: 4rem;
   `;
@@ -37,8 +48,11 @@ const Spacer = styled.div`
     margin-right: 24rem;
     display : inline-block;
     padding-left : 5px;
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
         margin-right: 8rem;
+    };
+    @media (max-width: 500px) {
+        margin-right: 1rem;
     };
 `;
 const StyledButtonNext = styled(Button)`
@@ -50,9 +64,12 @@ background: ${palette.gray[6]};
   margin-left: 24rem;
   display : inline-block;
   padding-right : 5px;
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
       margin-left: 8rem;
   };
+  @media (max-width: 500px) {
+    margin-left: 1rem;
+};
 `;
 const Order = styled.div`
 @media screen (max-width: 768px) {
@@ -131,9 +148,8 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
     
     return (
         <>
-        
         {!timeover &&
-         <Wrapper>
+         <Wrapper1>
          <Spacer/><Spacer/>
          <Hello>{menuList}
          <Spacer/>
@@ -147,9 +163,9 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                  <FirstExer/>
              </Animated>
          </Hello>
-     </Wrapper>}
+     </Wrapper1>}
         {( timeover && !exerciseEx ) &&
-        <Wrapper>
+        <Wrapper2>
             <div id="hello">
                 <Spacer/>
                 <Animated animationIn="fadeIn" animationInDelay={1000} animationOut="fadeOut" animationOutDelay={500} isVisible={visible2}>
@@ -188,8 +204,9 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                     </div>
                 </Animated>
             </div>
-        </Wrapper>}
-        {exerciseEx && <Animated animationIn="fadeIn" animationInDelay={500}>
+        </Wrapper2>}
+        {exerciseEx && 
+        <Animated animationIn="fadeIn" animationInDelay={500}>
             <Spacer/>
         <div className="ex">
                 {(pose === 0) && <Animated animationIn="fadeIn" animationInDelay={500}>

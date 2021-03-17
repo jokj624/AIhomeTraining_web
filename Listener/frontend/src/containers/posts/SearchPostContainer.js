@@ -34,6 +34,14 @@ const Wrapper = styled(Responsive)`
             outline:none;
         }
     }
+    @media (max-width: 768px) {
+        select{
+            width: 60px;
+        }
+        input{
+            width: 200px;
+        }
+    }
 `;
 const Cbutton = styled(Button)`
     padding: 0.25rem 0.5rem;
@@ -54,7 +62,9 @@ const Cbutton = styled(Button)`
     & + & {
         margin-left: 0.25rem;
     }
-
+    @media (max-width: 768px) {
+        width: 55px;
+    }
 `;
 
 const SearchPostContainer = ({ location }) => {

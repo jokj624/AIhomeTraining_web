@@ -15,6 +15,7 @@
     border-radius: 5px;
     box-shadow: 5px 5px 5px 5px gray;
     padding-bottom: 2rem;
+    margin-bottom: auto;
     background-color: #f7f7f7;
 }
 
@@ -30,7 +31,6 @@ ol {
     text-align: left;
     width: 500px;
 }
-
 li {
     padding: 0.7rem;
 }
@@ -41,11 +41,30 @@ li {
 #hello {
     position:absolute;
     width: 600px;
-    height: 500px;
     top:50%; left:50%;
     transform: translate(-50%, -50%);
     font-size: 1.3rem;
+    font-family: 'Gothic A1', sans-serif;
 }
+
+@media ( max-width: 600px ) {
+    #hello {
+        width: 90%;
+    }
+    #image {
+        width: 90%;
+        height: 50%;
+    }
+    ol {
+        width: 90%;
+    }
+    #posetext {
+        width: 90%;
+    }
+    
+}
+
+
 
 #next {
     position: absolute;
@@ -76,7 +95,6 @@ td {
 
 #showExer {
     height: 5rem;
-    width: 600px;
     line-height: 5rem;
     text-align: center;
     font-size: 1.3rem;
@@ -89,6 +107,10 @@ td {
     /*빠른 시작 서서히 감속*/
     transition-timing-function: ease-out;
 }
+
+.inputBox {
+    width : 150px;
+}
 .inputBox:focus { 
     outline: 0 none;
     border-color: #d7dbe0;
@@ -98,8 +120,11 @@ td {
 .inputBox::placeholder {
     color: #e3e3e3;
 }
- /*hover시 있을 변형을 입력합니다*/
-#showExer:hover {
+
+    
+    /*hover시 있을 변형을 입력합니다*/
+    #showExer:hover {
+    
     /*rgb컬러a알파 0~1까지 화이트 0.3만큼 알파 혹은 반투명*/
     background-color: #e3e3e3;
     /* 변형할 것은 배경 1초, 빠른 시작 서서히 감속*/
@@ -117,7 +142,7 @@ td {
     position: absolute;
     left: 50%;
     bottom: 3.5rem;
-    width: 30rem;
+    width: 90%;
     transform:translate(-49%, 0);
     font-size: 0.8rem;
     color: #9c1432;

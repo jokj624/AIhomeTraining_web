@@ -5,7 +5,7 @@ import Responsive from './Responsive';
 const NavBlock = styled.div`
   position: fixed;
   width: 100%;
-  z-index:1;
+  z-index:100;
   background: black;
 `;
 

@@ -66,8 +66,8 @@ const MonthExer = () => {
             label: '총 운동 시간',
             data: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec ],
             borderWidth: 1,
-            borderColor: "rgba(255, 201, 14, 1)",
-            backgroundColor: "rgba(255, 201, 14, 0.3)",
+            borderColor: "rgba(110,198,221, 1)",
+            backgroundColor: "rgba(110,198,221, 0.3)",
             fill: true,
             lineTension: 0.2
         }]

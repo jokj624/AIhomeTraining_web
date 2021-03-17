@@ -13,13 +13,13 @@ const jwtMiddleware = async (ctx, next) => {
       totalTime: user.totalTime,
       level: user.level
     };
-    // 토큰 3.5일 미만 남으면 재발급
+    // 토큰 하루 미만 남으면 재발급
     const now = Math.floor(Date.now() / 1000);
-    if (decoded.exp - now < 60 * 60 * 24 * 3.5) {
+    if (decoded.exp - now < 60 * 60 * 24 ) {
       const user = await User.findById(decoded._id);
       const token = user.generateToken();
       ctx.cookies.set('access_token', token, {
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
+        maxAge: 1000 * 60 * 60 * 24, // 하루
         httpOnly: true,
       });
     }

@@ -1,27 +1,31 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {Animated} from "react-animated-css";
 import LoadingBar from '../common/LoadingBar';
 import Responsive from '../common/Responsive';
 import ExerciseResult from './ExerciseResult';
-import './Check.css';
 
-const Wrapper = styled.div`
+const Wrapper1 = styled.div`
   position:relative;
-  height: 900px;
   text-align: center;
-  @media (max-width: 758px) {
-    height : 1800px;
-  }
+`;
+
+const Wrapper2 = styled.div`
+height : 500px;
+  position:relative;
+  text-align: center;
 `;
 
 const Loading = styled(Responsive)`
     display: flex;
     width: 100%;
     align-items: center;
-
 `;
+
+const Spacer = styled.div`
+  height: 5rem;
+  `;
 
 const Check = ({analysis}) => {
     const [showResults, setShowResults] = useState(false);
@@ -111,86 +115,105 @@ const Check = ({analysis}) => {
       let str = "";
       let squatms = [], lungeLms = [], lungeRms = [], pressms = [], treems = [];
 
-      console.log(userAngle[0].angle[7]);
-      //스쿼트
-      cmp = parseFloat(trainerAngle[0]["0"]) - userAngle[0].angle[0];   //스쿼트 허리 계산
-      if(cmp > 10){
-        str = "상체를 조금 더 세우세요";
+      if(userAngle[0].angle[0] == 0){
+        str = "운동을 진행해주세요";
         squatms.push(str);
-      } 
-      else if(cmp < -10){
-        str = "상체를 조금 더 굽히세요";
-        squatms.push(str);
+      } else {     //스쿼트
+        cmp = parseFloat(trainerAngle[0]["0"]) - userAngle[0].angle[0];   //스쿼트 허리 계산
+        if(cmp > 10){
+          str = "상체를 조금 더 세우세요";
+          squatms.push(str);
+        } 
+        else if(cmp < -10){
+          str = "상체를 조금 더 굽히세요";
+          squatms.push(str);
+        } 
+        cmp = trainerAngle[0]["6"] - userAngle[0].angle[6]; //스쿼트 무릎 계산
+        if(cmp > 10){
+          str = "엉덩이를 조금 더 드세요";
+          squatms.push(str);
+        }
+        else if(cmp < -10){
+          str = "엉덩이를 조금 더 내리세요";
+          squatms.push(str);
+        }
+      }
+      if(userAngle[1].angle[6] == 0){
+        str = "운동을 진행해주세요";
+        lungeLms.push(str);
+      } else {
+          //사이드 런지 왼쪽
+        cmp = trainerAngle[1]["6"] - userAngle[1].angle[6];  //런지 왼쪽 무릎
+        if(cmp < -10){
+          str = "왼쪽 무릎을 조금 더 굽히세요";
+          lungeLms.push(str);
+        } 
+        cmp = trainerAngle[1]["7"] - userAngle[1].angle[7];   /// 런지 오른쪽 무릎
+        if(cmp > 10 || cmp < -10){
+          str = "오른쪽 무릎을 조금 더 피세요";
+          lungeLms.push(str);
+        }
+      }
+      if(userAngle[2].angle[6] == 0){
+        str = "운동을 진행해주세요";
+        lungeRms.push(str);
+      } else {
+        //사이드 런지 오른쪽
+        cmp = trainerAngle[2]["6"] - userAngle[2].angle[6];  //런지 왼쪽 무릎
+        if(cmp > 10 || cmp < -10){
+          str = "왼쪽 무릎을 조금 더 피세요";
+          lungeRms.push(str);
+        }
+        cmp = trainerAngle[2]["7"] - userAngle[2].angle[7];   //런지 오른쪽 무릎
+        console.log(userAngle[2].angle[7]);
+        if(cmp < -10){
+          str = "오른쪽 무릎을 조금 더 굽히세요";
+          lungeRms.push(str);
+        }
+      }
+      if(userAngle[3].angle[3] == 360){
+        str = "운동을 진행해주세요";
+        pressms.push(str);
+      } else {
+        //숄더 프레스
+        cmp = trainerAngle[3]["3"] - userAngle[3].angle[3];  //프레스 오른쪽 겨드랑이
+        if(cmp > 10){
+          str = "오른쪽 팔을 더 올리세요";
+          pressms.push(str);
+        }
+        cmp = trainerAngle[3]["2"] - userAngle[3].angle[2];  //프레스 왼쪽 겨드랑이
+        if(cmp > 10){
+          str = "왼쪽 팔을 더 올리세요";
+          pressms.push(str);
+        }
+        cmp = trainerAngle[3]["5"] - userAngle[3].angle[5];   //프레스 오른쪽 팔꿈치
+        if(cmp > 10){
+          str = "오른쪽 팔을 더 피세요";
+          pressms.push(str);
+        }
+        cmp = trainerAngle[3]["4"] - userAngle[3].angle[4];   //프레스 왼쪽 팔꿈치
+        if(cmp > 10){
+          str = "왼쪽 팔을 더 피세요";
+          pressms.push(str);
+        }
+      }
+      if(userAngle[4].angle[1] == 360){
+        str = "운동을 진행해주세요";
+        treems.push(str);
+      } else {
+        //나무 자세
+        cmp = trainerAngle[4]["1"] - userAngle[4].angle[1];   //나무자세 오른쪽 허리
+        if(cmp < -10){
+          str = "오른쪽 다리를 더 올리세요";
+          treems.push(str);
+        }
+        cmp = trainerAngle[4]["7"] - userAngle[4].angle[7];   //나무자세 오른쪽 무릎  
+        if(cmp < -10){
+          str = "오른쪽 무릎을 위로 더 굽히세요";
+          treems.push(str);
+        }
       }
       
-      cmp = trainerAngle[0]["6"] - userAngle[0].angle[6]; //스쿼트 무릎 계산
-      if(cmp > 10){
-        str = "엉덩이를 조금 더 드세요";
-        squatms.push(str);
-      }
-      else if(cmp < -10){
-        str = "엉덩이를 조금 더 내리세요";
-        squatms.push(str);
-      }
-      //사이드 런지 왼쪽
-      cmp = trainerAngle[1]["6"] - userAngle[1].angle[6];  //런지 왼쪽 무릎
-      if(cmp < -10){
-        str = "왼쪽 무릎을 조금 더 굽히세요";
-        lungeLms.push(str);
-      } 
-      cmp = trainerAngle[1]["7"] - userAngle[1].angle[7];   /// 런지 오른쪽 무릎
-      if(cmp > 10 || cmp < -10){
-        str = "오른쪽 무릎을 조금 더 피세요";
-        lungeLms.push(str);
-      }
-
-      //사이드 런지 오른쪽
-      cmp = trainerAngle[2]["6"] - userAngle[2].angle[6];  //런지 왼쪽 무릎
-      if(cmp > 10 || cmp < -10){
-        str = "왼쪽 무릎을 조금 더 피세요";
-        lungeRms.push(str);
-      }
-      cmp = trainerAngle[2]["7"] - userAngle[2].angle[7];   //런지 오른쪽 무릎
-      console.log(userAngle[2].angle[7]);
-      if(cmp < -10){
-        str = "오른쪽 무릎을 조금 더 굽히세요";
-        lungeRms.push(str);
-      }
-
-      //숄더 프레스
-      cmp = trainerAngle[3]["3"] - userAngle[3].angle[3];  //프레스 오른쪽 겨드랑이
-      if(cmp > 10){
-        str = "오른쪽 팔을 더 올리세요";
-        pressms.push(str);
-      }
-      cmp = trainerAngle[3]["2"] - userAngle[3].angle[2];  //프레스 왼쪽 겨드랑이
-      if(cmp > 10){
-        str = "왼쪽 팔을 더 올리세요";
-        pressms.push(str);
-      }
-      cmp = trainerAngle[3]["5"] - userAngle[3].angle[5];   //프레스 오른쪽 팔꿈치
-      if(cmp > 10){
-        str = "오른쪽 팔을 더 피세요";
-        pressms.push(str);
-      }
-      cmp = trainerAngle[3]["4"] - userAngle[3].angle[4];   //프레스 왼쪽 팔꿈치
-      if(cmp > 10){
-        str = "왼쪽 팔을 더 피세요";
-        pressms.push(str);
-      }
-
-      //나무 자세
-      cmp = trainerAngle[4]["1"] - userAngle[4].angle[1];   //나무자세 오른쪽 허리
-      if(cmp < -10){
-        str = "오른쪽 다리를 더 올리세요";
-        treems.push(str);
-      }
-      cmp = trainerAngle[4]["7"] - userAngle[4].angle[7];   //나무자세 오른쪽 무릎
-      console.log(trainerAngle[4]["7"]);
-      if(cmp < -10){
-        str = "오른쪽 무릎을 위로 더 굽히세요";
-        treems.push(str);
-      }
       mistakes[0].squat = squatms;
       mistakes[0].lungeL = lungeLms;
       mistakes[0].lungeR = lungeRms;
@@ -224,15 +247,17 @@ const Check = ({analysis}) => {
 
     
   return (
-    <Wrapper> 
-      <div id="checkcon">
-      {showResults && <Animated> <ExerciseResult mistakes = { result }/> </Animated> }
-    </div>
+    <>
+    {showResults && <Wrapper1> 
+      <Spacer/>
+      <Animated><ExerciseResult mistakes = { result }/> </Animated>
+    </Wrapper1>}
+    {!showResults &&<Wrapper2>
       <Loading>
-        {!showResults && <LoadingBar done={100}/>}  
+         <LoadingBar done={100}/>
       </Loading>
-      
-    </Wrapper>
+      </Wrapper2>}  
+      </>
   )
 };
 
