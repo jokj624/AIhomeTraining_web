@@ -26,9 +26,8 @@
   "scripts": {
     "start": "node -r esm src",
     "start:dev": "nodemon --watch src/ -r esm src/index.js",
-    "dev": "concurrently \"node -r esm src\" \"npm start --prefix ../frontend\"",
-    "dev:backend" : "npm install && npm start",
-    "dev:frontend" : "cd ../frontend && npm install"
+    "dev": "concurrently \"npm run dev:backend\" \"cd ../frontend && npm start ../frontend\"",
+    "dev:backend": "npm install && npm start"
   },
   "secure": false
 }

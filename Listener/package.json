@@ -1,6 +1,6 @@
 {
     "scripts": {
-      "start": "cd backend && npm run dev",
+      "start": "cd backend && npm install && npm run dev",
       "start:dev": "nodemon --watch src/ -r esm src/index.js",
       "dev": "concurrently \"npm run dev :backend\" \"npm start --prefix ../frontend\"",
       "dev:backend" : "npm start",
