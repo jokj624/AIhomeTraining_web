@@ -32,6 +32,7 @@ UserSchema.methods.serialize = function() {
     return data;
   };
   
+  const JWT_SECRET="8f386f672542e4c095dae727aa6f1314b690b0529805daae0bcb67119346b8df38e7478dd25afc80cb837a28e9c5e3ea2e8fbdb903100ca4fb5cdda40ae529e7";
   UserSchema.methods.generateToken = function() {
     const token = jwt.sign(
       // 첫번째 파라미터엔 토큰 안에 집어넣고 싶은 데이터를 넣습니다
@@ -39,7 +40,7 @@ UserSchema.methods.serialize = function() {
         _id: this.id,
         username: this.username,
       },
-      process.env.JWT_SECRET, // 두번째 파라미터에는 JWT 암호를 넣습니다
+      JWT_SECRET, // 두번째 파라미터에는 JWT 암호를 넣습니다
       {
         expiresIn: '3d', // 7일동안 유효함
       },
