@@ -9,7 +9,7 @@ import serve from 'koa-static';
 import path from 'path';
 import send from 'koa-send';
 
-const PORT=4000;
+const PORT = process.env.PORT || 5000;
 const MONGO_URI="mongodb+srv://jokj624:290315ab@youtube-clone.8yicy.mongodb.net/test";
 
 mongoose
