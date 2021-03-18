@@ -16,6 +16,7 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.11.13",
     "sanitize-html": "^2.3.2"
   },
@@ -25,9 +26,7 @@
   },
   "scripts": {
     "start": "node -r esm src",
-    "start:dev": "nodemon --watch src/ -r esm src/index.js",
-    "dev": "concurrently \"npm run dev:backend\" \"cd ../frontend && npm start ../frontend\"",
-    "dev:backend": "npm install && npm start"
+    "start:dev": "nodemon --watch src/ -r esm src/index.js"
   },
   "secure": false
 }

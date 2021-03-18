@@ -4,7 +4,7 @@ import User from '../models/user';
 
 
 const jwtMiddleware = async (ctx, next) => {
-  JWT_SECRET="8f386f672542e4c095dae727aa6f1314b690b0529805daae0bcb67119346b8df38e7478dd25afc80cb837a28e9c5e3ea2e8fbdb903100ca4fb5cdda40ae529e7";
+  const JWT_SECRET="8f386f672542e4c095dae727aa6f1314b690b0529805daae0bcb67119346b8df38e7478dd25afc80cb837a28e9c5e3ea2e8fbdb903100ca4fb5cdda40ae529e7";
   const token = ctx.cookies.get('access_token');
   if (!token) return next(); // 토큰이 없음
   try {

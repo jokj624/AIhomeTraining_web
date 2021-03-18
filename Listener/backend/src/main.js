@@ -4,10 +4,13 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
 import api from './api';
-import jwtMiddleware from './lib/jwtMiddleware'
+import jwtMiddleware from './lib/jwtMiddleware';
+import serve from 'koa-static';
+import path from 'path';
+import send from 'koa-send';
 
-PORT=4000;
-MONGO_URI="mongodb+srv://jokj624:290315ab@youtube-clone.8yicy.mongodb.net/test";
+const PORT=4000;
+const MONGO_URI="mongodb+srv://jokj624:290315ab@youtube-clone.8yicy.mongodb.net/test";
 
 mongoose
 .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology:true})
@@ -27,6 +30,14 @@ app.use(jwtMiddleware);
 
 
 app.use(router.routes()).use(router.allowedMethods());
+
+const buildDirectory = path.resolve(__dirname, '../../frontend/build');
+app.use(serve(buildDirectory));
+app.use(async ctx => {
+    if(ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
+        await send(ctx, 'index.html', {root:buildDirectory});
+    }
+});
 
 const port = PORT;
 app.listen(port, () => {
