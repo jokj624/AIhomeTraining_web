@@ -3,7 +3,7 @@
     "scripts": {
       "start": "node backend/src/index.js",
       "start:dev": "nodemon --watch src/ -r esm src/index.js",
-      "dev": "concurrently \"node -r esm src\" \"npm start --prefix ../frontend\""
+      "dev": "concurrently \"npm run dev :backend\" \"npm start --prefix ../frontend\""
     },
     "secure": false
   }
