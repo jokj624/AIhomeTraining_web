@@ -88,10 +88,7 @@ const setShoulderCount = (shoulder) => {
 
 const ExerciseContainer = () => {
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-    form: auth.modify,
-    auth: auth,
-    authError: auth.authError,
+  const { user } = useSelector(({ user }) => ({
     user: user.user
   }));
   const [showResults, setShowResults] = useState(false);

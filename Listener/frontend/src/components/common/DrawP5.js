@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import ml5 from "ml5";
 
-const Sketch = (p5, props) => {
+const Sketch = (p5) => {
  // const [poseLabel, setLabel] = useState('분석 중');
   let video, poseNet, pose, skeleton, brain, poseLabel = '분석 중', state = 'waiting';
 

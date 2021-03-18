@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import { useSelector } from 'react-redux';

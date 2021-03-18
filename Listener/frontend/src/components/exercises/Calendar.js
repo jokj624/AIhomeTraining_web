@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interaction from '@fullcalendar/interaction';
 
 import './calendar.scss';
 
@@ -30,7 +29,7 @@ const Calendar = () => {
         <Spacer />
         <MyCal>
             <FullCalendar
-            plugins={[ dayGridPlugin, interaction ]}
+            plugins={[ dayGridPlugin ]}
             initialView = 'dayGridMonth'
             events = {user.exercises}
             dayMaxEvents = {true}
