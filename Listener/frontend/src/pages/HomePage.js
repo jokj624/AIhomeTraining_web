@@ -118,7 +118,8 @@ const PostListPage = ( { history } ) => {
         <Video 
           loop = {true}
           autoPlay = {true}
-          muted = {true}>
+          muted = {true}
+          playsInline = {true}>
           <source src={backgroundVideo} type='video/mp4'/>
         </Video>
         </VideoDiv>

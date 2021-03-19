@@ -183,7 +183,7 @@ const ExerciseResult = ({ mistakes }) => {
             <Mait>M<Ai>AI</Ai>T</Mait>
             </div>
             <h2>오늘의 운동 결과</h2>
-     -      <ScoreDiv>
+           <ScoreDiv>
                 <Grade>{grade}</Grade>
             <Score>
                 <h3>{fail}/14</h3>
