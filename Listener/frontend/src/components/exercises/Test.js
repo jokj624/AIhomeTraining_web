@@ -65,7 +65,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
         p5.createCanvas(window.innerWidth*0.7, window.innerHeight*0.7).parent(canvasParentRef);
         video = p5.createCapture(p5.VIDEO);
         video.size(window.innerWidth*0.7, window.innerHeight*0.7);
-        video.elt.setAttribute('playsinline', '');
         video.hide();
         poseNet = ml5.poseNet(video);   //posenet 시작
         poseNet.on('pose',gotPoses);

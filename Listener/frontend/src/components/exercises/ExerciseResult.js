@@ -130,7 +130,7 @@ const ExerciseResult = ({ mistakes }) => {
     const [lender, setLender] = useState(false);
     useEffect(() => {
         let str = "운동을 진행해주세요";
-        if(mistakes[0].squat[0] == str && mistakes[0].lungeL[0] == str && mistakes[0].lungeR[0] == str && mistakes[0].press[0] == str && mistakes[0].tree[0]==str){
+        if(mistakes[0].squat[0] == str || mistakes[0].lungeL[0] == str || mistakes[0].lungeR[0] == str || mistakes[0].press[0] == str || mistakes[0].tree[0]==str){
             setLender(true);
         }
     }, []);
