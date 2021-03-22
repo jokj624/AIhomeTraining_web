@@ -244,7 +244,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             setTimeout(() => {
                 if(lungeL == lungeCount && !lungeLCk){
                     document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
-                    lungeLCk = 1;
+                    lungeLCk = 1;      
                 } else{
                     document.getElementById("test").innerHTML = `${label}` + " " + `${lungeL}` + "회";
                 }
