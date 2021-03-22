@@ -39,7 +39,6 @@ app.use(async ctx => {
     }
 });
 
-const port = PORT;
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log("Listening to port 4000");
 });
