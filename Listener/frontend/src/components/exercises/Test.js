@@ -225,30 +225,36 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
         if(label == '스쿼트' && !ck && squat < squatCount){
-            save(0, 0);  // 현재 좌표 저장
             squat += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
             ck = 1;
+            setTimeout(() => {
+                save(0, 0); // 현재 좌표 저장
+            }, 1000);
             if(squat == squatCount && !squatCk){
                 document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
                 squatCk = 1;
             }
         }  // 스쿼트 개수 세기 (임의로 3개로 해둠)
         else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
-            save(1, 0);
             lungeL += 1;
             document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
             ck = 1;
+            setTimeout(() => {
+                save(1, 0);
+            }, 1000);
             if(lungeL == lungeCount && !lungeLCk){
                 document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
                 lungeLCk = 1;
             }
         }
         else if(label == '런지 오른쪽' && !ck && lungeR < lungeCount && lungeL >= lungeCount && lungeLCk == 1){
-            save(2, 0);
             lungeR += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
             ck = 1;
+            setTimeout(() => {
+                save(2, 0);
+            }, 1000);
             if(lungeR == lungeCount && !lungeRCk){
                 document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
                 lungeRCk = 1;
