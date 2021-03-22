@@ -258,7 +258,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             press += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
             ck = 1;
-            save(3, 0);
+            console.log('new build');
+            setTimeout(() => {
+                save(3, 0);
+            }, 1000);
             if(press == shoulderCount && !pressCk){
                 document.getElementById("test").innerHTML = "나무 자세 시작하세요";
                 pressCk = 1; 
