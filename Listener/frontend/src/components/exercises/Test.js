@@ -226,7 +226,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
         if(label == '스쿼트' && !ck && squat < squatCount){
             squat += 1;
-            
             ck = 1;
             setTimeout(() => {
                 if(squat == squatCount && !squatCk){
@@ -257,12 +256,13 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             lungeR += 1;
             ck = 1;
             setTimeout(() => {
-                save(2, 0);
-                document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
                 if(lungeR == lungeCount && !lungeRCk){
                     document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
                     lungeRCk = 1;
+                } else{
+                    document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeR}` + "회";
                 }
+                save(2, 0);
             }, 800);
             
         }
