@@ -178,22 +178,22 @@ const Check = ({analysis}) => {
       } else {
         //숄더 프레스
         cmp = trainerAngle[3]["3"] - userAngle[3].angle[3];  //프레스 오른쪽 겨드랑이
-        if(cmp > 10){
+        if(cmp > 15){
           str = "오른쪽 팔을 더 올리세요";
           pressms.push(str);
         }
         cmp = trainerAngle[3]["2"] - userAngle[3].angle[2];  //프레스 왼쪽 겨드랑이
-        if(cmp > 10){
+        if(cmp > 15){
           str = "왼쪽 팔을 더 올리세요";
           pressms.push(str);
         }
         cmp = trainerAngle[3]["5"] - userAngle[3].angle[5];   //프레스 오른쪽 팔꿈치
-        if(cmp > 10){
+        if(cmp > 15){
           str = "오른쪽 팔을 더 피세요";
           pressms.push(str);
         }
         cmp = trainerAngle[3]["4"] - userAngle[3].angle[4];   //프레스 왼쪽 팔꿈치
-        if(cmp > 10){
+        if(cmp > 15){
           str = "왼쪽 팔을 더 피세요";
           pressms.push(str);
         }

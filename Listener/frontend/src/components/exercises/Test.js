@@ -256,10 +256,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             }
         }
         else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
-            save(3, 0);
             press += 1;
             document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
             ck = 1;
+            save(3, 0);
             if(press == shoulderCount && !pressCk){
                 document.getElementById("test").innerHTML = "나무 자세 시작하세요";
                 pressCk = 1; 
