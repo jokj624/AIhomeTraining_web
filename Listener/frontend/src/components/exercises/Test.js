@@ -231,11 +231,12 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             setTimeout(() => {
                 save(0, 0); // 현재 좌표 저장
                 document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
+                if(squat == squatCount && !squatCk){
+                    document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
+                    squatCk = 1;
+                }
             }, 800);
-            if(squat == squatCount && !squatCk){
-                document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
-                squatCk = 1;
-            }
+            
         }  // 스쿼트 개수 세기 (임의로 3개로 해둠)
         else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
             lungeL += 1;
@@ -244,11 +245,12 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             setTimeout(() => {
                 save(1, 0);
                 document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
+                if(lungeL == lungeCount && !lungeLCk){
+                    document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
+                    lungeLCk = 1;
+                }
             }, 800);
-            if(lungeL == lungeCount && !lungeLCk){
-                document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
-                lungeLCk = 1;
-            }
+            
         }
         else if(label == '런지 오른쪽' && !ck && lungeR < lungeCount && lungeL >= lungeCount && lungeLCk == 1){
             lungeR += 1;
@@ -257,25 +259,26 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             setTimeout(() => {
                 save(2, 0);
                 document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
+                if(lungeR == lungeCount && !lungeRCk){
+                    document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
+                    lungeRCk = 1;
+                }
             }, 800);
-            if(lungeR == lungeCount && !lungeRCk){
-                document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
-                lungeRCk = 1;
-            }
+            
         }
         else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
             press += 1;
-            
             ck = 1;
             console.log('new build');
             setTimeout(() => {
                 save(3, 0);
                 document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
+                if(press == shoulderCount && !pressCk){
+                    document.getElementById("test").innerHTML = "나무 자세 시작하세요";
+                    pressCk = 1; 
+                }
             }, 800);
-            if(press == shoulderCount && !pressCk){
-                document.getElementById("test").innerHTML = "나무 자세 시작하세요";
-                pressCk = 1; 
-            }
+            
         }
         else if(label == '나무 자세' && !ck && pressCk == 1){
             tree += 1;
