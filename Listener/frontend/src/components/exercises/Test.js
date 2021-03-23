@@ -163,7 +163,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             console.log(err);
             return;
         }
-        if(results && (results[0].confidence > 0.75)){
+        if(results && (results[0].confidence > 0.65)){
             let la = results[0].label;
             if(la == '0')    poseLabel = '분석 중';
             else if(la == '1')  poseLabel = '스쿼트';
