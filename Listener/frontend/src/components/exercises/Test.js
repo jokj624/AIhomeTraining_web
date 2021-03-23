@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;  
 
 const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes, hours}) => {
-    let video, poseNet, brain, pose, skeleton,state = 'waiting';
+    let video, poseNet, brain, pose, skeleton,state = 'waiting', current = '스쿼트';
     let squat = 0, lungeL = 0, lungeR = 0, press = 0, tree = 0, ck = 0;  //운동 횟수 변수
     let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0, treeCk = 0; // 각 운동 종료 여부 확인 변수
     let poseLabel = '분석 중';
@@ -144,8 +144,8 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             brain.classify(inputs, gotResult);   
         } else{
             setTimeout(classifyPose, 100);  //pose 없으면 대기 후 다시 
-          }
-    };
+        }
+    };;
     const detectPose = () => {
         state = 'waiting'
         if (pose) {
@@ -159,7 +159,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
         }
     };
     const gotResult = (err, results) => {
-        //console.log(results);
         if(err){
             console.log(err);
             return;
@@ -172,15 +171,23 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             else if(la == '3')  poseLabel = '런지 오른쪽';
             else if(la == '4')  poseLabel = '숄더프레스';
             else if(la == '5')  poseLabel = '나무 자세';
+            
+            console.log("%s %s", poseLabel, results[0].label);
+            if(current != poseLabel){
+                poseLabel = '분석 중';
+            }
           }
-          else  poseLabel = '분석 중';
-          if(poseLabel == '분석 중'){
-              ck = 0;
-              if(tree>0 && !treeCk){        //나무 자세 시간 종료 전에 멈추면 다시 시작하라고 알림
-                  clearInterval(timer);
-                  clearTimeout(timeover);
-                  document.getElementById("test").innerHTML = "나무 자세 다시 시작 하세요";
-              }
+        else{  
+            poseLabel = '분석 중';
+        }
+        if(poseLabel == '분석 중'){
+            ck = 0;
+            if(tree>0 && !treeCk){        //나무 자세 시간 종료 전에 멈추면 다시 시작하라고 알림
+                clearInterval(timer);
+                clearTimeout(timeover);
+                document.getElementById("test").innerHTML = "나무 자세 다시 시작 하세요";
+            }
+            
           } 
           else {
             inputLabel(poseLabel);    //라벨, 횟수 화면에 보여주는
@@ -221,6 +228,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                 analysis[index].y[i] += y;   
             }
         }
+     //   classifyPose();
     };
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
@@ -231,13 +239,13 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                 if(squat == squatCount && !squatCk){
                     document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
                     squatCk = 1;
+                    current = "런지 왼쪽";
                 } else{ 
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
                 }
                 save(0, 0); // 현재 좌표 저장
             }, 800);
-            
-        }  // 스쿼트 개수 세기 (임의로 3개로 해둠)
+        } 
         else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
             lungeL += 1;
             ck = 1;
@@ -245,6 +253,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                 if(lungeL == lungeCount && !lungeLCk){
                     document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
                     lungeLCk = 1;
+                    current = "런지 오른쪽";
                 } else{
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
                 }
@@ -259,8 +268,9 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                 if(lungeR == lungeCount && !lungeRCk){
                     document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
                     lungeRCk = 1;
+                    current = "숄더프레스";
                 } else{
-                    document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeR}` + "회";
+                    document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
                 }
                 save(2, 0);
             }, 800);
@@ -269,16 +279,15 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
         else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
             press += 1;
             ck = 1;
-            console.log('new build');
             setTimeout(() => {
                 if(press == shoulderCount && !pressCk){
                     document.getElementById("test").innerHTML = "나무 자세 시작하세요";
                     pressCk = 1; 
+                    current = "나무 자세";
                 } else{
                     document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
                 }
                 save(3, 0);
-            
             }, 800);
             
         }
