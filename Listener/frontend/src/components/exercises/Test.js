@@ -21,15 +21,54 @@ const Wrapper = styled.div`
     text-align: center;
 `;  
 
-const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes, hours}) => {
-    let video, poseNet, brain, pose, skeleton,state = 'waiting', current = '스쿼트';
+const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
+    let video, poseNet, brain, pose, skeleton,state = 'waiting', current, exercise = '';
     let squat = 0, lungeL = 0, lungeR = 0, press = 0, tree = 0, ck = 0;  //운동 횟수 변수
     let squatCk = 0, lungeLCk = 0, lungeRCk = 0, pressCk = 0, treeCk = 0; // 각 운동 종료 여부 확인 변수
     let poseLabel = '분석 중';
+    let countArr = [];
     let timer, timeover;
     const ww = window.innerWidth*0.7;
     const wh = window.innerHeight*0.7;
 
+    useEffect(() => {
+        if(squatCount == 0){
+            squatCk = 1;
+            countArr.push(0);
+        }
+        if(lungeCount == 0){
+            lungeLCk = 1;
+            lungeRCk = 1;
+            countArr.push(1);
+            countArr.push(2);
+        }
+        if(shoulderCount == 0){
+            pressCk = 1;
+            countArr.push(3);
+        }
+        choiceExercise();
+        document.getElementById("test").innerHTML = `${exercise}` + " 시작하세요";
+        current = exercise;
+    }, []);
+    const choiceExercise = () => {
+        if(squatCk == 1){
+            if(lungeLCk == 1){
+                if(lungeRCk == 1){
+                    if(pressCk == 1){
+                        exercise = '나무 자세';
+                    } else {
+                        exercise = '숄더프레스';
+                    }
+                } else {
+                    exercise = '런지 오른쪽';
+                }
+            } else {
+                exercise = '런지 왼쪽';
+            } 
+        } else {
+            exercise = '스쿼트';
+        }
+    };
     let analysis = [
         {
             exname: "스쿼트",
@@ -111,7 +150,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
 
     const myCustomRedrawAccordingToNewPropsHandler = () => {
         if(getData){
-            getData(analysis);    //Exercise Container 로 전달
+            getData(analysis, countArr);    //Exercise Container 로 전달
         }
     };
 
@@ -163,23 +202,28 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             console.log(err);
             return;
         }
-        if(results && (results[0].confidence > 0.65)){
-            let la = results[0].label;
-            if(la == '0')    poseLabel = '분석 중';
-            else if(la == '1')  poseLabel = '스쿼트';
-            else if(la == '2')  poseLabel = '런지 왼쪽';
-            else if(la == '3')  poseLabel = '런지 오른쪽';
-            else if(la == '4')  poseLabel = '숄더프레스';
-            else if(la == '5')  poseLabel = '나무 자세';
-            
-            console.log("%s %s", poseLabel, results[0].label);
+        if(results && results[0].confidence > 0.65){
+            if(results[0].label == '5'){
+                poseLabel = '나무 자세';
+            } else {
+                if(results[0].confidence > 0.75){
+                    let la = results[0].label;
+                    if(la == '0')    poseLabel = '분석 중';
+                    else if(la == '1')  poseLabel = '스쿼트';
+                    else if(la == '2')  poseLabel = '런지 왼쪽';
+                    else if(la == '3')  poseLabel = '런지 오른쪽';
+                    else if(la == '4')  poseLabel = '숄더프레스';
+                } else {
+                    poseLabel = '분석 중';
+                }
+            }
             if(current != poseLabel){
                 poseLabel = '분석 중';
             }
-          }
-        else{  
+        } else {
             poseLabel = '분석 중';
         }
+
         if(poseLabel == '분석 중'){
             ck = 0;
             if(tree>0 && !treeCk){        //나무 자세 시간 종료 전에 멈추면 다시 시작하라고 알림
@@ -228,7 +272,6 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
                 analysis[index].y[i] += y;   
             }
         }
-     //   classifyPose();
     };
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
@@ -237,9 +280,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             ck = 1;
             setTimeout(() => {
                 if(squat == squatCount && !squatCk){
-                    document.getElementById("test").innerHTML = "사이드 런지 왼쪽 시작하세요";
                     squatCk = 1;
-                    current = "런지 왼쪽";
+                    choiceExercise();
+                    document.getElementById("test").innerHTML = `${exercise}`+ " 시작하세요";
+                    current = exercise;
                 } else{ 
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
                 }
@@ -251,9 +295,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             ck = 1;
             setTimeout(() => {
                 if(lungeL == lungeCount && !lungeLCk){
-                    document.getElementById("test").innerHTML = "사이드 런지 오른쪽 시작하세요";
                     lungeLCk = 1;
-                    current = "런지 오른쪽";
+                    choiceExercise();
+                    document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
+                    current = exercise;
                 } else{
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
                 }
@@ -266,9 +311,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             ck = 1;
             setTimeout(() => {
                 if(lungeR == lungeCount && !lungeRCk){
-                    document.getElementById("test").innerHTML = "숄더프레스 시작하세요";
                     lungeRCk = 1;
-                    current = "숄더프레스";
+                    choiceExercise();
+                    document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
+                    current = exercise;
                 } else{
                     document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
                 }
@@ -281,9 +327,10 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
             ck = 1;
             setTimeout(() => {
                 if(press == shoulderCount && !pressCk){
-                    document.getElementById("test").innerHTML = "나무 자세 시작하세요";
                     pressCk = 1; 
-                    current = "나무 자세";
+                    choiceExercise();
+                    document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
+                    current = exercise;
                 } else{
                     document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
                 }
@@ -314,7 +361,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount, seconds, minutes,
    return (
     <>
     <Wrapper>
-    <Animated animationIn="fadeIn"><LabelBlock id='test'>스쿼트를 시작하세요</LabelBlock></Animated>
+    <Animated animationIn="fadeIn"><LabelBlock id='test'></LabelBlock></Animated>
       <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
     </Wrapper>
     </>

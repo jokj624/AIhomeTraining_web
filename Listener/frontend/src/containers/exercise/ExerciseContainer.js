@@ -55,14 +55,16 @@ position: relative;
 `;
 
 let analysis = [];
-const getData = (data) => {
+let cntArr = [];
+const getData = (data, countArr) => {
   analysis = data;
+  cntArr = countArr;
 };   //Test.js 에서 analysis 객체 받아오는 함수
 let squatCount = 15;
 let lungeCount = 15;
 let shoulderCount = 15;
 const setSquatCount = (squat) => {
-  if (squat === '' || parseInt(squat) === 0)
+  if (squat === '' )
     squatCount = 15;
   else if (squat < 0)
     squatCount = parseInt(-squat);
@@ -70,7 +72,7 @@ const setSquatCount = (squat) => {
     squatCount = parseInt(squat);
 }
 const setLungeCount = (lunge) => {
-  if (lunge === '' || parseInt(lunge) === 0)
+  if (lunge === '' )
     lungeCount = 15;
   else if (lunge < 0)
     lungeCount = parseInt(-lunge);
@@ -78,7 +80,7 @@ const setLungeCount = (lunge) => {
     lungeCount = parseInt(lunge);
 }
 const setShoulderCount = (shoulder) => {
-  if (shoulder === '' || parseInt(shoulder) === 0)
+  if (shoulder === '')
     shoulderCount = 15;
   else if (shoulder < 0)
     shoulderCount = parseInt(-shoulder);
@@ -217,7 +219,7 @@ const ExerciseContainer = () => {
       </Wrapper>}
       {(!first && !showResults) &&
       <div>
-        <Check analysis={analysis} style ={{height : "auto"}}/>
+        <Check analysis={analysis} cntArr={cntArr} style ={{height : "auto"}}/>
         <ButtonWrapper><StyledButton2 onClick={videoOn}>다시시작</StyledButton2> <StyledButton2 onClick={linkTo}>끝내기</StyledButton2></ButtonWrapper>
       </div>}
     </Ec>

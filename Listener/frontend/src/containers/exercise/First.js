@@ -76,6 +76,10 @@ const Order = styled.div`
   align-items : center;
 };
 `
+const CountInfo = styled.span`
+    color: #9c1432;
+    font-size: .7em;
+`;
 const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
        const [timeover, setTimeover] = useState(false);
        const [visible1, setVisible1] = useState(true);
@@ -167,7 +171,8 @@ const First = ({setSquatCount, setLungeCount, setShoulderCount}) => {
                 <Spacer/>
                 <Animated animationIn="fadeIn" animationInDelay={1000} animationOut="fadeOut" animationOutDelay={500} isVisible={visible2}>
                 <div className="inputWrapper">
-                <div id="setCount">먼저 각 운동별 목표 개수를 입력해주세요.<br/>운동 준비가 되었다면 시작버튼을,<br/>운동 자세를 보시려면 운동자세 보기를 눌러주세요.</div>
+                <div id="setCount">먼저 각 운동별 목표 개수를 입력해주세요.<br/>운동 준비가 되었다면 시작버튼을,<br/>운동 자세를 보시려면 운동자세 보기를 눌러주세요.<br/>
+                <CountInfo>* 생략하고 싶은 운동은 0을 입력하세요</CountInfo></div>
                     <table id="inputCount">
                         <tr id="squat">
                             <td>

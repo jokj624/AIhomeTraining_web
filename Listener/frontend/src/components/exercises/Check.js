@@ -28,14 +28,12 @@ const Spacer = styled.div`
   height: 5rem;
   `;
 
-const Check = ({analysis}) => {
+const Check = ({analysis, cntArr}) => {
     const [showResults, setShowResults] = useState(false);
     const [trainerAngle, setTrainer] = useState([]);
     const [result, setResult] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { user } = useSelector(({ user }) => ({
-        user: user.user
-      }));
+    let existS=1, existL=1, existP=1;
     let mistakes = [   
       {
         squat: [],
@@ -67,9 +65,6 @@ const Check = ({analysis}) => {
         angle: []
       }
     ];
-    const hours = parseInt(user.s/60/60);
-    const minutes = parseInt(user.s%(60*60)/60);
-    const seconds = parseInt(user.s%60);
 
     const angle = (exer) => {   //user의 좌표로 8개의 인체 각도 계산
       let idx = 0;
@@ -102,7 +97,7 @@ const Check = ({analysis}) => {
       userAngle[idx].angle.push((Math.abs((Math.atan2(inputY[15] - inputY[13], inputX[15] - inputX[13])) + Math.abs(Math.atan2(inputY[11] - inputY[13], inputX[11] - inputX[13])))) * (180 / Math.PI));
       //오른쪽 무릎
       userAngle[idx].angle.push(360 - (Math.abs((Math.atan2(inputY[16] - inputY[14], inputX[16] - inputX[14])) + Math.abs(Math.atan2(inputY[12] - inputY[14], inputX[12] - inputX[14])))) * (180 / Math.PI));
-      console.log(userAngle[idx]);
+
      
       if(idx == 4){
         calculateAngle();
@@ -111,92 +106,115 @@ const Check = ({analysis}) => {
 
     const calculateAngle = () => {
        //자세 분석 결과 저장
-      console.log(trainerAngle);
+      cntArr.map(item => {
+        if(item == 0) {
+          existS = 0;
+        } else if(item == 1 || item == 2){
+          existL = 0;
+        } else if(item == 3)  {
+          existP = 0;
+        }
+      });
       let cmp = 0.0; //각도 차
       let str = "";
       let squatms = [], lungeLms = [], lungeRms = [], pressms = [], treems = [];
-
-      if(userAngle[0].angle[0] == 0){
-        str = "운동을 진행해주세요";
+      if(existS){
+        if(userAngle[0].angle[0] == 0){
+          str = "운동을 진행해주세요";
+          squatms.push(str);
+        } else {     //스쿼트
+          cmp = (360-trainerAngle[0]["0"]) - (360-userAngle[0].angle[0]);   //스쿼트 허리 계산
+          if(cmp > 20){
+            str = "상체를 조금 더 세우세요";
+            squatms.push(str);
+          } 
+          else if(cmp < -20){
+            str = "상체를 조금 더 굽히세요";
+            squatms.push(str);
+          } 
+          cmp = trainerAngle[0]["6"] - userAngle[0].angle[6]; //스쿼트 무릎 계산
+          if(cmp > 20){
+            str = "엉덩이를 조금 더 드세요";
+            squatms.push(str);
+          }
+          else if(cmp < -20){
+            str = "엉덩이를 조금 더 내리세요";
+            squatms.push(str);
+          }
+        }
+      } else {
+        str = '생략한 운동입니다';
         squatms.push(str);
-      } else {     //스쿼트
-        cmp = (360-trainerAngle[0]["0"]) - (360-userAngle[0].angle[0]);   //스쿼트 허리 계산
-        if(cmp > 20){
-          str = "상체를 조금 더 세우세요";
-          squatms.push(str);
-        } 
-        else if(cmp < -20){
-          str = "상체를 조금 더 굽히세요";
-          squatms.push(str);
-        } 
-        cmp = trainerAngle[0]["6"] - userAngle[0].angle[6]; //스쿼트 무릎 계산
-        if(cmp > 20){
-          str = "엉덩이를 조금 더 드세요";
-          squatms.push(str);
-        }
-        else if(cmp < -20){
-          str = "엉덩이를 조금 더 내리세요";
-          squatms.push(str);
-        }
       }
-      if(userAngle[1].angle[6] == 0){
-        str = "운동을 진행해주세요";
-        lungeLms.push(str);
-      } else {
+      if(existL){
+        if(userAngle[1].angle[6] == 0){
+          str = "운동을 진행해주세요";
+          lungeLms.push(str);
+        } else {
           //사이드 런지 왼쪽
-        cmp = (360-trainerAngle[1]["6"]) - (360-userAngle[1].angle[6]);  //런지 왼쪽 무릎
-        if(cmp < -20){
-          str = "왼쪽 무릎을 조금 더 굽히세요";
-          lungeLms.push(str);
-        } 
-        cmp = (360-trainerAngle[1]["7"]) - (360-userAngle[1].angle[7]);   /// 런지 오른쪽 무릎
-        if(cmp > 20 || cmp < -20){
-          str = "오른쪽 무릎을 조금 더 피세요";
-          lungeLms.push(str);
+          cmp = (360-trainerAngle[1]["6"]) - (360-userAngle[1].angle[6]);  //런지 왼쪽 무릎
+          if(cmp < -20){
+            str = "왼쪽 무릎을 조금 더 굽히세요";
+            lungeLms.push(str);
+          } 
+          cmp = (360-trainerAngle[1]["7"]) - (360-userAngle[1].angle[7]);   /// 런지 오른쪽 무릎
+          if(cmp > 20 || cmp < -20){
+            str = "오른쪽 무릎을 조금 더 피세요";
+            lungeLms.push(str);
+          }
         }
-      }
-      if(userAngle[2].angle[6] == 0){
-        str = "운동을 진행해주세요";
+        if(userAngle[2].angle[6] == 0){
+          str = "운동을 진행해주세요";
+          lungeRms.push(str);
+        } else {
+          //사이드 런지 오른쪽
+          cmp = (360-trainerAngle[2]["6"]) - (360-userAngle[2].angle[6]);  //런지 왼쪽 무릎
+          if(cmp > 20 || cmp < -20){
+            str = "왼쪽 무릎을 조금 더 피세요";
+            lungeRms.push(str);
+          }
+          cmp = (360-trainerAngle[2]["7"]) - (360-userAngle[2].angle[7]);   //런지 오른쪽 무릎
+          if(cmp < -20){
+            str = "오른쪽 무릎을 조금 더 굽히세요";
+            lungeRms.push(str);
+          }
+        }
+      } else {
+        str = '생략한 운동입니다';
+        lungeLms.push(str);
         lungeRms.push(str);
-      } else {
-        //사이드 런지 오른쪽
-        cmp = (360-trainerAngle[2]["6"]) - (360-userAngle[2].angle[6]);  //런지 왼쪽 무릎
-        if(cmp > 20 || cmp < -20){
-          str = "왼쪽 무릎을 조금 더 피세요";
-          lungeRms.push(str);
-        }
-        cmp = (360-trainerAngle[2]["7"]) - (360-userAngle[2].angle[7]);   //런지 오른쪽 무릎
-        console.log(cmp);
-        if(cmp < -20){
-          str = "오른쪽 무릎을 조금 더 굽히세요";
-          lungeRms.push(str);
-        }
       }
-      if(userAngle[3].angle[3] == 360){
-        str = "운동을 진행해주세요";
-        pressms.push(str);
+
+      if(existP){
+        if(userAngle[3].angle[3] == 360){
+          str = "운동을 진행해주세요";
+          pressms.push(str);
+        } else {
+          //숄더 프레스
+          cmp = trainerAngle[3]["3"] - userAngle[3].angle[3];  //프레스 오른쪽 겨드랑이
+          if(cmp > 20){
+            str = "오른쪽 팔을 더 올리세요";
+            pressms.push(str);
+          }
+          cmp = trainerAngle[3]["2"] - userAngle[3].angle[2];  //프레스 왼쪽 겨드랑이
+          if(cmp > 20){
+            str = "왼쪽 팔을 더 올리세요";
+            pressms.push(str);
+          }
+          cmp = (360-trainerAngle[3]["5"]) - (360-userAngle[3].angle[5]);   //프레스 오른쪽 팔꿈치
+          if(cmp > 20){
+            str = "오른쪽 팔을 더 피세요";
+            pressms.push(str);
+          }
+          cmp = (360-trainerAngle[3]["4"]) - (360-userAngle[3].angle[4]);   //프레스 왼쪽 팔꿈치
+          if(cmp > 20){
+            str = "왼쪽 팔을 더 피세요";
+            pressms.push(str);
+          }
+        }
       } else {
-        //숄더 프레스
-        cmp = trainerAngle[3]["3"] - userAngle[3].angle[3];  //프레스 오른쪽 겨드랑이
-        if(cmp > 20){
-          str = "오른쪽 팔을 더 올리세요";
-          pressms.push(str);
-        }
-        cmp = trainerAngle[3]["2"] - userAngle[3].angle[2];  //프레스 왼쪽 겨드랑이
-        if(cmp > 20){
-          str = "왼쪽 팔을 더 올리세요";
-          pressms.push(str);
-        }
-        cmp = (360-trainerAngle[3]["5"]) - (360-userAngle[3].angle[5]);   //프레스 오른쪽 팔꿈치
-        if(cmp > 20){
-          str = "오른쪽 팔을 더 피세요";
-          pressms.push(str);
-        }
-        cmp = (360-trainerAngle[3]["4"]) - (360-userAngle[3].angle[4]);   //프레스 왼쪽 팔꿈치
-        if(cmp > 20){
-          str = "왼쪽 팔을 더 피세요";
-          pressms.push(str);
-        }
+        str = '생략한 운동입니다';
+        pressms.push(str);
       }
       if(userAngle[4].angle[1] == 360){
         str = "운동을 진행해주세요";
@@ -227,14 +245,12 @@ const Check = ({analysis}) => {
     }
 
     useEffect(() => {
-        console.log(analysis);
         fetch(`https://smlistener.s3.ap-northeast-2.amazonaws.com/json/new_trainer_angle.json`)
         .then(results => results.json())
         .then(json => {
            setTrainer(json);
            setLoading(true);
         })
-        
     }, [])   
     
     useEffect(() => {
@@ -242,7 +258,6 @@ const Check = ({analysis}) => {
         analysis.map(exer => {
           angle(exer);
         });
-        
       }
     }, [loading])
 
@@ -251,7 +266,7 @@ const Check = ({analysis}) => {
     <>
     {showResults && <Wrapper1> 
       <Spacer/>
-      <Animated><ExerciseResult mistakes = { result }/> </Animated>
+      <Animated><ExerciseResult mistakes = {result} /> </Animated>
     </Wrapper1>}
     {!showResults &&<Wrapper2>
       <Loading>

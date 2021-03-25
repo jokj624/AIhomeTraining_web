@@ -126,10 +126,27 @@ const Grade = styled.div`
 `
 
 const ExerciseResult = ({ mistakes }) => {
-    
     const [lender, setLender] = useState(false);
+    let str = "생략한 운동입니다";
+    let total = 14, mtNum = 0;
+    if(mistakes[0].squat[0] === str){
+        total = total-4;
+    } else {
+        mtNum += mistakes[0].squat.length;
+    }
+    if(mistakes[0].lungeL[0] === str){
+        total = total-4;
+    } else {
+        mtNum += (mistakes[0].lungeL.length+mistakes[0].lungeR.length);
+    }
+    if(mistakes[0].press[0] === str){
+        total = total-4;
+    } else {
+        mtNum += (mistakes[0].press.length + mistakes[0].tree.length);
+    }
+
     useEffect(() => {
-        let str = "운동을 진행해주세요";
+        str = "운동을 진행해주세요";
         if(mistakes[0].squat[0] == str || mistakes[0].lungeL[0] == str || mistakes[0].lungeR[0] == str || mistakes[0].press[0] == str || mistakes[0].tree[0]==str){
             setLender(true);
         }
@@ -158,20 +175,20 @@ const ExerciseResult = ({ mistakes }) => {
     if (tree.length == 0)  treeMt = <li>완벽합니다!</li>;
     else treeMt = tree.map((value) => <li>{value}</li>);
 
-    let mtNum = squat.length + lungeL.length + lungeR.length + press.length + tree.length;
 
     let grade, fail;
     if(!lender){
-        if (mtNum == 0 || mtNum == 1) grade = 'A+';
-        else if (mtNum == 2 || mtNum == 3) grade = 'A-';
-        else if (mtNum == 4 || mtNum == 5) grade ='B+';
-        else if (mtNum == 6 || mtNum == 7) grade ='B-';
-        else if (mtNum == 8 || mtNum == 9) grade ='C+';
-        else if (mtNum == 10 || mtNum == 11) grade ='C-';
-        else if (mtNum == 12) grade ='D+';
-        else if (mtNum == 13) grade ='D-';
-        else if (mtNum == 14) grade ='F!!';
-        fail = 14 - mtNum;
+        fail = total - mtNum;
+        const per = (fail/total)*100;
+        if(per >= 90)   grade='A+';
+        else if(per >= 80)  grade='A-';
+        else if(per >= 70)  grade='B+';
+        else if(per >= 60)  grade='B-';
+        else if(per >= 50)  grade='C+';
+        else if(per >= 40)  grade='C-';
+        else if(per >= 30)  grade='D+';
+        else  grade='D-';
+        
     } else {
         grade = 'F!';
         fail = '?';
@@ -184,10 +201,10 @@ const ExerciseResult = ({ mistakes }) => {
             <Mait>M<Ai>AI</Ai>T</Mait>
             </div>
             <h2>오늘의 운동 결과</h2>
-           <ScoreDiv>
+     -      <ScoreDiv>
                 <Grade>{grade}</Grade>
             <Score>
-                <h3>{fail}/14</h3>
+                <h3>{fail}/{total}</h3>
             </Score>
             </ScoreDiv> 
             <ExLabel>
