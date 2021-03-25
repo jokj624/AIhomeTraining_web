@@ -276,9 +276,9 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
         if(label == '스쿼트' && !ck && squat < squatCount){
-            squat += 1;
-            ck = 1;
             setTimeout(() => {
+                squat += 1;
+                ck = 1;
                 if(squat == squatCount && !squatCk){
                     squatCk = 1;
                     choiceExercise();
@@ -291,9 +291,9 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             }, 800);
         } 
         else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
-            lungeL += 1;
-            ck = 1;
             setTimeout(() => {
+                lungeL += 1;
+                ck = 1;
                 if(lungeL == lungeCount && !lungeLCk){
                     lungeLCk = 1;
                     choiceExercise();
@@ -307,9 +307,9 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             
         }
         else if(label == '런지 오른쪽' && !ck && lungeR < lungeCount && lungeL >= lungeCount && lungeLCk == 1){
-            lungeR += 1;
-            ck = 1;
             setTimeout(() => {
+                lungeR += 1;
+                ck = 1;
                 if(lungeR == lungeCount && !lungeRCk){
                     lungeRCk = 1;
                     choiceExercise();
@@ -323,9 +323,9 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             
         }
         else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
-            press += 1;
-            ck = 1;
             setTimeout(() => {
+                press += 1;
+                ck = 1;
                 if(press == shoulderCount && !pressCk){
                     pressCk = 1; 
                     choiceExercise();
