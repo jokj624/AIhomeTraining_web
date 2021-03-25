@@ -206,7 +206,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             if(results[0].label == '5'){
                 poseLabel = '나무 자세';
             } else {
-                if(results[0].confidence > 0.75){
+                if(results[0].confidence > 0.85){
                     let la = results[0].label;
                     if(la == '0')    poseLabel = '분석 중';
                     else if(la == '1')  poseLabel = '스쿼트';
