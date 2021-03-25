@@ -279,7 +279,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             ck = 1;
             setTimeout(() => {
                 squat += 1;
-                if(squat == squatCount && !squatCk){
+                if(squat >= squatCount && !squatCk){
                     squatCk = 1;
                     choiceExercise();
                     document.getElementById("test").innerHTML = `${exercise}`+ " 시작하세요";
@@ -294,7 +294,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             ck = 1;
             setTimeout(() => {
                 lungeL += 1;
-                if(lungeL == lungeCount && !lungeLCk){
+                if(lungeL >= lungeCount && !lungeLCk){
                     lungeLCk = 1;
                     choiceExercise();
                     document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
@@ -310,7 +310,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             ck = 1;
             setTimeout(() => {
                 lungeR += 1;
-                if(lungeR == lungeCount && !lungeRCk){
+                if(lungeR >= lungeCount && !lungeRCk){
                     lungeRCk = 1;
                     choiceExercise();
                     document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
@@ -326,7 +326,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             ck = 1;
             setTimeout(() => {
                 press += 1;
-                if(press == shoulderCount && !pressCk){
+                if(press >= shoulderCount && !pressCk){
                     pressCk = 1; 
                     choiceExercise();
                     document.getElementById("test").innerHTML = `${exercise}`+" 시작하세요";
