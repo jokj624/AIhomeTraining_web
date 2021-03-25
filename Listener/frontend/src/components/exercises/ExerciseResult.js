@@ -142,8 +142,9 @@ const ExerciseResult = ({ mistakes }) => {
     if(mistakes[0].press[0] === str){
         total = total-4;
     } else {
-        mtNum += (mistakes[0].press.length + mistakes[0].tree.length);
+        mtNum += mistakes[0].press.length;
     }
+    mtNum += mistakes[0].tree.length;
 
     useEffect(() => {
         str = "운동을 진행해주세요";

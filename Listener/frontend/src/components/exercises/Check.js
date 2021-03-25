@@ -222,12 +222,12 @@ const Check = ({analysis, cntArr}) => {
       } else {
         //나무 자세
         cmp = trainerAngle[4]["1"] - userAngle[4].angle[1];   //나무자세 오른쪽 허리
-        if(cmp < -20){
-          str = "오른쪽 다리를 더 올리세요";
+        if(cmp < -10){
+          str = "상체를 조금 더 세우세요";
           treems.push(str);
         }
         cmp = (360-trainerAngle[4]["7"]) - (360-userAngle[4].angle[7]);   //나무자세 오른쪽 무릎  
-        if(cmp < -20){
+        if(cmp < -10){
           str = "오른쪽 무릎을 위로 더 굽히세요";
           treems.push(str);
         }
