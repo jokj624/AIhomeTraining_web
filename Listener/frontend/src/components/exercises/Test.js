@@ -30,6 +30,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
     let timer, timeover;
     const ww = window.innerWidth*0.7;
     const wh = window.innerHeight*0.7;
+    let start = 0;
 
     useEffect(() => {
         if(squatCount == 0){
@@ -46,9 +47,11 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             pressCk = 1;
             countArr.push(3);
         }
+        /*
         choiceExercise();
         document.getElementById("test").innerHTML = `${exercise}` + " 시작하세요";
         current = exercise;
+        */
     }, []);
     const choiceExercise = () => {
         if(squatCk == 1){
@@ -192,6 +195,12 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
           let ankleR = pose.keypoints[14].score;
           if ((nose > 0.5) && (ankleR > 0.5)) {
             state = 'ready';
+            if (start === 0) {
+                choiceExercise();
+                document.getElementById("test").innerHTML = `${exercise}` + " 시작하세요";
+                current = exercise;
+                start = 1; 
+            }
           } else {
             state = 'waiting';
           }
@@ -206,7 +215,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
             if(results[0].label == '5'){
                 poseLabel = '나무 자세';
             } else {
-                if(results[0].confidence > 0.85){
+                if(results[0].confidence > 0.75){
                     let la = results[0].label;
                     if(la == '0')    poseLabel = '분석 중';
                     else if(la == '1')  poseLabel = '스쿼트';
@@ -217,15 +226,15 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
                     poseLabel = '분석 중';
                 }
             }
+            //console.log(poseLabel);
             if(current != poseLabel){
                 poseLabel = '분석 중';
             }
         } else {
             poseLabel = '분석 중';
         }
-
         if(poseLabel == '분석 중'){
-            ck = 0;
+            setTimeout(()=> {ck=0;}, 500);
             if(tree>0 && !treeCk){        //나무 자세 시간 종료 전에 멈추면 다시 시작하라고 알림
                 clearInterval(timer);
                 clearTimeout(timeover);
@@ -236,7 +245,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
           else {
             inputLabel(poseLabel);    //라벨, 횟수 화면에 보여주는
           }
-          classifyPose();
+          setTimeout(classifyPose, 800);
     };
 
     const save = (index, isTree) => {
@@ -275,7 +284,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
     };
 
     let inputLabel = (label) => {    // 운동 횟수 세기 + 라벨 작성 함수
-        if(label == '스쿼트' && !ck && squat < squatCount){
+        if(label == '스쿼트' && ck === 0 && squat < squatCount){
             ck = 1;
             setTimeout(() => {
                 squat += 1;
@@ -288,7 +297,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${squat}` + "회";
                 }
                 save(0, 0); // 현재 좌표 저장
-            }, 800);
+            }, 600);
         } 
         else if(label == '런지 왼쪽' && !ck && lungeL < lungeCount && squatCk==1){
             ck = 1;
@@ -303,7 +312,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
                     document.getElementById("test").innerHTML = `${label}`+ " " + `${lungeL}` + "회";
                 }
                 save(1, 0); 
-            }, 800);
+            }, 600);
             
         }
         else if(label == '런지 오른쪽' && !ck && lungeR < lungeCount && lungeL >= lungeCount && lungeLCk == 1){
@@ -319,13 +328,13 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
                     document.getElementById("test").innerHTML = `${label}` + " " + `${lungeR}` + "회";
                 }
                 save(2, 0);
-            }, 800);
+            }, 600);
             
         }
-        else if(label == '숄더프레스' && !ck && press < shoulderCount && lungeRCk == 1){
+        else if(label == '숄더프레스' && ck!=1 && press < shoulderCount && lungeRCk == 1){
             ck = 1;
             setTimeout(() => {
-                press += 1;
+                press+=1;
                 if(press >= shoulderCount && !pressCk){
                     pressCk = 1; 
                     choiceExercise();
@@ -335,8 +344,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
                     document.getElementById("test").innerHTML = `${label}` + " " + `${press}` + "회";
                 }
                 save(3, 0);
-            }, 800);
-            
+            }, 600);
         }
         else if(label == '나무 자세' && !ck && pressCk == 1){
             tree += 1;
@@ -361,7 +369,7 @@ const Test = ({getData, squatCount, lungeCount, shoulderCount}) => {
    return (
     <>
     <Wrapper>
-    <Animated animationIn="fadeIn"><LabelBlock id='test'></LabelBlock></Animated>
+    <Animated animationIn="fadeIn"><LabelBlock id='test'>카메라 안으로 들어오세요</LabelBlock></Animated>
       <Sketch setup={setup} draw={draw} windowResized={windowResized}/>
     </Wrapper>
     </>
