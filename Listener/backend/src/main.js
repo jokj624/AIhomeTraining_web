@@ -9,8 +9,6 @@ import serve from 'koa-static';
 import path from 'path';
 import send from 'koa-send';
 
-const PORT = process.env.PORT || 5000;
-const MONGO_URI="mongodb+srv://jokj624:290315ab@youtube-clone.8yicy.mongodb.net/test";
 
 mongoose
 .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology:true})
