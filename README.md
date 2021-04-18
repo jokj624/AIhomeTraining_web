@@ -17,7 +17,28 @@ AI 홈트레이닝 웹페이지입니다.
 숙명여자대학교 2021-1 졸업작품 입니다.
 
 ## 👩‍💻 Tech Stack 
+### Frontend 
+  * React
+  * Redux
+  * Redux-Saga
+  * P5.js
+### Backend
+  * Node.js
+  * Koa
+### Database
+  * MongoDB
+  * Amazon S3
+### Pose Model
+  * Posenet
+  * ML5 NeuralNetwork 
+### Deploy
+  * Heroku
 
+## 💻 Development environment
+  * Ubuntu 18.04.5 LTS
+
+## ✔️ 발표 및 시연 영상
+[![리스너](http://img.youtube.com/vi/N6EWDagqVVI/0.jpg)](https://youtu.be/N6EWDagqVVI) 
 
 </div>
 
