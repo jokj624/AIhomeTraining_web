@@ -16,6 +16,8 @@ AI 홈트레이닝 웹페이지입니다.
 👉 https://www.myaitrainer.site/   
 숙명여자대학교 2021-1 졸업작품 입니다.
 
+</div>
+
 ## 👩‍💻 Tech Stack 
 ### Frontend 
   * React
@@ -39,6 +41,4 @@ AI 홈트레이닝 웹페이지입니다.
 
 ## ✔️ 발표 및 시연 영상
 [![리스너](http://img.youtube.com/vi/N6EWDagqVVI/0.jpg)](https://youtu.be/N6EWDagqVVI) 
-
-</div>
 
