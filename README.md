@@ -20,7 +20,6 @@ AI 홈트레이닝 웹페이지입니다.
 ### Frontend 
   * React
   * Redux
-  * Redux-Saga
   * P5.js
 ### Backend
   * Node.js
